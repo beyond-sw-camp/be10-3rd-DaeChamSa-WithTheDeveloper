@@ -13,6 +13,16 @@ import router from "@/router/index.js";
     searchState.value = !searchState.value;
   }
 
+  // 메인 화면(로그인 전)으로
+  const moveToMainBefore = () => {
+    router.push('/')
+  }
+  // 메인 화면(로그인 후/게시판)으로
+
+  const moveToMainAfter = () => {
+    router.push('/main')
+  }
+
   // 로그인창으로
   const moveToLogin = () => {
     router.push('/login');
@@ -32,9 +42,9 @@ import router from "@/router/index.js";
 <template>
   <header>
     <div id="nav-left">
-      <img src="../assets/images/logo.png" alt="로고 이미지" id="logo-image">
+      <img @click="moveToMainBefore" src="../assets/images/logo.png" alt="로고 이미지" id="logo-image">
       <ul class="nav-ul">
-        <li class="nav-menu"><a>게시판</a></li>
+        <li class="nav-menu" @click="moveToMainAfter">게시판</li>
         <li class="nav-menu"><a>채용공고</a></li>
         <li class="nav-menu"><a>굿즈</a></li>
         <li class="nav-menu"><a>마이페이지</a></li>
@@ -81,7 +91,9 @@ header{
   height: 50px;
   margin-top: 5px;
   margin-left: 30px;
+  cursor: pointer;
 }
+
 .nav-ul{
   list-style: none;
   display: flex;
@@ -91,16 +103,13 @@ header{
 .nav-menu{
   margin-right: 40px;
   height: auto;
-}
-.nav-menu span{
-  cursor: pointer;
-}
-.nav-menu span:hover{
-  color: #1b5ac2;
-}
-.nav-menu > a {
   text-decoration-line: none;
   color: #7E7E7E;
+  cursor: pointer;
+}
+
+.nav-menu:hover{
+  color: #1b5ac2;
 }
 .nav-menu > a:hover{
   color: #1b5ac2;
