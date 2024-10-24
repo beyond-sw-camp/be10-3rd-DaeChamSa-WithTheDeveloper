@@ -4,6 +4,7 @@ import RegisterView from "@/views/RegisterView.vue";
 import TosView from "@/views/TosView.vue";
 import LoginView from "@/views/LoginView.vue";
 import FindIdView from "@/views/FindIdView.vue";
+import DbtiTestView from "@/views/DbtiTestView.vue";
 import MainPageBefore from "@/views/MainPageBefore.vue";
 import MainPageAfter from "@/views/MainPageAfter.vue";
 import MypageProfile from "@/views/MypageProfile.vue";
@@ -48,6 +49,10 @@ const router = createRouter({
         {
             path:'/mypage/bookmark',
             component: MypageBookmark // 메인페이지(로그인 후)
+        },
+        {
+            path: '/test',
+            component: DbtiTestView // 성향 테스트
         }
     ]
 });
