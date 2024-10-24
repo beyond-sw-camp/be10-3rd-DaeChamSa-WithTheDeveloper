@@ -20,8 +20,8 @@ const moveToSend = () => {
       <div id="header">
         <h2>쪽지</h2>
         <ul>
-          <li><button class="header_button" id="res" @click="moveToRes">수신쪽지</button></li>
-          <li><button class="header_button" id="isRead" @click="moveToSend">읽은쪽지</button></li>
+          <li><button class="header_button" id="res">수신쪽지</button></li>
+          <li><button class="header_button" id="isRead">읽은쪽지</button></li>
           <li><button class="header_button" id="send">발신쪽지</button></li>
           <li><button class="header_button" id="block">차단관리</button></li>
         </ul>
@@ -29,7 +29,6 @@ const moveToSend = () => {
       <article id = "info">
         <div id="tool_bar">
           <input type="checkbox" class="checkbox" id="selectAll">
-          <p id="read">읽음</p>
           <p id="delete">삭제</p>
         </div>
         <hr>
@@ -87,7 +86,7 @@ li {
   border-color: #617CC2;
   color: #617CC2;
 }
-#res{
+#send{
   border-color: #617CC2;
   color: #617CC2;
 }

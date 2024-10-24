@@ -11,6 +11,7 @@ import PayFail from "@/views/PayFail.vue";
 import PayComplete from "@/views/PayComplete.vue";
 import MypageResMsg from "@/views/MypageResMsg.vue";
 import MypageInfo from "@/views/MypageInfo.vue";
+import MypageSendMsg from "@/views/MypageSendMsg.vue";
 
 const router = createRouter({
     history: createWebHistory(),
@@ -56,12 +57,16 @@ const router = createRouter({
             component: DbtiTestView // 성향 테스트
         },
         {
+            path: '/mypage/info',
+            component: MypageInfo
+        },
+        {
             path: '/mypage/resMsg',
             component: MypageResMsg
         },
         {
-            path: '/mypage/info',
-            component: MypageInfo
+            path: '/mypage/sendMsg',
+            component: MypageSendMsg
         }
     ]
 });
