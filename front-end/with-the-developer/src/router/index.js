@@ -9,6 +9,8 @@ import Cart from "@/views/Cart.vue";
 import DbtiTestView from "@/views/DbtiTestView.vue";
 import PayFail from "@/views/PayFail.vue";
 import PayComplete from "@/views/PayComplete.vue";
+import MypageResMsg from "@/views/MypageResMsg.vue";
+import MypageInfo from "@/views/MypageInfo.vue";
 
 const router = createRouter({
     history: createWebHistory(),
@@ -52,6 +54,14 @@ const router = createRouter({
         {
             path: '/test',
             component: DbtiTestView // 성향 테스트
+        },
+        {
+            path: '/mypage/resMsg',
+            component: MypageResMsg
+        },
+        {
+            path: '/mypage/info',
+            component: MypageInfo
         }
     ]
 });

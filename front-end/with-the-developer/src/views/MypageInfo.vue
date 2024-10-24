@@ -16,7 +16,6 @@ const user = reactive({
 </script>
 
 <template>
-<NavigationBar/>
   <section>
     <MypageSideBar/>
     <div id="content">
