@@ -2,6 +2,7 @@
 
 import {computed, ref} from 'vue';
 import router from "@/router/index.js";
+import SearchBar from "@/components/SearchBar.vue";
 
   const searchState = ref(false);
 
@@ -27,6 +28,10 @@ import router from "@/router/index.js";
   const moveToLogin = () => {
     router.push('/login');
   }
+  // 마이페이지로
+  const moveToMypage = () => {
+    router.push('/mypage/profile');
+  }
 
   // 로그아웃 (토큰 삭제)
   const logout = () => {
@@ -45,9 +50,9 @@ import router from "@/router/index.js";
       <img @click="moveToMainBefore" src="../assets/images/logo.png" alt="로고 이미지" id="logo-image">
       <ul class="nav-ul">
         <li class="nav-menu" @click="moveToMainAfter">게시판</li>
-        <li class="nav-menu"><a>채용공고</a></li>
-        <li class="nav-menu"><a>굿즈</a></li>
-        <li class="nav-menu"><a>마이페이지</a></li>
+        <li class="nav-menu">채용공고</li>
+        <li class="nav-menu">굿즈</li>
+        <li class="nav-menu" @click="moveToMypage">마이페이지</li>
       </ul>
     </div>
     <div id="nav-right">
@@ -66,10 +71,8 @@ import router from "@/router/index.js";
       </ul>
     </div>
   </header>
-  <form id="search-input"  v-if="searchState">
-    <input type="text" placeholder="검색어 입력">
-    <button type="submit">검색</button>
-  </form>
+
+  <SearchBar id="search-input"  v-if="searchState"/>
 
 </template>
 
@@ -130,30 +133,10 @@ header{
   top: -10px;
 }
 #search-input{
-  height: 40px;
-  width: 320px;
-  border: 1px solid #1b5ac2;
-  padding: 0;
   position: absolute;
-  right: 40%;
-  top: 8%;
+  right: 10%;
 }
-input{
-  font-size: 16px;
-  width: 250px;
-  padding: 10px;
-  border: 0;
-  outline: none;
-  float: left;
-}
-button{
-  width: 50px;
-  height: 100%;
-  border: 0;
-  background-color: #1b5ac2;
-  float: left;
-  color: white;
-}
+
 
 
 </style>

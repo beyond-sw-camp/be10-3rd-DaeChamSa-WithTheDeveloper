@@ -16,7 +16,6 @@ const user = reactive({
 </script>
 
 <template>
-<NavigationBar/>
   <section>
     <MypageSideBar/>
     <div id="content">
@@ -65,7 +64,7 @@ section{
   margin: 35px 0 0 100px;
 }
 #info{
-  width: 500px;
+  width: 600px;
   height: 500px;
   padding: 20px;
   border-radius: 10px;
@@ -213,6 +212,6 @@ body {
   box-sizing: border-box;
 }
 #check{
-  margin-left: 120px;
+  margin-left: 220px;
 }
 </style>

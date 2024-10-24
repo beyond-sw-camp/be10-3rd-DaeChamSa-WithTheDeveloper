@@ -6,6 +6,8 @@ import LoginView from "@/views/LoginView.vue";
 import FindIdView from "@/views/FindIdView.vue";
 import MainPageBefore from "@/views/MainPageBefore.vue";
 import MainPageAfter from "@/views/MainPageAfter.vue";
+import MypageProfile from "@/views/MypageProfile.vue";
+import MypageBookmark from "@/views/MypageBookmark.vue";
 
 const router = createRouter({
     history: createWebHistory(),
@@ -37,6 +39,15 @@ const router = createRouter({
         {
             path:'/main',
             component: MainPageAfter // 메인페이지(로그인 후)
+        },
+        {
+            path:'/mypage/profile',
+            component: MypageProfile // 메인페이지(로그인 후)
+        }
+        ,
+        {
+            path:'/mypage/bookmark',
+            component: MypageBookmark // 메인페이지(로그인 후)
         }
     ]
 });
