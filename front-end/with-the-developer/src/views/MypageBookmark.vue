@@ -1,8 +1,23 @@
 <script setup>
-import { reactive } from 'vue';
-
+import {onMounted, reactive} from 'vue';
+import axios from "axios";
 import MypageSideBar from "@/components/MypageSideBar.vue";
 
+
+const bookmarks = reactive([]);
+const fetchBookmarks = async () => {
+  const token = localStorage.getItem('accessToken');
+  const response = await axios.get('http://localhost:8080/bookmark', {
+    headers: {
+      Authorization: `Bearer ${token}` // Authorization 헤더에 토큰 추가
+    }
+  });
+  return  response.data;
+}
+
+onMounted(async () => {
+  bookmarks.values = await fetchBookmarks();
+});
 
 </script>
 
