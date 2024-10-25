@@ -9,6 +9,11 @@ import Cart from "@/views/Cart.vue";
 import DbtiTestView from "@/views/DbtiTestView.vue";
 import PayFail from "@/views/PayFail.vue";
 import PayComplete from "@/views/PayComplete.vue";
+import MypageInfo from "@/views/MypageInfo.vue";
+import MypageResMsg from "@/views/MypageResMsg.vue";
+import MypageSendMsg from "@/views/MypageSendMsg.vue";
+import DbtiResultView from "@/views/DbtiResultView.vue";
+import MypageReadMsg from "@/views/MypageReadMsg.vue";
 
 const router = createRouter({
     history: createWebHistory(),
