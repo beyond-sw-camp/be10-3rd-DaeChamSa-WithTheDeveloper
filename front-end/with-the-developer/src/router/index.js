@@ -10,6 +10,7 @@ import DbtiTestView from "@/views/DbtiTestView.vue";
 import PayFail from "@/views/PayFail.vue";
 import PayComplete from "@/views/PayComplete.vue";
 import DbtiResultView from "@/views/DbtiResultView.vue";
+import GoodsList from "@/views/GoodsList.vue";
 
 const router = createRouter({
     history: createWebHistory(),
@@ -60,6 +61,10 @@ const router = createRouter({
             path: '/payment/complete',
             component: PayComplete
         },
+        {
+            path: '/goods',
+            component: GoodsList
+        }
     ]
 });
 
