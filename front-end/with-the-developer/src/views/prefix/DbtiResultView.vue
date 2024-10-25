@@ -1,7 +1,7 @@
 <script setup>
 import { ref, computed } from 'vue';
 import axios from 'axios';
-import router from "@/router/index.js";
+import router from "@/router";
 
 const props = defineProps(['result']); // result prop 수신
 

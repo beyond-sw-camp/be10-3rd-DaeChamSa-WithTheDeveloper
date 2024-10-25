@@ -1,7 +1,7 @@
 <script setup>
 
 import {computed, ref} from 'vue';
-import router from "@/router/index.js";
+import router from "@/router";
 import {useStore} from "vuex";
 
 const searchState = ref(false);
