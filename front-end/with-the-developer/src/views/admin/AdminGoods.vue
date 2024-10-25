@@ -1,9 +1,10 @@
 <script setup>
 import {onMounted, ref} from "vue";
-import AdminGoodsRegister from "@/views/Admin-GoodsRegister.vue";
+import AdminGoodsRegister from "@/views/admin/Admin-GoodsRegister.vue";
 import axios from "axios";
 import Modal from "@/components/Modal.vue"; // 모달창
 import {useRouter} from "vue-router"; // 페이징
+import { usePagination } from "@/components/Pagination.js";
 
 const router = useRouter();
 
@@ -15,9 +16,15 @@ const closeModal = () => showModal.value = false;
 // admin 테스트 위한 토큰 하드코딩
 const adminToken = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsInVzZXJDb2RlIjoxLCJhdXRoIjoiUk9MRV9BRE1JTiIsImV4cCI6MTcyOTg3NzQ5NX0.3tOLtjdkni_MEE4AvUL7Dv2xc0QMRQHrBHByfcfo1YjQP1OunmTIPo20vs9guVh6NUpCZCfg0NaWqbgeuzYBsA"
 // 서버에서 가져온 굿즈 데이터
+// const products = ref([]);
+// const currentPage = ref(1); // 현재 페이지
+// const totalPage = ref(1); // 총 페이지 수
+
 const products = ref([]);
-const currentPage = ref(1); // 현재 페이지
-const totalPage = ref(1); // 총 페이지 수
+const itemsPerPage = 10; // 페이지당 아이템 수
+const { currentPage, totalPage, paginatedItems, setPage } = usePagination(products, itemsPerPage); // usePagination 사용
+
+
 
 // 체크된 굿즈 코드 배열
 const checkedGoods = ref([]);
@@ -72,7 +79,8 @@ const deleteGoods = async () => {
   // 굿즈 목록 조회, 갱신
   const fetchGoods = async (page = 1) => {
     try {
-      const response = await axios.get(`http://localhost:8080/public/goods?page=${page}`, {
+      // const response = await axios.get(`http://localhost:8080/public/goods?page=${page}`, {
+      const response = await axios.get(`http://localhost:8080/public/goods?page=${currentPage.value}`, {
         headers: {
           Authorization: localStorage.getItem('jwtToken'),
         },
@@ -85,9 +93,6 @@ const deleteGoods = async () => {
     };
   };
 
-
-
-
 // 체크박스 상태 업데이트
   const toggleChecked = (goodsCode) => {
     const index = checkedGoods.value.indexOf(goodsCode);
@@ -97,12 +102,6 @@ const deleteGoods = async () => {
       checkedGoods.value.splice(index, 1); // 제거
     }
   }
-
-// // 페이지 처리 함수
-// const setPage = (page) => {
-//   currentPage.value = page;
-//   fetchGoods(page);
-// };
 
 // 페이지 로드 시 굿즈 목록 가져오기
   onMounted(() => {
@@ -143,7 +142,8 @@ const deleteGoods = async () => {
         <tr v-if="products.length === 0">
           <td colspan="6">데이터가 없습니다.</td>
         </tr>
-        <tr v-for="product in products" :key="product.goodsCode">
+<!--        <tr v-for="product in products" :key="product.goodsCode">-->
+        <tr v-for="product in paginatedItems" :key="product.goodsCode">
           <td><input type="checkbox" @change="toggleChecked(product.goodsCode)"/></td>
           <td><img :src="product.images[0] || 'default-image-path.png'" alt="product image"/></td>
           <td>
@@ -165,11 +165,10 @@ const deleteGoods = async () => {
     <AdminGoodsRegister @cancel="closeModal"/>
   </Modal>
 
-  <!-- 페이지 -->
-  <!--  <div class="pagination">-->
-  <!--    <span v-for="page in totalPage" :key="page" @click="setPage(page)" :class="{ active: currentPage === page }">{{ page }}</span>-->
-  <!--  </div>-->
-
+  <!-- 페이지네이션 -->
+  <div class="pagination">
+    <span v-for="page in totalPage" :key="page" @click="setPage(page)" :class="{ active: currentPage === page }">{{ page }}</span>
+  </div>
 </template>
 
 <style scoped>
