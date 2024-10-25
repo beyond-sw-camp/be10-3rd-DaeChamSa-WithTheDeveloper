@@ -17,6 +17,7 @@ import MypageResMsg from "@/views/MypageResMsg.vue";
 import MypageSendMsg from "@/views/MypageSendMsg.vue";
 import DbtiResultView from "@/views/DbtiResultView.vue";
 import MypageReadMsg from "@/views/MypageReadMsg.vue";
+import MainPageAfter from "@/views/MainPageAfter.vue";
 
 const router = createRouter({
     history: createWebHistory(),
@@ -24,6 +25,10 @@ const router = createRouter({
         {
             path: '/',
             component: MainPageBefore
+        },
+        {
+          path: '/main',
+          component: MainPageAfter
         },
         {
             path: '/search',
