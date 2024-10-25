@@ -9,10 +9,6 @@ import Cart from "@/views/Cart.vue";
 import DbtiTestView from "@/views/DbtiTestView.vue";
 import PayFail from "@/views/PayFail.vue";
 import PayComplete from "@/views/PayComplete.vue";
-import MypageResMsg from "@/views/MypageResMsg.vue";
-import MypageInfo from "@/views/MypageInfo.vue";
-import MypageSendMsg from "@/views/MypageSendMsg.vue";
-import MypageReadMsg from "@/views/MypageReadMsg.vue";
 
 const router = createRouter({
     history: createWebHistory(),
@@ -40,6 +36,16 @@ const router = createRouter({
         {
             path: '/find-id',
             component: FindIdView   // 아이디 찾기
+        },
+        {
+            path: '/dbti-test',
+            component: DbtiTestView // 성향 테스트
+        },
+        {
+            path: '/dbti-result/:result',
+            name: 'ResultPage',
+            component: DbtiResultView,   // 성향테스트 결과
+            props: true
         },
         {
             path: '/cart-goods',
