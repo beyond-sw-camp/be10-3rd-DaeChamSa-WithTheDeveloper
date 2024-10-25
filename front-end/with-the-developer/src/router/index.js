@@ -15,6 +15,10 @@ import PayComplete from "@/views/PayComplete.vue";
 import DbtiResultView from "@/views/DbtiResultView.vue";
 import GoodsList from "@/views/GoodsList.vue";
 import JobSelectView from "@/views/JobSelectView.vue";
+import CommunityBoardView from "@/views/CommunityBoardView.vue";
+import CommunityPostView from "@/views/CommunityPostView.vue";
+import CommunityCreateView from "@/views/CommunityCreateView.vue";
+import CommunityUpdateView from "@/views/CommunityUpdateView.vue";
 import PrefixResultView from "@/views/PrefixResultView.vue";
 
 const router = createRouter({
@@ -90,8 +94,31 @@ const router = createRouter({
         {
             path: '/jop-tag',
             component: AdminTag,
-        }
+        },
         // *** 관리자
+
+        // *** 커뮤니티
+        {
+            path: '/community', // 게시판 목록 페이지
+            name: 'communityList',
+            component: CommunityBoardView
+        },
+        {
+            path: '/community/:id', // 게시글 상세 페이지
+            name: 'CommunityPostDetail',
+            component: CommunityPostView,
+            props: true, // URL 파라미터를 props로 전달
+        },
+        {
+            path: '/community/create',
+            name: 'communityPostCreate',
+            component: CommunityCreateView
+        },
+        {
+            path: '/community/update/:comuCode',
+            name: 'communityPostUpdate',
+            component: CommunityUpdateView
+        }
     ]
 });
 
