@@ -44,6 +44,7 @@ const search = () => {
   width: 680px;
   height: 50px;
   padding: 0 24px 0 24px;
+  margin: 30px auto;
 }
 
 input {
