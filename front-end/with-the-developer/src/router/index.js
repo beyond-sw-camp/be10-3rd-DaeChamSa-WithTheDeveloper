@@ -7,10 +7,14 @@ import FindIdView from "@/views/FindIdView.vue";
 import MainPageBefore from "@/views/MainPageBefore.vue";
 import Cart from "@/views/Cart.vue";
 import DbtiTestView from "@/views/DbtiTestView.vue";
+import AdminUser from "@/views/Admin-User.vue";
+import AdminGoods from "@/views/AdminGoods.vue";
+import AdminTag from "@/views/Admin-Tag.vue";
 import PayFail from "@/views/PayFail.vue";
 import PayComplete from "@/views/PayComplete.vue";
 import DbtiResultView from "@/views/DbtiResultView.vue";
 import JobSelectView from "@/views/JobSelectView.vue";
+
 
 const router = createRouter({
     history: createWebHistory(),
@@ -50,6 +54,10 @@ const router = createRouter({
             props: true
         },
         {
+            path: '/preifx/job',
+            component: JobSelectView    // 수식언 직무태그 선택
+        },
+        {
             path: '/cart-goods',
             component: Cart  // 장바구니
         },
@@ -61,10 +69,20 @@ const router = createRouter({
             path: '/payment/complete',
             component: PayComplete
         },
+        // *** 관리자 페이지
         {
-            path: '/preifx/job',
-            component: JobSelectView
+            path: '/admin/user/status',
+            component: AdminUser,
+        },
+        {
+            path: '/goods',
+            component: AdminGoods,
+        },
+        {
+            path: '/jop-tag',
+            component: AdminTag,
         }
+        // *** 관리자
     ]
 });
 
