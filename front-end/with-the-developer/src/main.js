@@ -4,6 +4,14 @@ import App from './App.vue'
 import router from "@/router";
 import store from "@/store/store.js";
 
+axios.interceptors.request.use((config)=>{
+    const accessToken = localStorage.getItem('accessToken');
+    if(accessToken){
+        config.headers.Authorization=`${accessToken}`
+    }
+    return config;
+});
+
 axios.defaults.baseURL = 'http://localhost:8080';
 const app = createApp(App); // Vue 애플리케이션 생성
 app.config.globalProperties.axios = axios;

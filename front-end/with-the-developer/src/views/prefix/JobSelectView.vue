@@ -66,11 +66,7 @@ const complete = () => {
     dbtiCode: savedDbti.dbtiCode,
     jobTagCode: selectedItem.value.jobTagCode
   }
-  axios.post('/prefix', prefixCreateDTO, {
-    headers: {
-      Authorization: accessToken
-    }
-  })
+  axios.post('/prefix', prefixCreateDTO)
       .then(res => {
         if (res.status === 200){
           router.push('/prefix/result');
