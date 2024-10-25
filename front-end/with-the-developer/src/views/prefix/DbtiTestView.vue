@@ -1,7 +1,6 @@
 <script setup>
-import { ref, computed } from 'vue';
-import axios from "axios";
-import router from "@/router/index.js";
+import {computed, ref} from 'vue';
+import router from "@/router";
 
 // 질문 리스트
 // score => BACKEND 0, FRONTEND 1, PM 2, DESIGNER 3

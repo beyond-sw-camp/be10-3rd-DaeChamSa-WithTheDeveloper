@@ -1,10 +1,9 @@
 <script setup>
 
 import {computed, ref} from 'vue';
-import router from "@/router/index.js";
+import router from "@/router";
 import {useStore} from "vuex";
-import mainRouter from "@/router/MainRouter.js";
-import myPageRouter from "@/router/myPageRouter.js";
+import NotiModal from "@/components/NotiModal.vue";
 
 const searchState = ref(false);
 
@@ -24,18 +23,9 @@ const moveToLogin = () => {
     router.push('/login');
   } else {
     store.dispatch('logout'); // 로그아웃 처리
-    mainRouter.push('/');
+    router.push('/');
   }
 };
-const moveToMain = (type) => {
-  mainRouter.push(`${type}`)
-}
-const moveToMyPage = () => {
-  myPageRouter.push('/mypage/info');
-}
-const moveTo = (type) => {
-  router.push(`${type}`);
-}
 
 </script>
 
@@ -55,7 +45,8 @@ const moveTo = (type) => {
         <li class="nav-menu">
           <span @click="moveToLogin">{{ isLoggedIn ? '로그아웃' : '로그인' }}</span>
         </li>
-        <li class="nav-menu"><a id="login"><img src="https://img.icons8.com/?size=100&id=eMfeVHKyTnkc&format=png&color=000000" alt="alarm" class="nav-img"></a></li>
+        <li class="nav-menu"><a id="login" @click="toggleModal">
+          <img src="https://img.icons8.com/?size=100&id=eMfeVHKyTnkc&format=png&color=000000" alt="alarm" class="nav-img"></a></li>
         <li class="nav-menu"><a id="login"><img src="https://img.icons8.com/?size=100&id=zhda2EVBCvHY&format=png&color=000000" alt="cart" class="nav-img"></a></li>
         <li class="nav-menu">
           <a id="login">
@@ -69,6 +60,9 @@ const moveTo = (type) => {
     <input type="text" placeholder="검색어 입력">
     <button type="submit">검색</button>
   </form>
+
+  <!-- 알림 모달 추가 -->
+  <NotiModal :showModal="showModal" @close="toggleModal" />
 
 </template>
 
