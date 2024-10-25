@@ -45,6 +45,7 @@
 
 <script setup>
 import { ref } from 'vue';
+import axios from 'axios';
 
 // 폼 데이터
 const goodsName = ref('');
@@ -73,13 +74,35 @@ const handelFileUpload = (event) => {
 };
 
 // 굿즈 등록하기
-const submitGoods = () => {
+const submitGoods = async () => {
   const formData = new FormData();
 
+  const goodsCreateDTO = {
+    goodsName: goodsName.value,
+    goodsPrice: goodsPrice.value,
+    goodsStatus: goodsStatus.value,
+    goodsContent: goodsContent.value,
+  };
+
+  formData.append('goodsCreateDTO', new Blob([JSON.stringify(goodsCreateDTO)],{type:"application/json"}));
+
   fileList.value.forEach((file, index)=>{
-    formData.append(`{file_${index}`,file);
+    formData.append('images', file);
   });
-}
+
+  try{
+    const response = await axios.post('http://localhost:8080/goods', formData,{
+      headers:{
+        'Content-Type' : 'multipart/form-data',
+      },
+    });
+
+    console.log("굿즈 등록 성공:" , response);
+    $emit('cancel');
+  } catch (error){
+    console.log("굿즈 등록 실패: ", error)
+  }
+};
 </script>
 
 <style scoped>

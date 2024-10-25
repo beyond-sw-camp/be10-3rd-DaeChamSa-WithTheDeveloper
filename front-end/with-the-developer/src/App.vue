@@ -13,10 +13,12 @@ import AdminSideBar from "@/components/AdminSideBar.vue";
 <template>
   <SearchBar/>
   <NavigationBar/>
+  <div class="admin-layout">
+    <AdminSideBar/>
   <main class="main">
     <RouterView/>
   </main>
-
+  </div>
   <footer>
     <Footer/>
   </footer>

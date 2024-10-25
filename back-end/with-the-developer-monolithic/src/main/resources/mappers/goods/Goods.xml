@@ -13,6 +13,11 @@
         FROM goods
     </select>
 
+<!--    전체 굿즈 수 조회 -->
+    <select id="selectTotalGoodsCount" resultType="int">
+        SELECT COUNT(*) FROM goods
+    </select>
+
     <select id="selectGoodsByCode" parameterType="Long" resultType="com.developer.goods.query.dto.GoodsResponseDTO">
         SELECT
         goods_code,

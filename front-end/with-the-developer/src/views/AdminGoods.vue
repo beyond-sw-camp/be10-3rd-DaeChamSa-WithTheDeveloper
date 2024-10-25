@@ -1,32 +1,117 @@
 <script setup>
-import {computed, ref} from "vue";
+import {computed, onMounted, reactive, ref} from "vue";
 import AdminGoodsRegister from "@/views/Admin-GoodsRegister.vue";
+import axios from "axios";
+import Modal from "@/components/Modal.vue"; // 모달창
+import { useRouter } from "vue-router"; // 페이징
 
-import Modal from "@/components/Modal.vue"; //모달창
-import {usePagination} from "@/components/Pagination.js"; // 페이징
+const router = useRouter();
 
 // 굿즈 등록 모달창
 const showModal = ref(false);
 const openModal = () => showModal.value = true;
 const closeModal = () => showModal.value = false;
 
-// 프론트 구현 위한 임시 굿즈 데이터
-const products = [
-  {id: 1, name: "나는 개발자 스티커", price: 1480, status: "판매중", img: "https://via.placeholder.com/50"},
-  {id: 2, name: "나는 개발자 스티커", price: 1480, status: "판매중", img: "https://via.placeholder.com/50"},
-  {id: 3, name: "나는 개발자 스티커", price: 1480, status: "판매중", img: "https://via.placeholder.com/50"},
-  {id: 4, name: "나는 개발자 스티커", price: 1480, status: "판매중", img: "https://via.placeholder.com/50"},
-  {id: 5, name: "나는 개발자 스티커", price: 1480, status: "판매중", img: "https://via.placeholder.com/50"},
-  {id: 6, name: "나는 개발자 스티커", price: 1480, status: "판매중", img: "https://via.placeholder.com/50"},
-  {id: 7, name: "나는 개발자 스티커", price: 1480, status: "판매중", img: "https://via.placeholder.com/50"},
-  {id: 8, name: "나는 개발자 스티커", price: 1480, status: "판매중", img: "https://via.placeholder.com/50"},
-  {id: 9, name: "나는 개발자 스티커", price: 1480, status: "판매중", img: "https://via.placeholder.com/50"},
-  {id: 10, name: "나는 개발자 스티커", price: 1480, status: "판매중", img: "https://via.placeholder.com/50"},
-  {id: 10, name: "나는 개발자 스티커", price: 1480, status: "판매중", img: "https://via.placeholder.com/50"}
-];
+// admin 테스트 위한 토큰 하드코딩
+const adminToken = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsInVzZXJDb2RlIjoxLCJhdXRoIjoiUk9MRV9BRE1JTiIsImV4cCI6MTcyOTgzMzYzNn0.Zk_Z_GvUoSl3U-HesPluY_YQGpHb0X57bfr-KIU8rcFGuJi9bF6zNTUbpNVs_NymFOc35hdAF_H6RoMkIfsABw";
 
-// 페이징처리 함수 사용
-const { currentPage, totalPage, paginatedItems, setPage } = usePagination(products, 10);
+// 서버에서 가져온 굿즈 데이터
+const products = reactive([]);
+const currentPage = ref(1); // 현재 페이지
+const totalPage = ref(1); // 총 페이지 수
+
+// 로그인 함수
+const loginUser = async () => {
+  try {
+    localStorage.setItem('jwtToken', adminToken);
+
+    // Axios 기본 헤더에 토큰 추가
+    axios.defaults.headers.common['Authorization'] = adminToken;
+
+    console.log("admin 로그인 성공");
+    fetchGoods(); // 굿즈 목록 불러오기
+  } catch (error) {
+    console.error('로그인 실패:', error.response ? error.response.data : error.message);
+  }
+};
+
+// 굿즈 등록
+async function registGoods(goodsCreateDTO, images) {
+  const formData = new FormData();
+  // goodsCreateDTO 객체를 FormData로 반환
+  formData.append('goodsCreateDTO', new Blob([JSON.stringify(goodsCreateDTO)], { type: "application/json" }));
+
+  // 이미지 여러개일 경우
+  if (images && images.length > 0) {
+    images.forEach((image) => {
+      formData.append('images', image);
+    });
+  }
+
+  try {
+    const response = await axios.post('http://localhost:8080/goods', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+        'Authorization': localStorage.getItem('jwtToken')
+      }
+    });
+    console.log("굿즈 등록 성공: ", response);
+  } catch (error) {
+    console.log("굿즈 등록 실패:", error);
+    if (error.response.status === 403) {
+      console.error("권한이 없습니다. 관리자가 아닙니다.");
+    }
+  }
+}
+
+// 굿즈 목록 조회, 갱신
+const fetchGoods = async (page = 1) => {
+  try {
+    const response = await axios.get(`http://localhost:8080/public/goods?page=${page}`, {
+      headers: {
+        Authorization: localStorage.getItem('jwtToken'),
+      },
+    });
+
+    console.log("응답데이터: ", JSON.stringify(response.data, null, 2));
+
+    const productList = response.data;
+
+    for (const goods of productList) {
+      const goodsInfo = await axios.get(`http://localhost:8080/public/goods/${goods.goodsCode}`);
+
+      if (goodsInfo) {
+        products.push({
+          goodsCode: goodsInfo.data.goodsCode,
+          goodsName: goodsInfo.data.goodsName,
+          goodsContent: goodsInfo.data.goodsContent,
+          goodsStatus: goodsInfo.data.goodsStatus,
+          goodsPrice: goodsInfo.data.goodsPrice,
+          images: goodsInfo.data.images || [], // 이미지가 없을 경우 빈 배열
+        });
+      }
+    }
+
+    console.log(products.length);
+
+    // 총 페이지 수 계산
+    totalPage.value = Math.ceil(response.headers['totalCount'] / 10);
+  } catch (error) {
+    console.log("굿즈 목록 불러오기 실패", error);
+    products.splice(0, products.length);
+  }
+};
+
+// 페이지 처리 함수
+const setPage = (page) => {
+  currentPage.value = page;
+  fetchGoods(page);
+};
+
+// 페이지 로드 시 굿즈 목록 가져오기
+onMounted(() => {
+  loginUser(); // 로그인 후 굿즈 목록 가져오기
+});
 
 </script>
 
@@ -50,15 +135,17 @@ const { currentPage, totalPage, paginatedItems, setPage } = usePagination(produc
         </tr>
         </thead>
         <tbody>
-        <tr v-for="product in paginatedItems" :key="product.id">
+        <tr v-if="products.length === 0">
+          <td colspan="6">데이터가 없습니다.</td>
+        </tr>
+        <tr v-for="product in products" :key="product.goodsCode">
           <td><input type="checkbox" /></td>
-          <td><img :src="product.img" alt="product image" /></td>
+          <td><img :src="product.images[0] || 'default-image-path.png'" alt="product image" /></td>
           <td>
-<!--            상품 이름 클릭 스 상세 조회로 화면 이동 예정 -->
-            <a @click.prevent="viewProductDetail(product.id)" class="name-click">{{product.name}}</a>
+            <a @click.prevent="viewProductDetail(product.goodsCode)" class="name-click">{{ product.goodsName }}</a>
           </td>
-          <td>{{ product.price.toLocaleString() }}원</td>
-          <td>{{ product.status }}</td>
+          <td>{{ product.goodsPrice.toLocaleString() }}원</td>
+          <td>{{ product.goodsStatus }}</td>
           <td>
             <button class="edit-button">수정</button>
           </td>
@@ -68,12 +155,12 @@ const { currentPage, totalPage, paginatedItems, setPage } = usePagination(produc
     </div>
   </div>
 
-<!--  등록페이지 열기 위한 모달창 -->
+  <!-- 등록페이지 열기 위한 모달창 -->
   <Modal :show="showModal" @close="closeModal">
-    <AdminGoodsRegister @cancel="closeModal"/>
+    <AdminGoodsRegister @cancel="closeModal" />
   </Modal>
 
-<!--  페이지 -->
+  <!-- 페이지 -->
   <div class="pagination">
     <span v-for="page in totalPage" :key="page" @click="setPage(page)" :class="{ active: currentPage === page }">{{ page }}</span>
   </div>
@@ -91,11 +178,10 @@ const { currentPage, totalPage, paginatedItems, setPage } = usePagination(produc
   position: relative;
 }
 
-.admin-goods-content{
-  font-size:20px
+.admin-goods-content {
+  font-size: 20px;
 }
 
-/* 총 수량건, 등록하기 버튼을 header에 추가*/
 .header {
   display: flex;
   justify-content: space-between;
@@ -118,7 +204,7 @@ const { currentPage, totalPage, paginatedItems, setPage } = usePagination(produc
   font-size: 18px;
 }
 
-.delete-button{
+.delete-button {
   background-color: #f56c6c;
   color: white;
   padding: 5px 10px;
@@ -133,7 +219,8 @@ table {
   border-collapse: collapse;
 }
 
-th, td {
+th,
+td {
   padding: 10px;
   text-align: center;
   border-bottom: 1px solid #e0e0e0;
@@ -144,14 +231,13 @@ img {
   height: 50px;
 }
 
-.name-click{
+.name-click {
   background: none;
   border: none;
   cursor: pointer;
 }
 
-
-.edit-button{ /* 수정 버튼 */
+.edit-button {
   background-color: #f0f0f0;
   border: 1px solid #ccc;
   padding: 5px 10px;
@@ -160,8 +246,7 @@ img {
   font-size: 18px;
 }
 
-
-.pagination{ /* 페이지 넘버링 */
+.pagination {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -169,12 +254,12 @@ img {
   font-size: 20px;
 }
 
-.pagination span{ /* 페이지 숫자 간격, 마우스 커서 변경 */
+.pagination span {
   margin: 0 5px;
   cursor: pointer;
 }
 
-.pagination span.active{
+.pagination span.active {
   font-weight: bold;
   color: #1b5ac2;
 }
