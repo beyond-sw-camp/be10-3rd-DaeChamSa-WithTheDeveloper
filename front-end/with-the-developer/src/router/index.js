@@ -14,6 +14,7 @@ import PayFail from "@/views/PayFail.vue";
 import PayComplete from "@/views/PayComplete.vue";
 import DbtiResultView from "@/views/DbtiResultView.vue";
 import JobSelectView from "@/views/JobSelectView.vue";
+import PrefixResultView from "@/views/PrefixResultView.vue";
 
 
 const router = createRouter({
@@ -44,7 +45,7 @@ const router = createRouter({
             component: FindIdView   // 아이디 찾기
         },
         {
-            path: '/preifx/test',
+            path: '/prefix/test',
             component: DbtiTestView // 성향 테스트
         },
         {
@@ -56,6 +57,10 @@ const router = createRouter({
         {
             path: '/prefix/job-tag',
             component: JobSelectView    // 수식언 직무태그 선택
+        },
+        {
+            path: '/prefix/result',
+            component: PrefixResultView // 수식언 결과 페이지
         },
         {
             path: '/cart-goods',

@@ -23,7 +23,7 @@ const moveToFindId = () => {
 
 // 성향테스트 창
 function moveToDbtiTest(){
-  router.push('/preifx/test');
+  router.push('/prefix/test');
 }
 
 const userId = ref('');
