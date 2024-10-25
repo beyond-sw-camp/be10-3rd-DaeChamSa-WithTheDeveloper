@@ -19,6 +19,9 @@ import DbtiResultView from "@/views/DbtiResultView.vue";
 import MypageReadMsg from "@/views/MypageReadMsg.vue";
 import MainPageAfter from "@/views/MainPageAfter.vue";
 import MypageBlock from "@/views/MypageBlock.vue";
+import MypageMsgDetail from "@/views/MypageResMsgDetail.vue";
+import MypageResMsgDetail from "@/views/MypageResMsgDetail.vue";
+import MypageReqMsgDetail from "@/views/MypageReqMsgDetail.vue";
 
 const router = createRouter({
     history: createWebHistory(),
@@ -79,10 +82,12 @@ const router = createRouter({
         },
         {
             path: '/mypage/info',
+            name: 'profile',
             component: MypageInfo
         },
         {
             path: '/mypage/resMsg',
+            name: 'messages',
             component: MypageResMsg
         },
         {
@@ -113,6 +118,18 @@ const router = createRouter({
         {
             path: '/jop-tag',
             component: AdminTag,
+        },
+        {
+            path: '/mypage/resMsgDetail/:msgCode',
+            name: 'resMsgDetail',
+            component: MypageResMsgDetail,
+            props: true
+        },
+        {
+            path: '/mypage/reqMsgDetail/:msgCode',
+            name: 'reqMsgDetail',
+            component: MypageReqMsgDetail,
+            props: true
         }
         // *** 관리자
     ]

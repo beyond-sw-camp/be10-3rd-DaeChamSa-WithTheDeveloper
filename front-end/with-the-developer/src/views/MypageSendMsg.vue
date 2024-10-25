@@ -63,7 +63,9 @@ const deleteSelectedMessages = async () => {
     alert('메시지 삭제에 실패했습니다.');
   }
 };
-
+const moveToDetail = (msgDetailCode) => {
+  router.push({ name : 'reqMsgDetail' , params: { msgCode : msgDetailCode  } })
+};
 
 </script>
 
@@ -80,7 +82,7 @@ const deleteSelectedMessages = async () => {
         <hr>
         <div class="resMsg" v-for="msg in msgList">
           <input type="checkbox" v-model="selectedList" :value="msg.msgCode">
-          <p class="msg_content">{{msg.msgContent}}</p>
+          <p class="msg_content" @click="moveToDetail(msg.msgCode)">{{msg.msgContent}}</p>
           <p class="msg_date">{{ msg.createdDate }}</p>
           <p class="msg_id">{{ msg.userCode }}</p>
         </div>
@@ -138,6 +140,7 @@ hr {
 }
 .msg_content{
   width: 200px;
+  cursor: pointer;
 }
 *,
 *::before,

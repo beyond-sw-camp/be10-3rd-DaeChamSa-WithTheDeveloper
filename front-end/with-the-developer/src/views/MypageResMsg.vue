@@ -4,6 +4,7 @@ import axios from 'axios';
 import { useRouter } from 'vue-router';
 import MypageSideBar from "@/components/MypageSideBar.vue";
 import MypageMsgMenu from "@/components/MypageMsgMenu.vue";
+import router from "@/router/index.js";
 
 export default {
   components: {MypageMsgMenu, MypageSideBar},
@@ -98,19 +99,86 @@ export default {
         alert('메시지 삭제에 실패했습니다.');
       }
     };
+    const moveToDetail = (msgDetailCode) => {
+      router.push({ name : 'resMsgDetail' , params: { msgCode : msgDetailCode  } })
+    };
+    const modalState = ref(false);
+    const targetUserId = ref({});
+    const targetUserCode = ref({});
+    const msgText = ref("");
+
+    const openModal = (userId, userCode) => {
+      modalState.value = true;
+      targetUserId.value = userId;
+      targetUserCode.value = userCode;
+    }
+    const closeModal = () => {
+      modalState.value = false;
+      msgText.value = "";
+    }
+    const confirmSendMsg = () =>{
+      const confirmed = window.confirm('메세지를 전송하시겠습니까?');
+
+      if (confirmed) {
+        requestMsg(); // 확인 시 삭제 메서드 호출
+      }
+    }
+    const requestMsg = async () => {
+      try{
+        await axios.post('msg',{
+          recipientUserCode : targetUserCode.value,
+          msgContent : msgText.value
+        },{
+          headers: {
+            Authorization: `${localStorage.getItem('accessToken')}`,
+          }
+        });
+        closeModal();
+        alert("메세지 전송 완료!");
+        await fetchResMsgList();
+      } catch (error){
+        console.error('메시지 전송 중 오류 발생:', error);
+        alert("메세지 전송에 실패했습니다.");
+      }
+    }
 
     return {
       msgList,
       selectedList,
+      modalState,
+      targetUserId,
+      targetUserCode,
+      msgText,
       toggleSelectAll,
+      moveToDetail,
       confirmDeleteSelectedMessages,
-      confirmReadSelectedMessages
+      confirmReadSelectedMessages,
+      openModal,
+      closeModal,
+      requestMsg,
+      confirmSendMsg
     };
   }
 }
+
 </script>
 
 <template>
+  <div id="requestMsgModal" v-if="modalState">
+    <div id="frame">
+      <div id="modal_header">
+        <p>쪽지 작성</p>
+      </div>
+      <div id="modal_info">
+        <p>받는사람</p><p>{{ targetUserId }}</p>
+      </div>
+      <textarea id="modal_content" placeholder="내용을 입력해 주세요." v-model="msgText"/>
+      <div id="buttons">
+        <button id="submit" class="modal_button" @click="confirmSendMsg">전송</button>
+        <button class="modal_button" @click="closeModal">닫기</button>
+      </div>
+    </div>
+  </div>
   <section>
     <MypageSideBar/>
     <div id="content">
@@ -124,10 +192,10 @@ export default {
         <hr>
         <div class="resMsg" v-for="msg in msgList" :key="msg.msgCode">
           <input type="checkbox" v-model="selectedList" :value="msg.msgCode">
-          <p class="msg_content">{{msg.msgContent}}</p>
+          <p class="msg_content" @click="moveToDetail(msg.msgCode)">{{msg.msgContent}}</p>
           <p class="msg_date">{{ msg.createdDate }}</p>
           <p class="msg_id">{{ msg.userCode }}</p>
-          <button class="send_button">답장</button>
+          <button class="send_button" @click="openModal(msg.userId, msg.userCode)">답장</button>
         </div>
 
       </article>
@@ -201,6 +269,63 @@ hr{
 }
 .msg_content{
   width: 200px;
+  cursor: pointer;
+}
+#requestMsgModal{
+  width: auto;
+  height: auto;
+  position: absolute;
+  left: 40%;
+}
+#frame{
+  width: 500px;
+  height: 300px;
+  border: 1px solid black;
+  background-color: white;
+}
+#modal_header{
+  height: 50px;
+  font-size: 20px;
+  color: white;
+  background-color: #617CC2;
+  border-bottom: 1px solid lightgray;
+  margin: 0;
+}
+#modal_header > p {
+  padding: 15px;
+  margin: 0;
+  align-content: center;
+}
+#modal_info{
+  display: flex;
+  height: 40px;
+  border-bottom: 1px solid black;
+}
+#modal_info > p{
+  margin: 10px;
+  padding: 0;
+}
+#modal_content{
+  margin: 10px;
+  height: 150px;
+  width: 470px;
+  border: 1px solid lightgray;
+  resize: none;
+
+}
+#buttons{
+  display: flex;
+  float: right;
+}
+.modal_button{
+  width: 60px;
+  height: 25px;
+  border: 1px solid lightgray;
+  border-radius: 15px;
+}
+#submit{
+  background-color: #1b5ac2;
+  color: white;
 }
 *,
 *::before,

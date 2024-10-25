@@ -20,10 +20,10 @@ const confirmUnblockUSer = (userCode) => {
   const confirmed = window.confirm('차단 해제 하시겠습니까?');
 
   if (confirmed) {
-    unblockUser(userCode); // 확인 시 삭제 메서드 호출
+    unblockUser(userCode);
   }
 };
-// 선택된 메시지를 읽음 처리 하는 메서드
+
 const unblockUser = async (blockedCode) => {
   console.log(blockedCode);
   try {

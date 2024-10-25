@@ -39,7 +39,7 @@ export default {
   border-radius: 10px;
   box-shadow: 1px 1px 1px 1px lightgray;  /* inner white */
   margin: 100px 0 0 150px;
-
+  white-space: nowrap;
 }
 
 .sidebar-menu {
@@ -53,7 +53,7 @@ export default {
 }
 
 button {
-  width: 100%;
+  width: 160px;
   background-color: transparent;
   border: none;
   font-size: 18px;

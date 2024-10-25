@@ -1,5 +1,6 @@
 package com.developer.block.command.application.controller;
 
+import com.developer.block.command.application.dto.BlockRequestDTO;
 import com.developer.block.command.application.service.BlockCommandService;
 import com.developer.common.success.SuccessCode;
 import com.developer.user.security.SecurityUtil;
@@ -17,9 +18,9 @@ public class BlockCommandController {
 
     private final BlockCommandService blockCommandService;
 
-    @PostMapping("/block")
+    @PostMapping("/block/{blockedCode}")
     @Operation(summary = "회원 차단", description = "회원을 차단합니다.")
-    public ResponseEntity<SuccessCode> blockUser(@RequestBody Long blockedCode) {
+    public ResponseEntity<SuccessCode> blockUser(@PathVariable(name = "blockedCode") Long blockedCode) {
         Long loginUser = SecurityUtil.getCurrentUserCode();
 
         blockCommandService.blockUser(loginUser, blockedCode);
