@@ -13,7 +13,7 @@ const openModal = () => showModal.value = true;
 const closeModal = () => showModal.value = false;
 
 // admin 테스트 위한 토큰 하드코딩
-const adminToken = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsInVzZXJDb2RlIjoxLCJhdXRoIjoiUk9MRV9BRE1JTiIsImV4cCI6MTcyOTg3NjI2M30.R7V8Iz7q1xZggF0ZY6b8N_CRw1C715x5XpYKYJ6eIKNHXHfEXU2_1k1U5WymkqZ_bqpKYi63XzvuqmmVt4S4ng"
+const adminToken = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsInVzZXJDb2RlIjoxLCJhdXRoIjoiUk9MRV9BRE1JTiIsImV4cCI6MTcyOTg3NzQ5NX0.3tOLtjdkni_MEE4AvUL7Dv2xc0QMRQHrBHByfcfo1YjQP1OunmTIPo20vs9guVh6NUpCZCfg0NaWqbgeuzYBsA"
 // 서버에서 가져온 굿즈 데이터
 const products = ref([]);
 const currentPage = ref(1); // 현재 페이지
@@ -65,7 +65,9 @@ const deleteGoods = async () => {
       console.log("상품 삭제 중 오류 발생", error);
       alert("상품 삭제 실패")
     }
-  };
+  }
+};
+
 
   // 굿즈 목록 조회, 갱신
   const fetchGoods = async (page = 1) => {
@@ -75,12 +77,12 @@ const deleteGoods = async () => {
           Authorization: localStorage.getItem('jwtToken'),
         },
       });
-      console.log("FetchData: " , response.data);
+      console.log("FetchData: ", response.data);
       products.value = response.data;
     } catch (error) {
       console.log("굿즈 목록 불러오기 실패", error);
       products.splice(0, products.length);
-    }
+    };
   };
 
 
@@ -113,7 +115,7 @@ const deleteGoods = async () => {
     closeModal();
     fetchGoods(); // 등록 후 목록 갱신
   };
-}
+
 </script>
 
 <template>
