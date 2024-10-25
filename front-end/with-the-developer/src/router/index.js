@@ -12,6 +12,7 @@ import PayComplete from "@/views/PayComplete.vue";
 import MypageResMsg from "@/views/MypageResMsg.vue";
 import MypageInfo from "@/views/MypageInfo.vue";
 import MypageSendMsg from "@/views/MypageSendMsg.vue";
+import MypageReadMsg from "@/views/MypageReadMsg.vue";
 
 const router = createRouter({
     history: createWebHistory(),
@@ -67,6 +68,10 @@ const router = createRouter({
         {
             path: '/mypage/sendMsg',
             component: MypageSendMsg
+        },
+        {
+            path: '/mypage/readMsg',
+            component: MypageReadMsg
         }
     ]
 });

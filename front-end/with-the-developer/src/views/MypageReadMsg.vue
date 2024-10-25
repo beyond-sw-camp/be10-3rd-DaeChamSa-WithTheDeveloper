@@ -89,7 +89,7 @@ li {
   border-color: #617CC2;
   color: #617CC2;
 }
-#send{
+#isRead{
   border-color: #617CC2;
   color: #617CC2;
 }
@@ -98,7 +98,7 @@ li {
   padding-left: 10px;
   margin-bottom: 0;
 }
-hr {
+hr{
   margin: 0;
 }
 #delete:hover{

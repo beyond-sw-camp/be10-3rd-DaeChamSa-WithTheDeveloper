@@ -10,6 +10,9 @@ const moveToRes = () => {
 const moveToSend = () => {
   router.push('/mypage/sendMsg');
 }
+const moveToRead = () => {
+  router.push('/mypage/readMsg');
+}
 
 </script>
 
@@ -21,8 +24,8 @@ const moveToSend = () => {
         <h2>쪽지</h2>
         <ul>
           <li><button class="header_button" id="res" @click="moveToRes">수신쪽지</button></li>
-          <li><button class="header_button" id="isRead" @click="moveToSend">읽은쪽지</button></li>
-          <li><button class="header_button" id="send">발신쪽지</button></li>
+          <li><button class="header_button" id="isRead" @click="moveToRead">읽은쪽지</button></li>
+          <li><button class="header_button" id="send" @click="moveToSend">발신쪽지</button></li>
           <li><button class="header_button" id="block">차단관리</button></li>
         </ul>
       </div>
