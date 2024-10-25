@@ -80,7 +80,7 @@ const router = createRouter({
             component: PayComplete
         },
         {
-            path: '/goods/1',
+            path: '/goods/:goodsCode',
             component: GoodsDetail
         },
         {
