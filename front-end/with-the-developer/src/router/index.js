@@ -7,6 +7,9 @@ import FindIdView from "@/views/FindIdView.vue";
 import MainPageBefore from "@/views/MainPageBefore.vue";
 import Cart from "@/views/Cart.vue";
 import DbtiTestView from "@/views/DbtiTestView.vue";
+import AdminUser from "@/views/Admin-User.vue";
+import AdminGoods from "@/views/AdminGoods.vue";
+import AdminTag from "@/views/Admin-Tag.vue";
 import PayFail from "@/views/PayFail.vue";
 import PayComplete from "@/views/PayComplete.vue";
 import MypageInfo from "@/views/MypageInfo.vue";
@@ -83,7 +86,25 @@ const router = createRouter({
         {
             path: '/mypage/readMsg',
             component: MypageReadMsg
+        },
+        {
+            path: '/test',
+            component: DbtiTestView // 성향 테스트
+        },
+        // *** 관리자 페이지
+        {
+            path: '/admin/user/status',
+            component: AdminUser,
+        },
+        {
+            path: '/goods',
+            component: AdminGoods,
+        },
+        {
+            path: '/jop-tag',
+            component: AdminTag,
         }
+        // *** 관리자
     ]
 });
 
