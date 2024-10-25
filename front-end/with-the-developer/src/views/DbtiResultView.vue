@@ -1,6 +1,7 @@
 <script setup>
 import { ref, computed } from 'vue';
 import axios from 'axios';
+import router from "@/router/index.js";
 
 const props = defineProps(['result']); // result prop 수신
 
@@ -51,6 +52,13 @@ const selectItem = (item) => {
   selectedItem.value = item;
   console.log(selectedItem.value)
 };
+
+// 항목 선택 완료
+const complete = () => {
+  alert(`${selectedItem.value.dbtiValue} 선택 완료`);
+  localStorage.setItem('dbti', JSON.stringify(selectedItem.value));
+  router.push('/prefix/job-tag');
+}
 </script>
 
 <template>
@@ -76,7 +84,7 @@ const selectItem = (item) => {
 
     <!-- 선택시 완료 버튼 표시 -->
     <div v-if="selectedItem">
-      <button class="complete-button">선택</button>
+      <button class="complete-button" @click="complete">선택</button>
     </div>
   </div>
 </template>
@@ -116,5 +124,9 @@ button.selected {
   color: white;
   border: none;
   cursor: pointer;
+}
+strong{
+  color: #F66666;
+  font-size: 20px;
 }
 </style>
