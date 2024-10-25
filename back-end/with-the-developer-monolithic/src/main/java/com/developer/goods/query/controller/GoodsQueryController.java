@@ -28,11 +28,8 @@ public class GoodsQueryController {
     @Operation(summary = "굿즈 목록 조회", description = "등록되어 있는 굿즈 목록을 조회합니다.")
     public ResponseEntity<List<GoodsResponseDTO>> selectAllGoods(@RequestParam(name = "page", defaultValue = "1") Integer page) {
         List<GoodsResponseDTO> goodsList = goodsQueryService.selectAllGoods(page);
-        int totalCount = goodsQueryService.getTotalGoodsCount();
 
-        return ResponseEntity.ok()
-                .header("totalCount", String.valueOf(totalCount))
-                .body(goodsList);
+        return ResponseEntity.ok(goodsList);
 
     }
 

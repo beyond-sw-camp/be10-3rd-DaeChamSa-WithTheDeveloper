@@ -16,7 +16,7 @@ const closeModal = () => showModal.value = false;
 const adminToken = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsInVzZXJDb2RlIjoxLCJhdXRoIjoiUk9MRV9BRE1JTiIsImV4cCI6MTcyOTgzMzYzNn0.Zk_Z_GvUoSl3U-HesPluY_YQGpHb0X57bfr-KIU8rcFGuJi9bF6zNTUbpNVs_NymFOc35hdAF_H6RoMkIfsABw";
 
 // 서버에서 가져온 굿즈 데이터
-const products = reactive([]);
+const products = ref([]);
 const currentPage = ref(1); // 현재 페이지
 const totalPage = ref(1); // 총 페이지 수
 
@@ -72,12 +72,17 @@ const fetchGoods = async (page = 1) => {
         Authorization: localStorage.getItem('jwtToken'),
       },
     });
+    products.value = response.data;
 
-    console.log("응답데이터: ", JSON.stringify(response.data, null, 2));
+    // 총 페이지 수 계산
+  //   totalPage.value = Math.ceil(['totalcount'] / 10);
+  } catch (error) {
+    console.log("굿즈 목록 불러오기 실패", error);
+    products.splice(0, products.length);
 
-    const productList = response.data;
 
-    for (const goods of productList) {
+
+    /*for (const goods of productList) {
       const goodsInfo = await axios.get(`http://localhost:8080/public/goods/${goods.goodsCode}`);
 
       if (goodsInfo) {
@@ -90,15 +95,9 @@ const fetchGoods = async (page = 1) => {
           images: goodsInfo.data.images || [], // 이미지가 없을 경우 빈 배열
         });
       }
-    }
+    }*/
 
-    console.log(products.length);
 
-    // 총 페이지 수 계산
-    totalPage.value = Math.ceil(response.headers['totalCount'] / 10);
-  } catch (error) {
-    console.log("굿즈 목록 불러오기 실패", error);
-    products.splice(0, products.length);
   }
 };
 
@@ -111,6 +110,7 @@ const setPage = (page) => {
 // 페이지 로드 시 굿즈 목록 가져오기
 onMounted(() => {
   loginUser(); // 로그인 후 굿즈 목록 가져오기
+  // openModal();
 });
 
 </script>
