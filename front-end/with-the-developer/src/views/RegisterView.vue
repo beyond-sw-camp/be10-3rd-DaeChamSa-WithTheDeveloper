@@ -3,6 +3,7 @@
 import NavigationBar from "@/components/NavigationBar.vue";
 import {computed, ref, watch} from "vue";
 import axios from "axios";
+import router from "@/router/index.js";
 
 // 아이디
 const id = ref('');
@@ -404,6 +405,7 @@ const register = () => {
     axios.post('/user/register', userDTO)
         .then(res => {
             if (res.status === 200){
+              router.push('/login');
               alert('회원가입 성공!');
             } else {
               alert('회원가입 실패');

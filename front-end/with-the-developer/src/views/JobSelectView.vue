@@ -52,6 +52,37 @@ const selectItem = (item) => {
   selectedItem.value = item;
   console.log(selectedItem.value)
 };
+
+// 항목 선택 완료
+const complete = () => {
+  alert(`${selectedItem.value.jobTagName} 선택 완료`);
+  localStorage.setItem('jobTag', JSON.stringify(selectedItem.value));
+  const savedDbti = JSON.parse(localStorage.getItem('dbti'));
+  console.log(selectedItem.value.jobTagCode);
+  console.log(savedDbti.dbtiCode);
+  const accessToken = localStorage.getItem('accessToken');
+  console.log(accessToken);
+  const prefixCreateDTO = {
+    dbtiCode: savedDbti.dbtiCode,
+    jobTagCode: selectedItem.value.jobTagCode
+  }
+  axios.post('/prefix', prefixCreateDTO, {
+    headers: {
+      Authorization: accessToken
+    }
+  })
+      .then(res => {
+        if (res.status === 200){
+          router.push('/prefix/result');
+        } else {
+          alert('수식어 생성 실패');
+          console.log('수식어 생성 실패');
+        }
+      })
+      .catch(error => {
+        console.error('수식어 생성중 오류 발생', error);
+      });
+}
 </script>
 
 <template>
@@ -64,7 +95,7 @@ const selectItem = (item) => {
         <button
             :class="{ selected: selectedItem === item }"
             @click="selectItem(item)">
-          {{ item.dbtiValue }}
+          {{ item.jobTagName }}
         </button>
       </div>
     </div>
@@ -77,7 +108,7 @@ const selectItem = (item) => {
 
     <!-- 선택시 완료 버튼 표시 -->
     <div v-if="selectedItem">
-      <button class="complete-button">선택</button>
+      <button class="complete-button" @click="complete">선택</button>
     </div>
   </div>
 </template>
@@ -88,17 +119,23 @@ const selectItem = (item) => {
 }
 
 .buttons-container {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
   justify-content: center;
   gap: 10px;
+  grid-template-columns: repeat(2, minmax(20%, auto));
+
 }
 
 button {
+  width: 150px;
   padding: 10px 20px;
   border: 1px solid #000;
   background-color: white;
   cursor: pointer;
+}
+.pagination button{
+  width: 100px;
+  margin: 15px;
 }
 
 button.selected {

@@ -22,7 +22,7 @@ public class DbtiInitializer {
         if (dbtiRepository.findAll().isEmpty()) {
 
             /* 백엔드 성향 저장 */
-            Dbti b1dbti = new Dbti("신뢰할 수 있는", DbtiRole.BACKEND);
+            Dbti b1dbti = new Dbti("신뢰받는", DbtiRole.BACKEND);
             dbtiRepository.save(b1dbti);
             Dbti b2dbti = new Dbti("효율적인", DbtiRole.BACKEND);
             dbtiRepository.save(b2dbti);
