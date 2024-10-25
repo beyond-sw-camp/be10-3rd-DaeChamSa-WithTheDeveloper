@@ -63,7 +63,7 @@ const fileList = ref([]);
 const router = useRouter();
 
 // admin 테스트 위한 토큰 하드코딩
-const adminToken = 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsInVzZXJDb2RlIjoxLCJhdXRoIjoiUk9MRV9BRE1JTiIsImV4cCI6MTcyOTg2NzQxNH0.olLCFTPcNxzWYwoRrq0gJ7tl3Q2eT-xbN6NL5tXlkJuVMfd0nE4VGP2VoPiFbwUpz0CSmTxhmw-yu7bfyZ80ow';
+const adminToken = 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsInVzZXJDb2RlIjoxLCJhdXRoIjoiUk9MRV9BRE1JTiIsImV4cCI6MTcyOTg3NjI2M30.R7V8Iz7q1xZggF0ZY6b8N_CRw1C715x5XpYKYJ6eIKNHXHfEXU2_1k1U5WymkqZ_bqpKYi63XzvuqmmVt4S4ng';
 
 // 이미지 업로드
 const handelFileUpload = (event) => {
