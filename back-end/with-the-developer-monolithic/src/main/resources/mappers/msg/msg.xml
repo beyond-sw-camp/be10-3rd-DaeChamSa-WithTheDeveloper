@@ -81,4 +81,20 @@
         AND b.del_status = false
         ORDER BY a.created_date DESC
     </select>
+    <select id="findAllIsReadResMsg"
+            parameterType="Long"
+            resultType="ResMsgResponseDTO">
+        SELECT
+        a.msg_code,
+        a.msg_content,
+        a.created_date,
+        b.is_read,
+        a.user_code
+        FROM req_msg a
+        JOIN res_msg b ON ( a.msg_code = b.msg_code )
+        WHERE b.user_code = #{userCode}
+        AND b.is_read = true
+        AND b.del_status = false
+        ORDER BY a.created_date DESC
+    </select>
 </mapper>

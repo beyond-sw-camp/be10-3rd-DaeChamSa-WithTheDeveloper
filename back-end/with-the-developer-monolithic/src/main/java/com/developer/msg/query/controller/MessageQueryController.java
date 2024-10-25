@@ -62,4 +62,12 @@ public class MessageQueryController {
 
         return ResponseEntity.ok(messageQueryService.findAllUnReadResMsg(loginUser));
     }
+
+    @GetMapping("/res/isRead")
+    @Operation(summary = "읽지 않은 쪽지 조회", description = "수신한 쪽지 중 읽지 않은 쪽지 목록을 조회합니다.")
+    public ResponseEntity<List<ResMsgResponseDTO>> findIsReadResMsg() {
+        Long loginUser = SecurityUtil.getCurrentUserCode();
+
+        return ResponseEntity.ok(messageQueryService.findAllIsReadResMsg(loginUser));
+    }
 }

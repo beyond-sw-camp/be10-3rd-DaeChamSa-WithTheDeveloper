@@ -1,8 +1,23 @@
 <script setup>
-import { reactive } from 'vue';
-
+import {onMounted, ref} from 'vue';
+import axios from "axios";
 import MypageSideBar from "@/components/MypageSideBar.vue";
 import router from "@/router/index.js";
+
+
+const msgList = ref([]);
+const fetchReqMsgList = async () => {
+  return (await axios.get('msg/res/isRead', {
+    headers: {
+      Authorization: `${localStorage.getItem('accessToken')}`,
+    }
+  })).data;
+}
+
+onMounted(async () => {
+      msgList.value = await fetchReqMsgList();
+    }
+)
 
 const moveToRes = () => {
   router.push('/mypage/resMsg');
@@ -31,15 +46,15 @@ const moveToRead = () => {
       </div>
       <article id = "info">
         <div id="tool_bar">
-          <input type="checkbox" class="checkbox" id="selectAll">
+          <input type="checkbox" id="selectAll">
           <p id="delete">삭제</p>
         </div>
         <hr>
-        <div class="resMsg">
-          <input type="checkbox">
-          <p>테스트 제목입니다. 테스트 제목입니다.</p>
-          <p>24.10.10</p>
-          <p>userId</p>
+        <div class="resMsg" v-for="msg in msgList">
+          <input type="checkbox" class="msg_checkbox" value="{{msg.msgCode}}">
+          <p class="msg_content">{{msg.msgContent}}</p>
+          <p class="msg_date">{{ msg.createdDate }}</p>
+          <p class="msg_id">{{ msg.userCode }}</p>
           <button class="send_button">답장</button>
         </div>
 
@@ -134,6 +149,9 @@ hr{
 .send_button:hover{
   border-color: #617CC2;
   color: #617CC2;
+}
+.msg_content{
+  width: 200px;
 }
 *,
 *::before,

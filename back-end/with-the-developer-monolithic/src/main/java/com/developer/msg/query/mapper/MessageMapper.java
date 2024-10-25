@@ -19,4 +19,6 @@ public interface MessageMapper {
     ResMsgResponseDTO findResMsgByMsgCodeAndUserCode(Map<String, Object> params);
 
     List<ResMsgResponseDTO> findAllUnReadResMsg(Long userCode);
+
+    List<ResMsgResponseDTO> findAllIsReadResMsg(Long userCode);
 }

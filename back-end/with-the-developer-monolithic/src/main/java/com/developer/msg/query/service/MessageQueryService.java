@@ -63,4 +63,8 @@ public class MessageQueryService {
     public List<ResMsgResponseDTO> findAllUnReadResMsg(Long userCode) {
         return messageMapper.findAllUnReadResMsg(userCode);
     }
+
+    public List<ResMsgResponseDTO> findAllIsReadResMsg(Long userCode) {
+        return messageMapper.findAllIsReadResMsg(userCode);
+    }
 }
