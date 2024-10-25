@@ -15,10 +15,10 @@ import PayComplete from "@/views/PayComplete.vue";
 import DbtiResultView from "@/views/DbtiResultView.vue";
 import GoodsList from "@/views/GoodsList.vue";
 import JobSelectView from "@/views/JobSelectView.vue";
-import CommunityBoardView from "@/views/CommunityBoardView.vue";
-import CommunityPostView from "@/views/CommunityPostView.vue";
-import CommunityCreateView from "@/views/CommunityCreateView.vue";
-import CommunityUpdateView from "@/views/CommunityUpdateView.vue";
+import CommunityBoardView from "@/views/community/CommunityBoardView.vue";
+import CommunityPostView from "@/views/community/CommunityPostView.vue";
+import CommunityCreateView from "@/views/community/CommunityCreateView.vue";
+import CommunityUpdateView from "@/views/community/CommunityUpdateView.vue";
 import PrefixResultView from "@/views/PrefixResultView.vue";
 
 const router = createRouter({
@@ -81,7 +81,7 @@ const router = createRouter({
         {
             path: '/goods',
             component: GoodsList
-        }
+        },
         // *** 관리자 페이지
         {
             path: '/admin/user/status',
