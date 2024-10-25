@@ -4,7 +4,7 @@ import RegisterView from "@/views/RegisterView.vue";
 import TosView from "@/views/TosView.vue";
 import LoginView from "@/views/LoginView.vue";
 import FindIdView from "@/views/FindIdView.vue";
-import MainPageBefore from "@/views/MainPageBefore.vue";
+import MainPageBefore from "@/views/main/MainPageBefore.vue";
 import Cart from "@/views/Cart.vue";
 import DbtiTestView from "@/views/DbtiTestView.vue";
 import AdminUser from "@/views/Admin-User.vue";
@@ -12,9 +12,6 @@ import AdminGoods from "@/views/AdminGoods.vue";
 import AdminTag from "@/views/Admin-Tag.vue";
 import PayFail from "@/views/PayFail.vue";
 import PayComplete from "@/views/PayComplete.vue";
-import MypageInfo from "@/views/MypageInfo.vue";
-import MypageResMsg from "@/views/MypageResMsg.vue";
-import MypageSendMsg from "@/views/MypageSendMsg.vue";
 import DbtiResultView from "@/views/DbtiResultView.vue";
 import GoodsList from "@/views/GoodsList.vue";
 import JobSelectView from "@/views/JobSelectView.vue";
@@ -23,12 +20,7 @@ import CommunityPostView from "@/views/CommunityPostView.vue";
 import CommunityCreateView from "@/views/CommunityCreateView.vue";
 import CommunityUpdateView from "@/views/CommunityUpdateView.vue";
 import PrefixResultView from "@/views/PrefixResultView.vue";
-import MypageReadMsg from "@/views/MypageReadMsg.vue";
-import MainPageAfter from "@/views/MainPageAfter.vue";
-import MypageBlock from "@/views/MypageBlock.vue";
-import MypageMsgDetail from "@/views/MypageResMsgDetail.vue";
-import MypageResMsgDetail from "@/views/MypageResMsgDetail.vue";
-import MypageReqMsgDetail from "@/views/MypageReqMsgDetail.vue";
+import MainPageAfter from "@/views/main/MainPageAfter.vue";
 
 const router = createRouter({
     history: createWebHistory(),
@@ -105,28 +97,6 @@ const router = createRouter({
             component: GoodsList
         },
         {
-            path: '/mypage/info',
-            name: 'profile',
-            component: MypageInfo
-        },
-        {
-            path: '/mypage/resMsg',
-            name: 'messages',
-            component: MypageResMsg
-        },
-        {
-            path: '/mypage/sendMsg',
-            component: MypageSendMsg
-        },
-        {
-            path: '/mypage/readMsg',
-            component: MypageReadMsg
-        },
-        {
-            path: '/mypage/block',
-            component: MypageBlock
-        },
-        {
             path: '/test',
             component: DbtiTestView // 성향 테스트
         },
@@ -142,18 +112,6 @@ const router = createRouter({
         {
             path: '/jop-tag',
             component: AdminTag,
-        },
-        {
-            path: '/mypage/resMsgDetail/:msgCode',
-            name: 'resMsgDetail',
-            component: MypageResMsgDetail,
-            props: true
-        },
-        {
-            path: '/mypage/reqMsgDetail/:msgCode',
-            name: 'reqMsgDetail',
-            component: MypageReqMsgDetail,
-            props: true
         },
         // *** 관리자
 

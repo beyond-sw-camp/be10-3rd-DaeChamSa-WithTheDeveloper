@@ -1,17 +1,13 @@
-<script>
+<script setup>
 import { ref, onMounted } from 'vue';
 import axios from 'axios';
 import { useRouter } from 'vue-router';
 import MypageSideBar from "@/components/MypageSideBar.vue";
 import MypageMsgMenu from "@/components/MypageMsgMenu.vue";
-import router from "@/router/index.js";
+import router from "@/router/myPageRouter.js";
 
-export default {
-  components: {MypageMsgMenu, MypageSideBar},
-  setup() {
     const msgList = ref([]);
     const selectedList = ref([]);
-    const router = useRouter();
 
     const fetchResMsgList = async () => {
       return (await axios.get('msg/res/unread', {
@@ -100,7 +96,7 @@ export default {
       }
     };
     const moveToDetail = (msgDetailCode) => {
-      router.push({ name : 'resMsgDetail' , params: { msgCode : msgDetailCode  } })
+      router.push({ name : 'resMsgDetail' , params: { msgCode : msgDetailCode } })
     };
     const modalState = ref(false);
     const targetUserId = ref({});
@@ -142,24 +138,24 @@ export default {
       }
     }
 
-    return {
-      msgList,
-      selectedList,
-      modalState,
-      targetUserId,
-      targetUserCode,
-      msgText,
-      toggleSelectAll,
-      moveToDetail,
-      confirmDeleteSelectedMessages,
-      confirmReadSelectedMessages,
-      openModal,
-      closeModal,
-      requestMsg,
-      confirmSendMsg
-    };
-  }
-}
+//     return {
+//       msgList,
+//       selectedList,
+//       modalState,
+//       targetUserId,
+//       targetUserCode,
+//       msgText,
+//       toggleSelectAll,
+//       moveToDetail,
+//       confirmDeleteSelectedMessages,
+//       confirmReadSelectedMessages,
+//       openModal,
+//       closeModal,
+//       requestMsg,
+//       confirmSendMsg
+//     };
+//   }
+// }
 
 </script>
 

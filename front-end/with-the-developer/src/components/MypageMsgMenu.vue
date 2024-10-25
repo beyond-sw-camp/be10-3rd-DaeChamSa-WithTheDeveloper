@@ -1,5 +1,5 @@
 <script setup>
-import router from "@/router/index.js";
+import router from "@/router/myPageRouter.js";
 
 const moveToRes = () => {
   router.push('/mypage/resMsg');

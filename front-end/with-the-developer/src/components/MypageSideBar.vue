@@ -20,14 +20,11 @@
   </div>
 </template>
 
-<script>
-export default {
-  methods: {
-    navigateTo(page) {
-      this.$router.push({ name: page });
-    }
-  }
-};
+<script setup>
+import myPageRouter from "@/router/myPageRouter.js";
+const navigateTo = (type) => {
+  myPageRouter.push(`/${type}`);
+}
 </script>
 
 <style scoped>

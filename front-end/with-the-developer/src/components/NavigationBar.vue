@@ -3,6 +3,8 @@
 import {computed, ref} from 'vue';
 import router from "@/router/index.js";
 import {useStore} from "vuex";
+import mainRouter from "@/router/MainRouter.js";
+import myPageRouter from "@/router/myPageRouter.js";
 
 const searchState = ref(false);
 
@@ -22,9 +24,15 @@ const moveToLogin = () => {
     router.push('/login');
   } else {
     store.dispatch('logout'); // 로그아웃 처리
-    router.push('/');
+    mainRouter.push('/');
   }
 };
+const moveToMain = (type) => {
+  mainRouter.push(`${type}`)
+}
+const moveToMyPage = () => {
+  myPageRouter.push('/mypage/info');
+}
 const moveTo = (type) => {
   router.push(`${type}`);
 }
@@ -34,12 +42,12 @@ const moveTo = (type) => {
 <template>
   <header>
     <div id="nav-left">
-      <img src="../assets/images/logo.png" alt="로고 이미지" id="logo-image" @click="moveTo('/')">
+      <img src="../assets/images/logo.png" alt="로고 이미지" id="logo-image" @click="moveToMain('/')">
       <ul class="nav-ul">
-        <li class="nav-menu" @click="moveTo('/main')">게시판</li>
-        <li class="nav-menu" @click="moveTo('/')">채용공고</li>
+        <li class="nav-menu" @click="moveToMain('/main')">게시판</li>
+        <li class="nav-menu" @click="moveToMain('/')">채용공고</li>
         <li class="nav-menu" @click="moveTo('/goods')">굿즈</li>
-        <li class="nav-menu" @click="moveTo('/mypage/info')">마이페이지</li>
+        <li class="nav-menu" @click="moveToMyPage">마이페이지</li>
       </ul>
     </div>
     <div id="nav-right">
