@@ -85,7 +85,7 @@ const requestMsg = async () => {
       msgContent : msgText.value
     },{
       headers: {
-        Authorization: `${localStorage.getItem('accessToken')}`,
+        Authorization: `${localStorage.getItem('accessToken')}`
       }
     });
     closeModal();

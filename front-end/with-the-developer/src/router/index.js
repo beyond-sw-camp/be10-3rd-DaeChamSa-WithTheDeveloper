@@ -32,6 +32,15 @@ import MypageReqMsgDetail from "@/views/MypageReqMsgDetail.vue";
 
 const router = createRouter({
     history: createWebHistory(),
+    scrollBehavior(to, from, savedPosition) {
+        // savedPosition이 있는 경우(예: 뒤로 가기), 해당 위치로 이동
+        if (savedPosition) {
+            return savedPosition;
+        } else {
+            // 새로운 페이지 이동 시 맨 위로 스크롤
+            return { top: 0 };
+        }
+    },
     routes: [
         {
             path: '/',
@@ -127,7 +136,7 @@ const router = createRouter({
             component: AdminUser,
         },
         {
-            path: '/goods',
+            path: '/admin/goods',
             component: AdminGoods,
         },
         {
