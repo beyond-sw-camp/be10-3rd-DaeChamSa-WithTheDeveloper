@@ -1,17 +1,8 @@
 <script setup>
-import router from "@/router/myPageRouter.js";
+import router from "@/router";
 
-const moveToRes = () => {
-  router.push('/mypage/resMsg');
-}
-const moveToSend = () => {
-  router.push('/mypage/sendMsg');
-}
-const moveToRead = () => {
-  router.push('/mypage/readMsg');
-}
-const moveToBlock = () => {
-  router.push('/mypage/block');
+const moveTo = (type) => {
+  router.push(`/mypage/${type}`)
 }
 </script>
 
@@ -19,10 +10,10 @@ const moveToBlock = () => {
   <div id="header">
     <h2>쪽지</h2>
     <ul>
-      <li><button class="header_button" id="res" @click="moveToRes">수신쪽지</button></li>
-      <li><button class="header_button" id="isRead" @click="moveToRead">읽은쪽지</button></li>
-      <li><button class="header_button" id="send" @click="moveToSend">발신쪽지</button></li>
-      <li><button class="header_button" id="block" @click="moveToBlock">차단관리</button></li>
+      <li><button class="header_button" id="res" @click="moveTo('resMsg')">수신쪽지</button></li>
+      <li><button class="header_button" id="isRead" @click="moveTo('readMsg')">읽은쪽지</button></li>
+      <li><button class="header_button" id="send" @click="moveTo('sendMsg')">발신쪽지</button></li>
+      <li><button class="header_button" id="block" @click="moveTo('block')">차단관리</button></li>
     </ul>
   </div>
 </template>

@@ -27,17 +27,20 @@ const moveToLogin = () => {
   }
 };
 
+const moveTo = (type) => {
+  router.push(`${type}`);
+}
 </script>
 
 <template>
   <header>
     <div id="nav-left">
-      <img src="../assets/images/logo.png" alt="로고 이미지" id="logo-image" @click="moveToMain('/')">
+      <img src="../assets/images/logo.png" alt="로고 이미지" id="logo-image" @click="moveTo('/')">
       <ul class="nav-ul">
-        <li class="nav-menu" @click="moveToMain('/main')">게시판</li>
-        <li class="nav-menu" @click="moveToMain('/')">채용공고</li>
+        <li class="nav-menu" @click="moveTo('/main')">게시판</li>
+        <li class="nav-menu" @click="moveTo('/')">채용공고</li>
         <li class="nav-menu" @click="moveTo('/goods')">굿즈</li>
-        <li class="nav-menu" @click="moveToMyPage">마이페이지</li>
+        <li class="nav-menu" @click="moveTo('/mypage/info')">마이페이지</li>
       </ul>
     </div>
     <div id="nav-right">

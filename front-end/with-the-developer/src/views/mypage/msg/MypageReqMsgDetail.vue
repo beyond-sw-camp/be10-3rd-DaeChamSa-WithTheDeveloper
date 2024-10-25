@@ -2,7 +2,7 @@
 import {onMounted, ref} from 'vue';
 import axios from "axios";
 import MypageSideBar from "@/components/MypageSideBar.vue";
-import route from "@/router/index.js"
+import router from "@/router"
 import {useRoute} from "vue-router";
 const msg = ref({});
 const userRoute = useRoute();

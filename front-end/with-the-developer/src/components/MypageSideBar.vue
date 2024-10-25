@@ -2,7 +2,7 @@
   <div class="sidebar">
     <ul class="sidebar-menu">
       <li>
-        <button @click="navigateTo('profile')">내 프로필</button>
+        <button @click="navigateTo('info')">내 프로필</button>
       </li>
       <li>
         <button @click="navigateTo('bookmark')">북마크</button>
@@ -11,7 +11,7 @@
         <button @click="navigateTo('posts')">내 게시글</button>
       </li>
       <li>
-        <button @click="navigateTo('messages')">쪽지</button>
+        <button @click="navigateTo('resMsg')">쪽지</button>
       </li>
       <li>
         <button @click="navigateTo('orders')">주문내역</button>
@@ -21,9 +21,9 @@
 </template>
 
 <script setup>
-import myPageRouter from "@/router/myPageRouter.js";
+import router from "@/router"
 const navigateTo = (type) => {
-  myPageRouter.push(`/${type}`);
+  router.push(`/mypage/${type}`);
 }
 </script>
 

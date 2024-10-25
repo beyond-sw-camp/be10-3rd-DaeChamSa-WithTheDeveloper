@@ -1,10 +1,9 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 import axios from 'axios';
-import { useRouter } from 'vue-router';
 import MypageSideBar from "@/components/MypageSideBar.vue";
 import MypageMsgMenu from "@/components/MypageMsgMenu.vue";
-import router from "@/router/myPageRouter.js";
+import router from "@/router";
 
     const msgList = ref([]);
     const selectedList = ref([]);

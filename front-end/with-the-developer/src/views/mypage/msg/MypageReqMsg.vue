@@ -2,7 +2,7 @@
 import {onMounted, ref} from 'vue';
 import axios from "axios";
 import MypageSideBar from "@/components/MypageSideBar.vue";
-import router from "@/router/index.js";
+import router from "@/router";
 import MypageMsgMenu from "@/components/MypageMsgMenu.vue";
 
 
