@@ -48,13 +48,18 @@ const login = () => {
           const refreshToken = res.headers['refresh-token']; // 대소문자 구분
           store.dispatch('login', accessToken); // Vuex 스토어에 로그인 처리
 
-          // 로컬스토리지에 토큰값들 저장
-          localStorage.setItem('accessToken', accessToken);
+          // 로컬스토리지에 토큰값 저장
           localStorage.setItem('refreshToken', refreshToken);
 
           // 로컬스토리지에 유저 권한 저장
           const userRole = parseJwt(accessToken).auth; // accessToken에서 auth 추출
+          const userCode = parseJwt(accessToken).userCode;
+          const userId = parseJwt(accessToken).sub;
+
           localStorage.setItem('userRole', userRole);
+          localStorage.setItem('userCode', userCode);
+          localStorage.setItem('userId', userId);
+
 
           console.log('액세스토큰 : ', accessToken);
           console.log('리프레시토큰 : ', refreshToken);

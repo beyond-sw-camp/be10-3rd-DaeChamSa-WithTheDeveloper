@@ -1,8 +1,7 @@
 <script setup>
-import { ref, computed } from 'vue';
+import {ref, computed, onMounted} from 'vue';
 import axios from 'axios';
-
-const props = defineProps(['result']); // result prop 수신
+import router from "@/router/index.js";
 
 // 통신을 통해 결과 배열을 가져옴
 const fetchedResults = ref([]);
@@ -10,15 +9,17 @@ const currentPage = ref(1);
 const itemsPerPage = 8; // 한 페이지에 표시할 아이템 수
 const selectedItem = ref([]); // 선택한 항목
 
-// 데이터 가져오기 (onMounted 사용 가능)
-axios.get(`/dbti/result/${props.result}`)
-    .then(res => {
-      console.log(res.data);
-      fetchedResults.value = res.data; // 통신을 통해 데이터 배열을 받음
-    })
-    .catch(error => {
-      console.error('결과 데이터를 가져오는 중 오류 발생:', error);
-    });
+// 데이터 가져오기
+onMounted(() => {
+  axios.get(`/job-tag`)
+      .then(res => {
+        console.log(res.data);
+        fetchedResults.value = res.data; // 통신을 통해 데이터 배열을 받음
+      })
+      .catch(error => {
+        console.error('결과 데이터를 가져오는 중 오류 발생:', error);
+      });
+})
 
 // 현재 페이지의 데이터를 계산
 const paginatedResults = computed(() => {
@@ -55,8 +56,8 @@ const selectItem = (item) => {
 
 <template>
   <div class="result-container">
-    <h2>성향 테스트 수식어 선택</h2>
-    <p>당신의 성향은 <strong>{{ result }}</strong>와 가깝습니다.</p>
+    <h2>현재 직무 선택</h2>
+    <p>현재 또는 희망하는 직무를 선택해주세요.</p>
 
     <div class="buttons-container">
       <div v-for="(item, index) in paginatedResults" :key="index">
