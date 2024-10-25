@@ -95,17 +95,22 @@ const complete = () => {
 }
 
 .buttons-container {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
   justify-content: center;
   gap: 10px;
+  grid-template-columns: repeat(2, minmax(20%, auto));
 }
 
 button {
+  width: 150px;
   padding: 10px 20px;
   border: 1px solid #000;
   background-color: white;
   cursor: pointer;
+}
+.pagination button{
+  width: 100px;
+  margin: 15px;
 }
 
 button.selected {

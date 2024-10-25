@@ -57,7 +57,31 @@ const selectItem = (item) => {
 const complete = () => {
   alert(`${selectedItem.value.jobTagName} 선택 완료`);
   localStorage.setItem('jobTag', JSON.stringify(selectedItem.value));
-
+  const savedDbti = JSON.parse(localStorage.getItem('dbti'));
+  console.log(selectedItem.value.jobTagCode);
+  console.log(savedDbti.dbtiCode);
+  const accessToken = localStorage.getItem('accessToken');
+  console.log(accessToken);
+  const prefixCreateDTO = {
+    dbtiCode: savedDbti.dbtiCode,
+    jobTagCode: selectedItem.value.jobTagCode
+  }
+  axios.post('/prefix', prefixCreateDTO, {
+    headers: {
+      Authorization: accessToken
+    }
+  })
+      .then(res => {
+        if (res.status === 200){
+          router.push('/prefix/result');
+        } else {
+          alert('수식어 생성 실패');
+          console.log('수식어 생성 실패');
+        }
+      })
+      .catch(error => {
+        console.error('수식어 생성중 오류 발생', error);
+      });
 }
 </script>
 
