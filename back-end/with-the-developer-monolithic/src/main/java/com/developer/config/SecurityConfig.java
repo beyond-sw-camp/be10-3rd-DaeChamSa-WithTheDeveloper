@@ -46,7 +46,7 @@ public class SecurityConfig {
                 //HTTP Basic 인증 방식 disable
                 .httpBasic(AbstractHttpConfigurer::disable)
 
-                        .headers((headers) -> headers
+                .headers((headers) -> headers
                         .frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin))
 
                 // JWT 사용을 위해 세션 사용 X (상태 유지 X)
