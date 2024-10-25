@@ -3,9 +3,10 @@ import { ref, onMounted } from 'vue';
 import axios from 'axios';
 import { useRouter } from 'vue-router';
 import MypageSideBar from "@/components/MypageSideBar.vue";
+import MypageMsgMenu from "@/components/MypageMsgMenu.vue";
 
 export default {
-  components: {MypageSideBar},
+  components: {MypageMsgMenu, MypageSideBar},
   setup() {
     const msgList = ref([]);
     const selectedList = ref([]);
@@ -22,16 +23,6 @@ export default {
     onMounted(async () => {
       msgList.value = await fetchResMsgList();
     });
-
-    const moveToRes = () => {
-      router.push('/mypage/resMsg');
-    }
-    const moveToSend = () => {
-      router.push('/mypage/sendMsg');
-    }
-    const moveToRead = () => {
-      router.push('/mypage/readMsg');
-    }
 
     // 전체 선택/해제 기능
     const toggleSelectAll = (event) => {
@@ -111,9 +102,6 @@ export default {
     return {
       msgList,
       selectedList,
-      moveToRes,
-      moveToSend,
-      moveToRead,
       toggleSelectAll,
       confirmDeleteSelectedMessages,
       confirmReadSelectedMessages
@@ -126,15 +114,7 @@ export default {
   <section>
     <MypageSideBar/>
     <div id="content">
-      <div id="header">
-        <h2>쪽지</h2>
-        <ul>
-          <li><button class="header_button" id="res" @click="moveToRes">수신쪽지</button></li>
-          <li><button class="header_button" id="isRead" @click="moveToRead">읽은쪽지</button></li>
-          <li><button class="header_button" id="send" @click="moveToSend">발신쪽지</button></li>
-          <li><button class="header_button" id="block">차단관리</button></li>
-        </ul>
-      </div>
+      <MypageMsgMenu/>
       <article id = "info">
         <div id="tool_bar">
           <input type="checkbox" id="selectAll" @change="toggleSelectAll($event)">
@@ -172,34 +152,6 @@ section{
   box-shadow: 1px 1px 1px 1px lightgray;
 }
 
-#header {
-  display: flex;
-  align-items: center;
-  margin-bottom: 0;
-}
-
-ul {
-  list-style: none;
-  display: flex;
-}
-li {
-  margin-right: 20px;
-}
-.header_button{
-  font-family: "Neo둥근모 Pro";
-  width: 90px;
-  height: 30px;
-  border: 1px solid lightgray;
-  border-radius: 15px;
-}
-.header_button:hover{
-  border-color: #617CC2;
-  color: #617CC2;
-}
-#res{
-  border-color: #617CC2;
-  color: #617CC2;
-}
 #tool_bar{
   display: flex;
   padding-left: 10px;

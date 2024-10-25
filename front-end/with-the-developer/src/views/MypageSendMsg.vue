@@ -3,6 +3,7 @@ import {onMounted, ref} from 'vue';
 import axios from "axios";
 import MypageSideBar from "@/components/MypageSideBar.vue";
 import router from "@/router/index.js";
+import MypageMsgMenu from "@/components/MypageMsgMenu.vue";
 
 
 const msgList = ref([]);
@@ -64,31 +65,13 @@ const deleteSelectedMessages = async () => {
 };
 
 
-const moveToRes = () => {
-  router.push('/mypage/resMsg');
-}
-const moveToSend = () => {
-  router.push('/mypage/sendMsg');
-}
-const moveToRead = () => {
-  router.push('/mypage/readMsg');
-}
-
 </script>
 
 <template>
   <section>
     <MypageSideBar/>
     <div id="content">
-      <div id="header">
-        <h2>쪽지</h2>
-        <ul>
-          <li><button class="header_button" id="res" @click="moveToRes">수신쪽지</button></li>
-          <li><button class="header_button" id="isRead" @click="moveToRead">읽은쪽지</button></li>
-          <li><button class="header_button" id="send" @click="moveToSend">발신쪽지</button></li>
-          <li><button class="header_button" id="block">차단관리</button></li>
-        </ul>
-      </div>
+      <MypageMsgMenu/>
       <article id = "info">
         <div id="tool_bar">
           <input type="checkbox" id="selectAll" @change="toggleSelectAll($event)">
@@ -124,34 +107,6 @@ section{
   box-shadow: 1px 1px 1px 1px lightgray;
 }
 
-#header {
-  display: flex;
-  align-items: center;
-  margin-bottom: 0;
-}
-
-ul {
-  list-style: none;
-  display: flex;
-}
-li {
-  margin-right: 20px;
-}
-.header_button{
-  font-family: "Neo둥근모 Pro";
-  width: 90px;
-  height: 30px;
-  border: 1px solid lightgray;
-  border-radius: 15px;
-}
-.header_button:hover{
-  border-color: #617CC2;
-  color: #617CC2;
-}
-#send{
-  border-color: #617CC2;
-  color: #617CC2;
-}
 #tool_bar{
   display: flex;
   padding-left: 10px;
@@ -180,19 +135,6 @@ hr {
 }
 [type="checkbox"]{
   width: 17px;
-}
-.send_button{
-  font-family: "Neo둥근모 Pro";
-  width: 50px;
-  height: 20px;
-  margin-top: 10px;
-  margin-left: 10px;
-  border: 1px solid lightgray;
-  border-radius: 15px;
-}
-.send_button:hover{
-  border-color: #617CC2;
-  color: #617CC2;
 }
 .msg_content{
   width: 200px;

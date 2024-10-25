@@ -18,6 +18,7 @@ import MypageSendMsg from "@/views/MypageSendMsg.vue";
 import DbtiResultView from "@/views/DbtiResultView.vue";
 import MypageReadMsg from "@/views/MypageReadMsg.vue";
 import MainPageAfter from "@/views/MainPageAfter.vue";
+import MypageBlock from "@/views/MypageBlock.vue";
 
 const router = createRouter({
     history: createWebHistory(),
@@ -91,6 +92,10 @@ const router = createRouter({
         {
             path: '/mypage/readMsg',
             component: MypageReadMsg
+        },
+        {
+            path: '/mypage/block',
+            component: MypageBlock
         },
         {
             path: '/test',
