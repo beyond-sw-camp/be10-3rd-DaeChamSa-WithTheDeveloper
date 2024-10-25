@@ -7,7 +7,7 @@ import { usePagination } from "@/components/Pagination.js";
 const products = reactive([]);
 const itemsPerPage = 12; // 한페이지에 12개
 
-const { currentPage, totalPage, paginatedItems, setPage } = usePagination(products, itemsPerPage);
+const { currentPage, totalPage, paginatedItems, setPage, setTotalPage } = usePagination(products, itemsPerPage);
 
 // 굿즈 목록을 가져오기
 const fetchGoodsList = async (page = 1) => {
@@ -15,7 +15,7 @@ const fetchGoodsList = async (page = 1) => {
     const response = await axios.get(`http://localhost:8080/public/goods?page=${page}`);
     const goodsList = response.data;
 
-   // products.length = 0; // 기존 내용을 초기화
+   products.length = 0; // 기존 내용을 초기화
     goodsList.forEach(goods => {
       products.push({
         goodsCode: goods.goodsCode,
@@ -27,6 +27,7 @@ const fetchGoodsList = async (page = 1) => {
 
     // 총 페이지 수 업데이트
     const totalCount = parseInt(response.headers['totalCount'], 10) || 0; // parseInt로 변환
+    setTotalPage(Math.ceil(totalCount/itemsPerPage));
   } catch (error) {
     console.error("굿즈 목록을 불러오는 중 에러가 발생했습니다.", error);
   }
@@ -49,13 +50,17 @@ watch(currentPage, (newPage) => {
     <div>총 {{ products.length }}건</div>
     <div id="goods_list_box">
       <div v-for="goods in paginatedItems" :key="goods.goodsCode" class="goods">
-        <img :src="goods.images[0]?.url">
-        <div>
-          <div class="goods_title">{{ goods.goodsTitle}}</div>
-          <div class="goods_price">{{ goods.goodsPrice}}원</div>
-        </div>
+        <router-link :to="`/goods/${goods.goodsCode}`">
+          <img :src="goods.images[0]?.url">
+          <div>
+            <div class="goods_title">{{ goods.goodsTitle }}</div>
+            <div class="goods_price">{{ goods.goodsPrice }}원</div>
+          </div>
+        </router-link>
       </div>
+
     </div>
+
   </div>
   <!--  페이징 -->
   <div class="pagination">
@@ -114,4 +119,10 @@ img {
   font-weight: bold;
   color: #1b5ac2;
 }
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
 </style>
