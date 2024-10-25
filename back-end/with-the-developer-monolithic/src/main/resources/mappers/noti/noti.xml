@@ -7,13 +7,13 @@
             parameterType="Long"
             resultType="com.developer.noti.query.dto.ResponseNotiDTO">
         SELECT noti_code,
-                noti_title,
-                noti_read,
-                noti_url,
-                noti_create_date
+        noti_title,
+        noti_read,
+        noti_url,
+        noti_create_date
         FROM noti
-        WHERE user_code = #{ userCode }
-        AND noit_del_status = false
+        WHERE user_code = #{userCode}
+        AND noti_del_status = false
         ORDER BY noti_create_date DESC
     </select>
 
@@ -25,7 +25,7 @@
         noti_read,
         noti_url,
         noti_create_date,
-        noit_del_status
+        noti_del_status
         FROM noti
         WHERE user_code = #{ userCode }
         ORDER BY noti_create_date DESC
@@ -41,7 +41,7 @@
         noti_create_date
         FROM noti
         WHERE user_code = #{ userCode }
-        AND noit_del_status = false
+        AND noti_del_status = false
         AND noti_read = true
         ORDER BY noti_create_date DESC
     </select>
@@ -56,7 +56,7 @@
         noti_create_date
         FROM noti
         WHERE user_code = #{ userCode }
-        AND noit_del_status = false
+        AND noti_del_status = false
         AND noti_read = false
         ORDER BY noti_create_date DESC
     </select>

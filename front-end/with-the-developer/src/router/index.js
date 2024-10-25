@@ -1,60 +1,103 @@
-import {createRouter, createWebHashHistory, createWebHistory} from "vue-router";
+import {createRouter, createWebHistory} from "vue-router";
 import SearchResults from "@/views/SearchResults.vue";
-import RegisterView from "@/views/RegisterView.vue";
-import TosView from "@/views/TosView.vue";
-import LoginView from "@/views/LoginView.vue";
-import FindIdView from "@/views/FindIdView.vue";
-import DbtiTestView from "@/views/DbtiTestView.vue";
 import MainPageBefore from "@/views/MainPageBefore.vue";
-import MainPageAfter from "@/views/MainPageAfter.vue";
-import MypageProfile from "@/views/MypageProfile.vue";
-import MypageBookmark from "@/views/MypageBookmark.vue";
+import Cart from "@/views/Cart.vue";
+import AdminUser from "@/views/Admin-User.vue";
+import AdminGoods from "@/views/AdminGoods.vue";
+import AdminTag from "@/views/Admin-Tag.vue";
+import PayFail from "@/views/PayFail.vue";
+import PayComplete from "@/views/PayComplete.vue";
+import PrefixRouter from "@/router/PrefixRouter.js";
+import UserRouter from "@/router/UserRouter.js";
+import GoodsList from "@/views/GoodsList.vue";
+import CommunityBoardView from "@/views/CommunityBoardView.vue";
+import CommunityPostView from "@/views/CommunityPostView.vue";
+import CommunityCreateView from "@/views/CommunityCreateView.vue";
+import CommunityUpdateView from "@/views/CommunityUpdateView.vue";
 
-const router = createRouter({
-    history: createWebHistory(),
-    routes: [
+const routes = [
+        {
+            path: '/',
+            component: MainPageBefore
+        },
         {
             path: '/search',
             component: SearchResults // 검색 결과 페이지
         },
         {
-            path: '/register/tos',
-            component: TosView  // 약관동의 페이지
+            path: '/cart-goods',
+            component: Cart  // 장바구니
         },
         {
-            path: '/register',
-            component: RegisterView // 회원가입 페이지
+            path: '/payment/fail',
+            component: PayFail
         },
         {
-            path: '/login',
-            component: LoginView    // 로그인 페이지
+            path: '/payment/complete',
+            component: PayComplete
         },
         {
-            path: '/find-id',
-            component: FindIdView   // 아이디 찾기
+            path: '/goods',
+            component: GoodsList
+        },
+        // *** 관리자 페이지
+        {
+            path: '/admin/user/status',
+            component: AdminUser,
         },
         {
-            path:'/',
-            component: MainPageBefore // 메인페이지(로그인 전)
+            path: '/goods',
+            component: AdminGoods,
         },
         {
-            path:'/main',
-            component: MainPageAfter // 메인페이지(로그인 후)
+            path: '/jop-tag',
+            component: AdminTag,
+        },
+        // *** 관리자
+
+        // *** 커뮤니티
+        {
+            path: '/community', // 게시판 목록 페이지
+            name: 'communityList',
+            component: CommunityBoardView
         },
         {
-            path:'/mypage/profile',
-            component: MypageProfile // 메인페이지(로그인 후)
-        }
-        ,
-        {
-            path:'/mypage/bookmark',
-            component: MypageBookmark // 메인페이지(로그인 후)
+            path: '/community/:id', // 게시글 상세 페이지
+            name: 'CommunityPostDetail',
+            component: CommunityPostView,
+            props: true, // URL 파라미터를 props로 전달
         },
         {
-            path: '/test',
-            component: DbtiTestView // 성향 테스트
-        }
-    ]
+            path: '/community/create',
+            name: 'communityPostCreate',
+            component: CommunityCreateView
+        },
+        {
+            path: '/community/update/:comuCode',
+            name: 'communityPostUpdate',
+            component: CommunityUpdateView
+        },
+        // 성향 라우터
+        ...PrefixRouter,
+
+        // 유저 라우터
+        ...UserRouter,
+];
+
+const router = createRouter({
+    history: createWebHistory(),
+    routes,
+});
+
+// 페이지 이동 전에 실행되는 가드
+router.beforeEach((to, from, next) => {
+    const allowedPages = ['/prefix/result', '/prefix/job-tag']; // `dbti`와 `jobTag`가 필요한 페이지 목록
+    if (!allowedPages.includes(to.path)) {
+        // 페이지가 허용되지 않은 경우 localStorage에서 항목 삭제
+        localStorage.removeItem('dbti');
+        localStorage.removeItem('jobTag');
+    }
+    next(); // 페이지 이동 허용
 });
 
 export default router;

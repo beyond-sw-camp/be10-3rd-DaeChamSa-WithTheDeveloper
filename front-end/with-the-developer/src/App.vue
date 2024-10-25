@@ -2,14 +2,13 @@
 
 import Footer from "@/components/Footer.vue";
 import NavigationBar from "@/components/NavigationBar.vue";
-import DbtiTestView from "@/views/DbtiTestView.vue";
+import SearchBar from "@/components/SearchBar.vue";
 </script>
 
 <template>
+  <SearchBar/>
   <NavigationBar/>
   <main class="main">
-    <DbtiTestView/>
-    <router-view/> <!--테스트-->
     <RouterView/>
   </main>
 
@@ -25,6 +24,14 @@ import DbtiTestView from "@/views/DbtiTestView.vue";
   }
   footer{
     margin-top: 10vh;
+  }
+  .admin-layout{
+    display: flex;
+  }
+  .main{
+    flex-grow: 1;
+    padding: 20px;
+    background: white;
   }
 
 </style>

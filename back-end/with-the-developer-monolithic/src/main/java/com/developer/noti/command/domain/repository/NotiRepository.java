@@ -2,6 +2,7 @@ package com.developer.noti.command.domain.repository;
 
 import com.developer.noti.command.domain.aggregate.Noti;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface NotiRepository {
@@ -9,4 +10,6 @@ public interface NotiRepository {
     Noti save(Noti noti);
 
     Optional<Noti> findByNotiCodeAndUserCode(Long notiCode, Long userCode);
+
+    Optional<Noti> findByNotiCode(Long notiCode);
 }

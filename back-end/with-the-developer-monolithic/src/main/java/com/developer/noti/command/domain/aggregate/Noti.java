@@ -31,7 +31,7 @@ public class Noti {
     @Column(name = "noti_create_date", nullable = false)
     private LocalDateTime notiCreateDate;   // 생성날짜
 
-    @Column(name = "noit_del_status", nullable = false)
+    @Column(name = "noti_del_status", nullable = false)
     @ColumnDefault("false")
     private boolean notiDelStatus;      // 삭제 유무
 

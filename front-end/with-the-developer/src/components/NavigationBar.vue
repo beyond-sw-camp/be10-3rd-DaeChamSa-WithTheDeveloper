@@ -1,67 +1,60 @@
 <script setup>
 
 import {computed, ref} from 'vue';
-import router from "@/router/index.js";
-import SearchBar from "@/components/SearchBar.vue";
+import router from "@/router";
+import {useStore} from "vuex";
+import NotiModal from "@/components/NotiModal.vue";
 
-  const searchState = ref(false);
-
-  // accessToken 여부에 따라 로그인, 로그아웃 변경
-  const accessToken = ref(localStorage.getItem('accessToken'));
-  const isLoggedIn = computed(() => !!accessToken.value);
+const searchState = ref(false);
 
   function switchSearch() {
     searchState.value = !searchState.value;
   }
 
-  // 메인 화면(로그인 전)으로
-  const moveToMainBefore = () => {
-    router.push('/')
-  }
-  // 메인 화면(로그인 후/게시판)으로
+  // 상태관리
+const store = useStore();
 
-  const moveToMainAfter = () => {
-    router.push('/main')
-  }
+  // 로그인 유무
+const isLoggedIn = computed(() => store.getters.isLoggedIn);
 
-  // 로그인창으로
-  const moveToLogin = () => {
+// 로그인
+const moveToLogin = () => {
+  if (!isLoggedIn.value) {
     router.push('/login');
+  } else {
+    store.dispatch('logout'); // 로그아웃 처리
+    router.push('/');
   }
-  // 마이페이지로
-  const moveToMypage = () => {
-    router.push('/mypage/profile');
-  }
+};
 
-  // 로그아웃 (토큰 삭제)
-  const logout = () => {
-    localStorage.removeItem('accessToken');
-    localStorage.removeItem('refreshToken');
-    accessToken.value = null;
-    console.log('로그아웃');
-    alert('로그아웃 성공');
-  }
+
+// 모달 상태 관리
+const showModal = ref(false);
+
+function toggleModal() {
+  showModal.value = !showModal.value;
+}
 
 </script>
 
 <template>
   <header>
     <div id="nav-left">
-      <img @click="moveToMainBefore" src="../assets/images/logo.png" alt="로고 이미지" id="logo-image">
+      <img src="../assets/images/logo.png" alt="로고 이미지" id="logo-image">
       <ul class="nav-ul">
-        <li class="nav-menu" @click="moveToMainAfter">게시판</li>
-        <li class="nav-menu">채용공고</li>
-        <li class="nav-menu">굿즈</li>
-        <li class="nav-menu" @click="moveToMypage">마이페이지</li>
+        <li class="nav-menu"><a>게시판</a></li>
+        <li class="nav-menu"><a>채용공고</a></li>
+        <li class="nav-menu"><a>굿즈</a></li>
+        <li class="nav-menu"><a>마이페이지</a></li>
       </ul>
     </div>
     <div id="nav-right">
       <ul class="nav-ul">
         <li class="nav-menu">
-          <span v-if="!isLoggedIn" @click="moveToLogin">로그인</span>
-          <span v-else @click="logout">로그아웃</span>
+          <span @click="moveToLogin">{{ isLoggedIn ? '로그아웃' : '로그인' }}</span>
         </li>
-        <li class="nav-menu"><a id="login"><img src="https://img.icons8.com/?size=100&id=eMfeVHKyTnkc&format=png&color=000000" alt="alarm" class="nav-img"></a></li>
+        <li class="nav-menu"><a id="login" @click="toggleModal">
+          <img src="https://img.icons8.com/?size=100&id=eMfeVHKyTnkc&format=png&color=000000" alt="alarm" class="nav-img"></a></li>
         <li class="nav-menu"><a id="login"><img src="https://img.icons8.com/?size=100&id=zhda2EVBCvHY&format=png&color=000000" alt="cart" class="nav-img"></a></li>
         <li class="nav-menu">
           <a id="login">
@@ -71,8 +64,13 @@ import SearchBar from "@/components/SearchBar.vue";
       </ul>
     </div>
   </header>
+  <form id="search-input"  v-if="searchState">
+    <input type="text" placeholder="검색어 입력">
+    <button type="submit">검색</button>
+  </form>
 
-  <SearchBar id="search-input"  v-if="searchState"/>
+  <!-- 알림 모달 추가 -->
+  <NotiModal :showModal="showModal" @close="toggleModal" />
 
 </template>
 
@@ -96,7 +94,6 @@ header{
   margin-left: 30px;
   cursor: pointer;
 }
-
 .nav-ul{
   list-style: none;
   display: flex;
@@ -133,10 +130,30 @@ header{
   top: -10px;
 }
 #search-input{
+  height: 40px;
+  width: 320px;
+  border: 1px solid #1b5ac2;
+  padding: 0;
   position: absolute;
-  right: 10%;
+  right: 40%;
+  top: 8%;
 }
-
+input{
+  font-size: 16px;
+  width: 250px;
+  padding: 10px;
+  border: 0;
+  outline: none;
+  float: left;
+}
+button{
+  width: 50px;
+  height: 100%;
+  border: 0;
+  background-color: #1b5ac2;
+  float: left;
+  color: white;
+}
 
 
 </style>
