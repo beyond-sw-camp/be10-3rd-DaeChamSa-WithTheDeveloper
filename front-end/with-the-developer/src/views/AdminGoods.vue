@@ -1,9 +1,9 @@
 <script setup>
-import {computed, onMounted, reactive, ref} from "vue";
+import {onMounted, ref} from "vue";
 import AdminGoodsRegister from "@/views/Admin-GoodsRegister.vue";
 import axios from "axios";
 import Modal from "@/components/Modal.vue"; // 모달창
-import { useRouter } from "vue-router"; // 페이징
+import {useRouter} from "vue-router"; // 페이징
 
 const router = useRouter();
 
@@ -13,7 +13,7 @@ const openModal = () => showModal.value = true;
 const closeModal = () => showModal.value = false;
 
 // admin 테스트 위한 토큰 하드코딩
-const adminToken = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsInVzZXJDb2RlIjoxLCJhdXRoIjoiUk9MRV9BRE1JTiIsImV4cCI6MTcyOTgzMzYzNn0.Zk_Z_GvUoSl3U-HesPluY_YQGpHb0X57bfr-KIU8rcFGuJi9bF6zNTUbpNVs_NymFOc35hdAF_H6RoMkIfsABw";
+const adminToken = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsInVzZXJDb2RlIjoxLCJhdXRoIjoiUk9MRV9BRE1JTiIsImV4cCI6MTcyOTg2MjEzMn0.-LZ1AdnMq9ydyqGTFV0WZzCs2LzXBVRPGN9525Rlbh2St9Wz6uX2NiTJmUfMoRLnImopF-s08srKdktyimV38g";
 
 // 서버에서 가져온 굿즈 데이터
 const products = ref([]);
@@ -35,34 +35,23 @@ const loginUser = async () => {
   }
 };
 
-// 굿즈 등록
-async function registGoods(goodsCreateDTO, images) {
-  const formData = new FormData();
-  // goodsCreateDTO 객체를 FormData로 반환
-  formData.append('goodsCreateDTO', new Blob([JSON.stringify(goodsCreateDTO)], { type: "application/json" }));
 
-  // 이미지 여러개일 경우
-  if (images && images.length > 0) {
-    images.forEach((image) => {
-      formData.append('images', image);
-    });
-  }
 
-  try {
-    const response = await axios.post('http://localhost:8080/goods', formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-        'Authorization': localStorage.getItem('jwtToken')
-      }
-    });
-    console.log("굿즈 등록 성공: ", response);
-  } catch (error) {
-    console.log("굿즈 등록 실패:", error);
-    if (error.response.status === 403) {
-      console.error("권한이 없습니다. 관리자가 아닙니다.");
+// 굿즈 삭제
+const deleteGoods = async () => {
+  const deleteCheck = confirm("상품을 삭제하시겠습니까?");
+  if (deleteCheck) {
+    try {
+      await axios.delete(`http://localhost:8080/goods/${goodsCode}`);
+      alert("상품이 삭제되었습니다.");
+      router.push('/goods');
+    } catch (error) {
+      console.log("상품 삭제 중 오류 발생", error);
+      alert("상품 삭제 실패")
     }
   }
-}
+};
+
 
 // 굿즈 목록 조회, 갱신
 const fetchGoods = async (page = 1) => {
@@ -74,44 +63,30 @@ const fetchGoods = async (page = 1) => {
     });
     products.value = response.data;
 
-    // 총 페이지 수 계산
-  //   totalPage.value = Math.ceil(['totalcount'] / 10);
+
   } catch (error) {
     console.log("굿즈 목록 불러오기 실패", error);
     products.splice(0, products.length);
 
-
-
-    /*for (const goods of productList) {
-      const goodsInfo = await axios.get(`http://localhost:8080/public/goods/${goods.goodsCode}`);
-
-      if (goodsInfo) {
-        products.push({
-          goodsCode: goodsInfo.data.goodsCode,
-          goodsName: goodsInfo.data.goodsName,
-          goodsContent: goodsInfo.data.goodsContent,
-          goodsStatus: goodsInfo.data.goodsStatus,
-          goodsPrice: goodsInfo.data.goodsPrice,
-          images: goodsInfo.data.images || [], // 이미지가 없을 경우 빈 배열
-        });
-      }
-    }*/
-
-
   }
 };
 
-// 페이지 처리 함수
-const setPage = (page) => {
-  currentPage.value = page;
-  fetchGoods(page);
-};
+// // 페이지 처리 함수
+// const setPage = (page) => {
+//   currentPage.value = page;
+//   fetchGoods(page);
+// };
 
 // 페이지 로드 시 굿즈 목록 가져오기
 onMounted(() => {
   loginUser(); // 로그인 후 굿즈 목록 가져오기
-  // openModal();
 });
+
+// 굿즈 등록 완료 시 호출되는 함수
+const handleGoodsRegistered = () => {
+  closeModal();
+  fetchGoods(); // 등록 후 목록 갱신
+};
 
 </script>
 
@@ -120,14 +95,23 @@ onMounted(() => {
     <div class="header">
       <span>총 {{ products.length }}건</span>
       <button class="register-button" @click="openModal">등록하기</button>
+<!--      <AdminGoodsRegister v-if="openModal" @cancel="closeModal">-->
+<!--        <div v-for="goods in goodsList" :key="goods.code" class="goods-item">-->
+<!--          <p>{{ goods.name }}</p>-->
+<!--          <p>{{ goods.price }}원</p>-->
+<!--          <p>{{ goods.status }}</p>-->
+<!--        </div>-->
+<!--      </AdminGoodsRegister>-->
     </div>
 
     <div class="admin-goods-content">
       <table>
         <thead>
         <tr>
-          <th><input type="checkbox" /></th>
-          <th><button class="delete-button">삭제</button></th>
+          <th><input type="checkbox"/></th>
+          <th>
+            <button class="delete-button" @click="deleteGoods">삭제</button>
+          </th>
           <th>이름</th>
           <th>가격</th>
           <th>상태</th>
@@ -139,8 +123,8 @@ onMounted(() => {
           <td colspan="6">데이터가 없습니다.</td>
         </tr>
         <tr v-for="product in products" :key="product.goodsCode">
-          <td><input type="checkbox" /></td>
-          <td><img :src="product.images[0] || 'default-image-path.png'" alt="product image" /></td>
+          <td><input type="checkbox"/></td>
+          <td><img :src="product.images[0] || 'default-image-path.png'" alt="product image"/></td>
           <td>
             <a @click.prevent="viewProductDetail(product.goodsCode)" class="name-click">{{ product.goodsName }}</a>
           </td>
@@ -157,13 +141,13 @@ onMounted(() => {
 
   <!-- 등록페이지 열기 위한 모달창 -->
   <Modal :show="showModal" @close="closeModal">
-    <AdminGoodsRegister @cancel="closeModal" />
+    <AdminGoodsRegister @cancel="closeModal"/>
   </Modal>
 
   <!-- 페이지 -->
-  <div class="pagination">
-    <span v-for="page in totalPage" :key="page" @click="setPage(page)" :class="{ active: currentPage === page }">{{ page }}</span>
-  </div>
+  <!--  <div class="pagination">-->
+  <!--    <span v-for="page in totalPage" :key="page" @click="setPage(page)" :class="{ active: currentPage === page }">{{ page }}</span>-->
+  <!--  </div>-->
 
 </template>
 
@@ -263,4 +247,5 @@ img {
   font-weight: bold;
   color: #1b5ac2;
 }
+
 </style>
