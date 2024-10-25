@@ -6,8 +6,8 @@ import NavigationBar from "@/components/NavigationBar.vue";
 </script>
 
 <template>
-  <NavigationBar/>
   <main class="main">
+    <NavigationBar/>
     <RouterView/>
   </main>
 
