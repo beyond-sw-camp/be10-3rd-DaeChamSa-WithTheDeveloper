@@ -6,16 +6,18 @@
     <select id="selectComuCmtByPostCode"
             resultType="com.developer.comu.comment.query.dto.ComuCmtDTO">
         SELECT
-            comu_cmt_code,
-            comu_cmt_content,
-            created_date,
-            modified_date,
-            comu_code,
-            user_code
-        FROM comu_cmt
+            c.comu_cmt_code,
+            c.comu_cmt_content,
+            c.created_date,
+            c.modified_date,
+            c.comu_code,
+            c.user_code,
+            u.user_nick
+        FROM comu_cmt c
+        JOIN user u ON (c.user_code = u.user_code)
         WHERE comu_code = #{comuPostCode}
         AND del_status = false
-        ORDER BY created_date DESC
+        ORDER BY created_date
         LIMIT #{limit} OFFSET #{offset}
     </select>
 

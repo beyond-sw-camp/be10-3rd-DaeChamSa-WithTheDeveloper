@@ -9,49 +9,80 @@ import PayFail from "@/views/PayFail.vue";
 import PayComplete from "@/views/PayComplete.vue";
 import PrefixRouter from "@/router/PrefixRouter.js";
 import UserRouter from "@/router/UserRouter.js";
+import GoodsList from "@/views/GoodsList.vue";
+import CommunityBoardView from "@/views/CommunityBoardView.vue";
+import CommunityPostView from "@/views/CommunityPostView.vue";
+import CommunityCreateView from "@/views/CommunityCreateView.vue";
+import CommunityUpdateView from "@/views/CommunityUpdateView.vue";
 
 const routes = [
-    {
-        path: '/',
-        component: MainPageBefore
-    },
-    {
-        path: '/search',
-        component: SearchResults // 검색 결과 페이지
-    },
-    {
-        path: '/cart-goods',
-        component: Cart  // 장바구니
-    },
-    {
-        path: '/payment/fail',
-        component: PayFail
-    },
-    {
-        path: '/payment/complete',
-        component: PayComplete
-    },
-    // *** 관리자 페이지
-    {
-        path: '/admin/user/status',
-        component: AdminUser,
-    },
-    {
-        path: '/goods',
-        component: AdminGoods,
-    },
-    {
-        path: '/jop-tag',
-        component: AdminTag,
-    },
-    // *** 관리자
+        {
+            path: '/',
+            component: MainPageBefore
+        },
+        {
+            path: '/search',
+            component: SearchResults // 검색 결과 페이지
+        },
+        {
+            path: '/cart-goods',
+            component: Cart  // 장바구니
+        },
+        {
+            path: '/payment/fail',
+            component: PayFail
+        },
+        {
+            path: '/payment/complete',
+            component: PayComplete
+        },
+        {
+            path: '/goods',
+            component: GoodsList
+        },
+        // *** 관리자 페이지
+        {
+            path: '/admin/user/status',
+            component: AdminUser,
+        },
+        {
+            path: '/goods',
+            component: AdminGoods,
+        },
+        {
+            path: '/jop-tag',
+            component: AdminTag,
+        },
+        // *** 관리자
 
-    // 성향 라우터
-    ...PrefixRouter,
-    
-    // 유저 라우터
-    ...UserRouter,
-]
+        // *** 커뮤니티
+        {
+            path: '/community', // 게시판 목록 페이지
+            name: 'communityList',
+            component: CommunityBoardView
+        },
+        {
+            path: '/community/:id', // 게시글 상세 페이지
+            name: 'CommunityPostDetail',
+            component: CommunityPostView,
+            props: true, // URL 파라미터를 props로 전달
+        },
+        {
+            path: '/community/create',
+            name: 'communityPostCreate',
+            component: CommunityCreateView
+        },
+        {
+            path: '/community/update/:comuCode',
+            name: 'communityPostUpdate',
+            component: CommunityUpdateView
+        },
+        // 성향 라우터
+        ...PrefixRouter,
+
+        // 유저 라우터
+        ...UserRouter,
+];
 
 const router = createRouter({
     history: createWebHistory(),
