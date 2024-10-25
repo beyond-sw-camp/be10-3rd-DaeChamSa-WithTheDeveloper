@@ -13,14 +13,13 @@ import AdminTag from "@/views/Admin-Tag.vue";
 import PayFail from "@/views/PayFail.vue";
 import PayComplete from "@/views/PayComplete.vue";
 import DbtiResultView from "@/views/DbtiResultView.vue";
+import GoodsList from "@/views/GoodsList.vue";
 import JobSelectView from "@/views/JobSelectView.vue";
 import CommunityBoardView from "@/views/CommunityBoardView.vue";
 import CommunityPostView from "@/views/CommunityPostView.vue";
 import CommunityCreateView from "@/views/CommunityCreateView.vue";
 import CommunityUpdateView from "@/views/CommunityUpdateView.vue";
 import PrefixResultView from "@/views/PrefixResultView.vue";
-
-
 
 const router = createRouter({
     history: createWebHistory(),
@@ -79,6 +78,10 @@ const router = createRouter({
             path: '/payment/complete',
             component: PayComplete
         },
+        {
+            path: '/goods',
+            component: GoodsList
+        }
         // *** 관리자 페이지
         {
             path: '/admin/user/status',
