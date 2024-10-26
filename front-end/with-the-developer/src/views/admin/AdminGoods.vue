@@ -16,8 +16,7 @@ const closeModal = () => showModal.value = false;
 const showDetail = ref(false);
 const selectGoodsCode = ref(null);
 
-// admin 테스트 위한 토큰 하드코딩
-const adminToken = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsInVzZXJDb2RlIjoxLCJhdXRoIjoiUk9MRV9BRE1JTiIsImV4cCI6MTcyOTkxMDA1Nn0.6iXhnbWaWTgYzBiwKPgrzfVYbQim8MRRN2wPKXV4I3qkVzD41zPFd7sS0XP1VYr_B1wBztGSi7i75WhdkaDTTw";
+const adminToken = "";
 
 const products = ref([]);
 const itemsPerPage = 10; // 페이지당 아이템 수
@@ -31,10 +30,16 @@ const checkedGoods = ref([]);
 // 로그인 함수
 const loginUser = async () => {
   try {
-    localStorage.setItem('jwtToken', adminToken);
-
+    localStorage.setItem('USER_ROLE', 'USER_ADMIN');
     // Axios 기본 헤더에 토큰 추가
     axios.defaults.headers.common['Authorization'] = adminToken;
+
+    let item1 = localStorage.getItem('USER_ROLE');
+    if(item1 == 'USER_ADMIN'){
+      router.push('/goods');
+    }else {
+      router('/login')
+    }
 
     console.log("admin 로그인 성공");
     await fetchGoods(); // 굿즈 목록 불러오기
@@ -84,7 +89,6 @@ const deleteGoods = async () => {
   // 굿즈 목록 조회, 갱신
   const fetchGoods = async (page = 1) => {
     try {
-      // const response = await axios.get(`http://localhost:8080/public/goods?page=${page}`, {
       const response = await axios.get(`http://localhost:8080/public/goods?page=${currentPage.value}`, {
         headers: {
           Authorization: localStorage.getItem('jwtToken'),
