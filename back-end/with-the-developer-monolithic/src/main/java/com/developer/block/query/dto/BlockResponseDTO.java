@@ -8,4 +8,6 @@ public class BlockResponseDTO {
     private Long blockCode;
     private Long blockerCode;
     private Long blockedCode;
+    private String userId;
+    private String userNick;
 }

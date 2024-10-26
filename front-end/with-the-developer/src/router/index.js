@@ -1,6 +1,5 @@
 import {createRouter, createWebHistory} from "vue-router";
 import SearchResults from "@/views/SearchResults.vue";
-import MainPageBefore from "@/views/MainPageBefore.vue";
 import Cart from "@/views/Cart.vue";
 import AdminUser from "@/views/Admin-User.vue";
 import AdminGoods from "@/views/AdminGoods.vue";
@@ -16,12 +15,10 @@ import CommunityCreateView from "@/views/CommunityCreateView.vue";
 import CommunityUpdateView from "@/views/CommunityUpdateView.vue";
 import PrefixResultView from "@/views/PrefixResultView.vue";
 import GoodsDetail from "@/views/GoodsDetail.vue";
+import MainRouter from "@/router/MainRouter.js";
+import MyPageRouter from "@/router/myPageRouter.js";
 
 const routes = [
-        {
-            path: '/',
-            component: MainPageBefore
-        },
         {
             path: '/search',
             component: SearchResults // 검색 결과 페이지
@@ -88,11 +85,27 @@ const routes = [
 
         // 유저 라우터
         ...UserRouter,
+
+        // 메인 페이지 라우터
+        ...MainRouter,
+
+        // 마이 페이지 라우터
+        ...MyPageRouter
 ];
 
 const router = createRouter({
     history: createWebHistory(),
     routes,
+    // 라우팅 시 화면 최 상단으로 이동됨.
+    scrollBehavior(to, from, savedPosition) {
+        // savedPosition이 있는 경우(예: 뒤로 가기), 해당 위치로 이동
+        if (savedPosition) {
+            return savedPosition;
+        } else {
+            // 새로운 페이지 이동 시 맨 위로 스크롤
+            return { top: 0 };
+        }
+    }
 });
 
 // 페이지 이동 전에 실행되는 가드

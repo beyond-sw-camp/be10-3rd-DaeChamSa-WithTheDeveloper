@@ -27,25 +27,20 @@ const moveToLogin = () => {
   }
 };
 
-
-// 모달 상태 관리
-const showModal = ref(false);
-
-function toggleModal() {
-  showModal.value = !showModal.value;
+const moveTo = (type) => {
+  router.push(`${type}`);
 }
-
 </script>
 
 <template>
   <header>
     <div id="nav-left">
-      <img src="../assets/images/logo.png" alt="로고 이미지" id="logo-image">
+      <img src="../assets/images/logo.png" alt="로고 이미지" id="logo-image" @click="moveTo('/')">
       <ul class="nav-ul">
-        <li class="nav-menu"><a>게시판</a></li>
-        <li class="nav-menu"><a>채용공고</a></li>
-        <li class="nav-menu"><a>굿즈</a></li>
-        <li class="nav-menu"><a>마이페이지</a></li>
+        <li class="nav-menu" @click="moveTo('/main')">게시판</li>
+        <li class="nav-menu" @click="moveTo('/')">채용공고</li>
+        <li class="nav-menu" @click="moveTo('/goods')">굿즈</li>
+        <li class="nav-menu" @click="moveTo('/mypage/info')">마이페이지</li>
       </ul>
     </div>
     <div id="nav-right">
@@ -92,6 +87,7 @@ header{
   height: 50px;
   margin-top: 5px;
   margin-left: 30px;
+  cursor: pointer;
 }
 .nav-ul{
   list-style: none;
@@ -109,12 +105,13 @@ header{
 .nav-menu span:hover{
   color: #1b5ac2;
 }
-.nav-menu > a {
+.nav-menu{
   text-decoration-line: none;
   color: #7E7E7E;
 }
-.nav-menu > a:hover{
+.nav-menu:hover{
   color: #1b5ac2;
+  cursor: pointer;
 }
 #nav-right{
   display: flex;
