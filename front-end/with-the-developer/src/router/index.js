@@ -10,6 +10,15 @@ import AdminGoodsDetail from "@/views/admin/AdminGoodsDetail.vue";
 import PrefixRouter from "@/router/PrefixRouter.js";
 import UserRouter from "@/router/UserRouter.js";
 import GoodsList from "@/views/GoodsList.vue";
+import OrderList from "@/views/OrderList.vue";
+import OrderDetail from "@/views/OrderDetail.vue";
+import GoodsDetail from "@/views/GoodsDetail.vue";
+import NotFound from "@/views/error/NotFound.vue";
+import MainRouter from "@/router/MainRouter.js";
+import MyPageRouter from "@/router/MyPageRouter.js";
+import CommunityRouter from "@/router/CommunityRouter.js";
+import ProjectRouter from "@/router/ProjectRouter.js";
+import TeamRouter from "@/router/TeamRouter.js";
 
 const routes = [
         {
