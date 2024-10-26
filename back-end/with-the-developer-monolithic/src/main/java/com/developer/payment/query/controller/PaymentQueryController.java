@@ -32,7 +32,6 @@ public class PaymentQueryController {
     public ResponseEntity<ResponsePaymentDTO> findByPaymentCode(@PathVariable("paymentCode") Long paymentCode) {
 
         Long currentUserCode = SecurityUtil.getCurrentUserCode();
-
         ResponsePaymentDTO byPaymentCode = paymentQueryService.findByPaymentCode(currentUserCode, paymentCode);
 
         return ResponseEntity.ok(byPaymentCode);

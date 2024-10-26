@@ -64,7 +64,7 @@ function toggleModal() {
         </li>
         <li class="nav-menu"><a id="login" @click="toggleModal">
           <img src="https://img.icons8.com/?size=100&id=eMfeVHKyTnkc&format=png&color=000000" alt="alarm" class="nav-img"></a></li>
-        <li class="nav-menu"><a id="login"><img src="https://img.icons8.com/?size=100&id=zhda2EVBCvHY&format=png&color=000000" alt="cart" class="nav-img"></a></li>
+        <li class="nav-menu" @click="moveTo('/cart-goods')"><a id="login"><img src="https://img.icons8.com/?size=100&id=zhda2EVBCvHY&format=png&color=000000" alt="cart" class="nav-img"></a></li>
         <li class="nav-menu">
           <a id="login">
             <img src="https://img.icons8.com/?size=100&id=elSdeHsB03U3&format=png&color=000000" alt="search" class="nav-img" @click="switchSearch">

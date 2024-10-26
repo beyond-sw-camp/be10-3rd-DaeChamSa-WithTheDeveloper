@@ -63,4 +63,8 @@ public class OrderQueryService {
         return responseOrderListDTOS;
     }
 
+    public String getOrderUid(Long orderCode){
+        return orderMapper.findOrderUidByOrderCode(orderCode);
+    }
+
 }

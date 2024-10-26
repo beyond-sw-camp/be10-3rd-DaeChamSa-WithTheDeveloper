@@ -10,14 +10,17 @@ import AdminGoodsDetail from "@/views/admin/AdminGoodsDetail.vue";
 import PrefixRouter from "@/router/PrefixRouter.js";
 import UserRouter from "@/router/UserRouter.js";
 import GoodsList from "@/views/GoodsList.vue";
+import OrderList from "@/views/OrderList.vue";
+import OrderDetail from "@/views/OrderDetail.vue";
 import GoodsDetail from "@/views/GoodsDetail.vue";
+import NotFound from "@/views/error/NotFound.vue";
 import MainRouter from "@/router/MainRouter.js";
+import MyPageRouter from "@/router/MyPageRouter.js";
 import CommunityRouter from "@/router/CommunityRouter.js";
 import ProjectRouter from "@/router/ProjectRouter.js";
 import MyPageRouter from "@/router/MyPageRouter.js";
 import AdminOrder from "@/views/admin/AdminOrder.vue";
 import TeamRouter from "@/router/TeamRouter.js";
-import NotFound from "@/views/error/NotFound.vue";
 
 const routes = [
         {
@@ -27,6 +30,15 @@ const routes = [
         {
             path: '/cart-goods',
             component: Cart  // 장바구니
+        },
+        {
+            path: '/order/list',
+            component: OrderList
+        },
+        {
+            path: '/order-detail/:orderCode',
+            component: OrderDetail,
+            props: true
         },
         {
             path: '/fail-payment',
@@ -54,7 +66,9 @@ const routes = [
             component: AdminGoods,
         },
         {
-            path: '/goods/:goodsCode', component: AdminGoodsDetail, props: true
+            path: '/goods/:goodsCode',
+            component: AdminGoodsDetail,
+            props: true
         },
         {
             path: '/jop-tag',
@@ -88,7 +102,7 @@ const routes = [
 
         // 팀모집 게시판 라우터
         ...TeamRouter,
-  
+
         {
             path: "/:pathMatch(.*)*",
             redirect: "/notFound"
