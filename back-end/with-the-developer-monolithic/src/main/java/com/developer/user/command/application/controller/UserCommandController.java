@@ -17,6 +17,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
@@ -54,7 +55,7 @@ public class UserCommandController {
     // 로그인
     @PostMapping("/login")
     @Operation(summary = "로그인", description = "회원으로 등록되어 있으면 로그인을 할 수 있습니다.")
-    public ResponseEntity<Boolean> loginUser(@RequestBody @Valid LoginUserDTO userDTO){
+    public ResponseEntity<?> loginUser(@RequestBody @Valid LoginUserDTO userDTO){
 
         TokenDTO tokenDTO = userService.loginUser(userDTO);
 
@@ -66,7 +67,12 @@ public class UserCommandController {
         headers.add("Refresh-Token", tokenDTO.getRefreshToken());
 
         boolean checkDbti = userService.checkDbti(tokenDTO.getUserCode());
-
+        try {
+            userService.checkUserStatus(tokenDTO.getUserCode());
+        } catch (CustomException e){
+            // 정지 되어있으면 401 반환
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
+        }
         return ResponseEntity.ok()
                 .headers(headers)
                 .body(checkDbti);
