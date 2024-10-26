@@ -3,8 +3,12 @@
     <h1>{{ product.goodsName }}</h1>
     <img :src="product.images && product.images[0] ? product.images[0] : 'default-image-path.png'" alt="product image" />
     <p>{{ product.goodsContent }}</p>
-    <p>가격: {{ product.goodsPrice.toLocaleString() }}원</p>
+    <p>가격: {{ product.goodsPrice }}원</p>
     <p>상태: {{ product.goodsStatus }}</p>
+  </div>
+
+  <div class="button-group">
+    <button @click="$emit('cancel')">닫기</button>
   </div>
 </template>
 
@@ -24,7 +28,8 @@ const fetchProductDetail = async () => {
       const response = await axios.get(`http://localhost:8080/goods/${props.goodsCode}`,{
         headers: {
           Authorization: `Bear ${localStorage.getItem('jwtToken')}`
-        }});
+        }
+      });
       product.value = response.data;
     } catch (error) {
       console.log("상품 정보 불러오기 실패", error);
