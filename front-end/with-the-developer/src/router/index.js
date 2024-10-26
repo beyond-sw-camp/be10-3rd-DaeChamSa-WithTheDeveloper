@@ -20,6 +20,10 @@ import CommunityPostView from "@/views/community/CommunityPostView.vue";
 import CommunityCreateView from "@/views/community/CommunityCreateView.vue";
 import CommunityUpdateView from "@/views/community/CommunityUpdateView.vue";
 import PrefixResultView from "@/views/PrefixResultView.vue";
+import ProjectPostView from "@/views/project/ProjectPostView.vue";
+import ProjectBoardView from "@/views/project/ProjectBoardView.vue";
+import ProjectCreateView from "@/views/project/ProjectCreateView.vue";
+import ProjectUpdateView from "@/views/project/ProjectUpdateView.vue";
 
 const router = createRouter({
     history: createWebHistory(),
@@ -118,7 +122,28 @@ const router = createRouter({
             path: '/community/update/:comuCode',
             name: 'communityPostUpdate',
             component: CommunityUpdateView
-        }
+        },
+        {
+            path: '/project',
+            name: 'projectList',
+            component: ProjectBoardView
+        },
+        {
+            path: '/project/:id',
+            name: 'projectPostDetail',
+            component: ProjectPostView,
+            props: true
+        },
+        {
+            path: '/project/create',
+            name: 'projectPostCreate',
+            component: ProjectCreateView
+        },
+        {
+            path: '/project/update/:projPostCode',
+            name: 'projectPostUpdate',
+            component: ProjectUpdateView
+        },
     ]
 });
 
