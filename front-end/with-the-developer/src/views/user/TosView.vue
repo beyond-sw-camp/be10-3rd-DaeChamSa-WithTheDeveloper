@@ -1,7 +1,6 @@
 <script setup>
-import { ref } from 'vue';
-import NavigationBar from "@/components/NavigationBar.vue";
-import router from "@/router/index.js";
+import {ref} from 'vue';
+import router from "@/router";
 
 const isChecked = ref(false);
 

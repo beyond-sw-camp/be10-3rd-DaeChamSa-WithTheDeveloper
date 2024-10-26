@@ -1,8 +1,9 @@
 <script setup>
 
 import {computed, ref} from 'vue';
-import router from "@/router/index.js";
+import router from "@/router";
 import {useStore} from "vuex";
+import NotiModal from "@/components/NotiModal.vue";
 
 const searchState = ref(false);
 
@@ -26,6 +27,14 @@ const moveToLogin = () => {
   }
 };
 
+
+// 모달 상태 관리
+const showModal = ref(false);
+
+function toggleModal() {
+  showModal.value = !showModal.value;
+}
+
 </script>
 
 <template>
@@ -44,7 +53,8 @@ const moveToLogin = () => {
         <li class="nav-menu">
           <span @click="moveToLogin">{{ isLoggedIn ? '로그아웃' : '로그인' }}</span>
         </li>
-        <li class="nav-menu"><a id="login"><img src="https://img.icons8.com/?size=100&id=eMfeVHKyTnkc&format=png&color=000000" alt="alarm" class="nav-img"></a></li>
+        <li class="nav-menu"><a id="login" @click="toggleModal">
+          <img src="https://img.icons8.com/?size=100&id=eMfeVHKyTnkc&format=png&color=000000" alt="alarm" class="nav-img"></a></li>
         <li class="nav-menu"><a id="login"><img src="https://img.icons8.com/?size=100&id=zhda2EVBCvHY&format=png&color=000000" alt="cart" class="nav-img"></a></li>
         <li class="nav-menu">
           <a id="login">
@@ -58,6 +68,9 @@ const moveToLogin = () => {
     <input type="text" placeholder="검색어 입력">
     <button type="submit">검색</button>
   </form>
+
+  <!-- 알림 모달 추가 -->
+  <NotiModal :showModal="showModal" @close="toggleModal" />
 
 </template>
 

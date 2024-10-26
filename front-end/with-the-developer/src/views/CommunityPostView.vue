@@ -33,7 +33,7 @@
             :pagination="{ clickable: true }"
         >
           <swiper-slide v-for="(image, index) in post.images" :key="index">
-            <img :src="getImageUrl(image.fileName)" alt="게시글 이미지"/>
+            <img :src="getImageUrl(image.fileName)" alt="게시글 이미지" />
           </swiper-slide>
         </swiper>
       </div>
@@ -369,6 +369,7 @@ onMounted(() => {
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: 1000; /* 모달의 z-index 설정 (기본값보다 높게) */
 }
 
 .modal-content {
@@ -377,7 +378,14 @@ onMounted(() => {
   border-radius: 5px;
   width: 400px;
   text-align: center;
+  z-index: 1001; /* 모달 내용의 z-index 설정 (모달보다 높게) */
 }
+
+/* 사진의 z-index를 조정 (기본값보다 낮게) */
+.image-slider {
+  z-index: 1; /* 사진이 모달 뒤에 있도록 설정 */
+}
+
 
 .close {
   cursor: pointer;

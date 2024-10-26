@@ -1,7 +1,7 @@
 <script setup>
 
 import {onMounted, ref} from "vue";
-import router from "../router";
+import router from "@/router";
 
 
 const dbti = ref('');
