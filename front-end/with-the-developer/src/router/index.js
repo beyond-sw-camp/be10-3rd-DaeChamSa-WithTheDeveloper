@@ -48,7 +48,7 @@ const routes = [
             component: AdminUser,
         },
         {
-            path: '/goods',
+            path: '/admin/goods',
             component: AdminGoods,
         },
         {
