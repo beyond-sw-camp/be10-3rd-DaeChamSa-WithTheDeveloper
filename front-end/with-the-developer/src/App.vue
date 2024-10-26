@@ -9,11 +9,9 @@ import AdminSideBar from "@/components/AdminSideBar.vue";
 <template>
   <SearchBar/>
   <NavigationBar/>
-  <div class="admin-layout">
   <main class="main">
     <RouterView/>
   </main>
-  </div>
   <footer>
     <Footer/>
   </footer>
@@ -26,9 +24,6 @@ import AdminSideBar from "@/components/AdminSideBar.vue";
   }
   footer{
     margin-top: 10vh;
-  }
-  .admin-layout{
-    display: flex;
   }
   .main{
     flex-grow: 1;

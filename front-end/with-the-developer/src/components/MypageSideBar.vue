@@ -5,7 +5,7 @@
         <button @click="navigateTo('info')">내 프로필</button>
       </li>
       <li>
-        <button @click="navigateTo('bookmark')">북마크</button>
+        <button @click="navigateTo('bookmark/team')">북마크</button>
       </li>
       <li>
         <button @click="navigateTo('posts')">내 게시글</button>

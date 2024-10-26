@@ -25,11 +25,12 @@ onMounted(async () => {
   <section>
     <MypageSideBar/>
     <div id="content">
+      <h1>받은 쪽지</h1>
       <article id = "info">
         <div id = "msg_header">
           <div id="detail">
-            <p>보낸사람</p><p class="nick">{{ msg.userNick }}</p><p class="email">{{ msg.userId }}</p><button id="block_button">차단</button>
-            <p>받은사람</p><p class="nick">{{ msg.userNick }}</p><p class="email">{{ msg.userId }}</p><p>{{ msg.createdDate }}</p>
+            <p>보낸사람</p><p class="nick">{{ msg.userNick }}</p><p class="email">{{ msg.userId }}</p>
+            <button id="block_button">차단</button>
           </div>
         </div>
         <hr>
@@ -58,14 +59,15 @@ section{
 }
 #detail{
   display: grid;
-  grid-template-columns: 150px 100px 100px 150px;
+  grid-template-columns: 160px 160px 160px;
   grid-template-rows: 50px 50px;
+  text-align: center;
 }
 #block_button{
   width: 60px;
   height: 30px;
   margin-top: 10px;
-  margin-left: 10px;
+  margin-left: 40px;
   border: 1px solid lightgray;
   border-radius: 15px;
   color: white;

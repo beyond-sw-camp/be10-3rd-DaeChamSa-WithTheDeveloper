@@ -62,8 +62,8 @@ const fileList = ref([]);
 
 const router = useRouter();
 
-// admin 테스트 위한 토큰 하드코딩
-const adminToken = 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsInVzZXJDb2RlIjoxLCJhdXRoIjoiUk9MRV9BRE1JTiIsImV4cCI6MTcyOTkxMDA1Nn0.6iXhnbWaWTgYzBiwKPgrzfVYbQim8MRRN2wPKXV4I3qkVzD41zPFd7sS0XP1VYr_B1wBztGSi7i75WhdkaDTTw';
+// 로컬에서 토큰 가져오기
+const adminToken = localStorage.getItem('jwtToken') || "";
 
 // 이미지 업로드
 const handelFileUpload = (event) => {
@@ -83,6 +83,12 @@ const handelFileUpload = (event) => {
 
 // 굿즈 등록하기
 const submitGoods = async () => {
+  // 관리자 확인
+  const userRole = localStorage.getItem('USER_ROLE');
+  if(userRole !== "USER_ADMIN"){
+    alert("관리자 권한이 아닙니다.");
+    return;
+  }
   const formData = new FormData();
 
   const goodsCreateDTO = {
@@ -99,13 +105,12 @@ const submitGoods = async () => {
   });
 
   try{
-    localStorage.setItem('jwtToken', adminToken);
     axios.defaults.headers.common['Authorization'] = adminToken;
 
-    await axios.post('http://localhost:8080/goods', formData,{
+    const response = await axios.post('http://localhost:8080/goods', formData,{
       headers:{
         'Content-Type' : 'multipart/form-data',
-        Authorization: `Bearer ${adminToken}`, // Authorization 헤더에 토큰 추가
+        Authorization: `Bearer ${localStorage.getItem('jwtToken')}`, // Authorization 헤더에 토큰 추가
       },
     });
     // const response = router.push("/goods");

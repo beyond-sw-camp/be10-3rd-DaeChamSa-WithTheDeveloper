@@ -6,14 +6,15 @@ import AdminGoods from "@/views/admin/AdminGoods.vue";
 import AdminTag from "@/views/admin/Admin-Tag.vue";
 import PayFail from "@/views/PayFail.vue";
 import PayComplete from "@/views/PayComplete.vue";
+import AdminGoodsDetail from "@/views/admin/AdminGoodsDetail.vue";
 import PrefixRouter from "@/router/PrefixRouter.js";
 import UserRouter from "@/router/UserRouter.js";
 import GoodsList from "@/views/GoodsList.vue";
 import GoodsDetail from "@/views/GoodsDetail.vue";
 import MainRouter from "@/router/MainRouter.js";
-import MyPageRouter from "@/router/myPageRouter.js";
 import CommunityRouter from "@/router/CommunityRouter.js";
 import ProjectRouter from "@/router/ProjectRouter.js";
+import MyPageRouter from "@/router/MyPageRouter.js";
 
 const routes = [
         {
@@ -50,11 +51,13 @@ const routes = [
             component: AdminGoods,
         },
         {
+            path: '/goods/:goodsCode', component: AdminGoodsDetail, props: true
+        },
+        {
             path: '/jop-tag',
             component: AdminTag,
         },
         // *** 관리자
-
         // 성향 라우터
         ...PrefixRouter,
 
