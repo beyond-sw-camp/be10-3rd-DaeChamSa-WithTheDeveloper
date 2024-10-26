@@ -265,10 +265,10 @@ public class UserCommandService {
         User user = userRepository.findByUserCode(userCode)
                 .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_USER));
 
-        if (user.isResNoti()){
-            // 이미 알림이 허용 되어 있으면
-            throw new CustomException(ErrorCode.NOTI_ALREADY_ACCEPT);
-        }
+//        if (user.isResNoti()){
+//            // 이미 알림이 허용 되어 있으면
+//            throw new CustomException(ErrorCode.NOTI_ALREADY_ACCEPT);
+//        }
 
         user.changeAcceptResNoti();
 

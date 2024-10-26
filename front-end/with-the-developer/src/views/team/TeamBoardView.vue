@@ -2,13 +2,6 @@
   <div class="board-page">
     <h1 id="board-title">팀모집</h1>
     <div class="upper-menu">
-      <div class="sort-menu">
-        <label for="sortOrder"></label>
-        <select id="sortOrder">
-          <option value="latest">최신순</option>
-          <option value="name">북마크 많은 순</option>
-        </select>
-      </div>
       <search-bar />
       <button class="post-button" @click="goToCreatePage">
         <img
@@ -68,11 +61,6 @@ onMounted(fetchPosts);
 
 #board-title {
   text-align: center;
-}
-
-.sort-menu {
-  margin-left: 5%;
-  margin-top: 1%;
 }
 
 .post-button {
