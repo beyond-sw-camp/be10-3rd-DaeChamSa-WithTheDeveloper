@@ -15,6 +15,10 @@ import CommunityCreateView from "@/views/CommunityCreateView.vue";
 import CommunityUpdateView from "@/views/CommunityUpdateView.vue";
 import PrefixResultView from "@/views/PrefixResultView.vue";
 import GoodsDetail from "@/views/GoodsDetail.vue";
+import ProjectPostView from "@/views/project/ProjectPostView.vue";
+import ProjectBoardView from "@/views/project/ProjectBoardView.vue";
+import ProjectCreateView from "@/views/project/ProjectCreateView.vue";
+import ProjectUpdateView from "@/views/project/ProjectUpdateView.vue";
 import MainRouter from "@/router/MainRouter.js";
 import MyPageRouter from "@/router/myPageRouter.js";
 
@@ -79,6 +83,27 @@ const routes = [
             path: '/community/update/:comuCode',
             name: 'communityPostUpdate',
             component: CommunityUpdateView
+        },
+        {
+            path: '/project',
+            name: 'projectList',
+            component: ProjectBoardView
+        },
+        {
+            path: '/project/:id',
+            name: 'projectPostDetail',
+            component: ProjectPostView,
+            props: true
+        },
+        {
+            path: '/project/create',
+            name: 'projectPostCreate',
+            component: ProjectCreateView
+        },
+        {
+            path: '/project/update/:projPostCode',
+            name: 'projectPostUpdate',
+            component: ProjectUpdateView
         },
         // 성향 라우터
         ...PrefixRouter,

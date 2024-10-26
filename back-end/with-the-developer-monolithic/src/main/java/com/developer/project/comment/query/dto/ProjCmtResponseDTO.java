@@ -11,6 +11,7 @@ public class ProjCmtResponseDTO {
     private String projCmtContent;
     private Long projPostCode;
     private Long userCode;
+    private String userNick;
     private LocalDateTime createdDate;
     private LocalDateTime modifiedDate;
 }

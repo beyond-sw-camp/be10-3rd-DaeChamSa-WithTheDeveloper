@@ -112,7 +112,7 @@ const submitPost = async () => {
 
 // 취소 버튼 처리
 const cancel = () => {
-  router.push('/');
+  router.push('/community');
 };
 </script>
 
