@@ -14,6 +14,8 @@ import CommunityBoardView from "@/views/CommunityBoardView.vue";
 import CommunityPostView from "@/views/CommunityPostView.vue";
 import CommunityCreateView from "@/views/CommunityCreateView.vue";
 import CommunityUpdateView from "@/views/CommunityUpdateView.vue";
+import OrderDetail from "@/views/OrderDetail.vue";
+import OrderList from "@/views/orderList.vue";
 
 const routes = [
         {
@@ -27,6 +29,15 @@ const routes = [
         {
             path: '/cart-goods',
             component: Cart  // 장바구니
+        },
+        {
+            path: '/order/list',
+            component: OrderList
+        },
+        {
+            path: '/order-detail/:orderCode',
+            component: OrderDetail,
+            props: true
         },
         {
             path: '/payment/fail',
