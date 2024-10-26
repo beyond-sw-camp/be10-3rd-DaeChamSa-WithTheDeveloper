@@ -1,25 +1,22 @@
 import {createRouter, createWebHistory} from "vue-router";
 import SearchResults from "@/views/SearchResults.vue";
-import MainPageBefore from "@/views/MainPageBefore.vue";
 import Cart from "@/views/Cart.vue";
-import AdminUser from "@/views/Admin-User.vue";
-import AdminGoods from "@/views/AdminGoods.vue";
-import AdminTag from "@/views/Admin-Tag.vue";
+import AdminUser from "@/views/admin/Admin-User.vue";
+import AdminGoods from "@/views/admin/AdminGoods.vue";
+import AdminTag from "@/views/admin/Admin-Tag.vue";
 import PayFail from "@/views/PayFail.vue";
 import PayComplete from "@/views/PayComplete.vue";
+import AdminGoodsDetail from "@/views/admin/AdminGoodsDetail.vue";
 import PrefixRouter from "@/router/PrefixRouter.js";
 import UserRouter from "@/router/UserRouter.js";
 import GoodsList from "@/views/GoodsList.vue";
-import CommunityBoardView from "@/views/CommunityBoardView.vue";
-import CommunityPostView from "@/views/CommunityPostView.vue";
-import CommunityCreateView from "@/views/CommunityCreateView.vue";
-import CommunityUpdateView from "@/views/CommunityUpdateView.vue";
+import GoodsDetail from "@/views/GoodsDetail.vue";
+import MainRouter from "@/router/MainRouter.js";
+import CommunityRouter from "@/router/CommunityRouter.js";
+import ProjectRouter from "@/router/ProjectRouter.js";
+import MyPageRouter from "@/router/MyPageRouter.js";
 
 const routes = [
-        {
-            path: '/',
-            component: MainPageBefore
-        },
         {
             path: '/search',
             component: SearchResults // 검색 결과 페이지
@@ -37,6 +34,10 @@ const routes = [
             component: PayComplete
         },
         {
+            path: '/goods/:goodsCode',
+            component: GoodsDetail
+        },
+        {
             path: '/goods',
             component: GoodsList
         },
@@ -50,43 +51,45 @@ const routes = [
             component: AdminGoods,
         },
         {
+            path: '/goods/:goodsCode', component: AdminGoodsDetail, props: true
+        },
+        {
             path: '/jop-tag',
             component: AdminTag,
         },
         // *** 관리자
-
-        // *** 커뮤니티
-        {
-            path: '/community', // 게시판 목록 페이지
-            name: 'communityList',
-            component: CommunityBoardView
-        },
-        {
-            path: '/community/:id', // 게시글 상세 페이지
-            name: 'CommunityPostDetail',
-            component: CommunityPostView,
-            props: true, // URL 파라미터를 props로 전달
-        },
-        {
-            path: '/community/create',
-            name: 'communityPostCreate',
-            component: CommunityCreateView
-        },
-        {
-            path: '/community/update/:comuCode',
-            name: 'communityPostUpdate',
-            component: CommunityUpdateView
-        },
         // 성향 라우터
         ...PrefixRouter,
 
         // 유저 라우터
         ...UserRouter,
+
+        // 메인 페이지 라우터
+        ...MainRouter,
+
+        // 마이 페이지 라우터
+        ...MyPageRouter,
+
+        // 커뮤니티 게시판 라우터
+        ...CommunityRouter,
+
+        // 프로젝트 게시판 라우터
+        ...ProjectRouter,
 ];
 
 const router = createRouter({
     history: createWebHistory(),
     routes,
+    // 라우팅 시 화면 최 상단으로 이동됨.
+    scrollBehavior(to, from, savedPosition) {
+        // savedPosition이 있는 경우(예: 뒤로 가기), 해당 위치로 이동
+        if (savedPosition) {
+            return savedPosition;
+        } else {
+            // 새로운 페이지 이동 시 맨 위로 스크롤
+            return { top: 0 };
+        }
+    }
 });
 
 // 페이지 이동 전에 실행되는 가드

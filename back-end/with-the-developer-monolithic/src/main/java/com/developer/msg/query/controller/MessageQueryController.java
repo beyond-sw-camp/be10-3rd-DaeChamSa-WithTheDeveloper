@@ -1,6 +1,8 @@
 package com.developer.msg.query.controller;
 
+import com.developer.msg.query.dto.ReqMsgDetailResponseDTO;
 import com.developer.msg.query.dto.ReqMsgResponseDTO;
+import com.developer.msg.query.dto.ResMsgDetailResponseDTO;
 import com.developer.msg.query.dto.ResMsgResponseDTO;
 import com.developer.msg.query.service.MessageQueryService;
 import com.developer.user.security.SecurityUtil;
@@ -41,7 +43,7 @@ public class MessageQueryController {
 
     @GetMapping("/req/{msgCode}")
     @Operation(summary = "발신 쪽지 상세 조회", description = "본인이 발신했던 쪽지의 상세 내용을 조회합니다.")
-    public ResponseEntity<ReqMsgResponseDTO> findReqMsgByMsgCodeAndUserCode(@PathVariable Long msgCode) {
+    public ResponseEntity<ReqMsgDetailResponseDTO> findReqMsgByMsgCodeAndUserCode(@PathVariable Long msgCode) {
         Long loginUser = SecurityUtil.getCurrentUserCode();
 
         return ResponseEntity.ok(messageQueryService.findReqMsgByMsgCodeAndUserCode(msgCode, loginUser));
@@ -49,7 +51,7 @@ public class MessageQueryController {
 
     @GetMapping("/res/{msgCode}")
     @Operation(summary = "수신 쪽지 상세 조회", description = "본인이 수신했던 쪽지의 상세 내용을 조회합니다.")
-    public ResponseEntity<ResMsgResponseDTO> findResMsgByMsgCodeAndUserCode(@PathVariable Long msgCode) {
+    public ResponseEntity<ResMsgDetailResponseDTO> findResMsgByMsgCodeAndUserCode(@PathVariable Long msgCode) {
         Long loginUser = SecurityUtil.getCurrentUserCode();
 
         return ResponseEntity.ok(messageQueryService.findResMsgByMsgCodeAndUserCode(msgCode, loginUser));
@@ -61,5 +63,13 @@ public class MessageQueryController {
         Long loginUser = SecurityUtil.getCurrentUserCode();
 
         return ResponseEntity.ok(messageQueryService.findAllUnReadResMsg(loginUser));
+    }
+
+    @GetMapping("/res/isRead")
+    @Operation(summary = "읽지 않은 쪽지 조회", description = "수신한 쪽지 중 읽지 않은 쪽지 목록을 조회합니다.")
+    public ResponseEntity<List<ResMsgResponseDTO>> findIsReadResMsg() {
+        Long loginUser = SecurityUtil.getCurrentUserCode();
+
+        return ResponseEntity.ok(messageQueryService.findAllIsReadResMsg(loginUser));
     }
 }

@@ -3,15 +3,20 @@
 import Footer from "@/components/Footer.vue";
 import NavigationBar from "@/components/NavigationBar.vue";
 import SearchBar from "@/components/SearchBar.vue";
+import AdminSideBar from "@/components/AdminSideBar.vue";
+
+
 </script>
 
 <template>
   <SearchBar/>
   <NavigationBar/>
+<!--  <div class="admin-layout">-->
+<!--    <AdminSideBar/>-->
+<!--  </div>-->
   <main class="main">
     <RouterView/>
   </main>
-
   <footer>
     <Footer/>
   </footer>

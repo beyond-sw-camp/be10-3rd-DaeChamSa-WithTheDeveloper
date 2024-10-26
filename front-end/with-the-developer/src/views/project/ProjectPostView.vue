@@ -1,14 +1,14 @@
 <template>
   <div class="post-detail">
     <div class="post-header">
-      <span class="board-category">커뮤니티</span>
+      <span class="board-category">프로젝트 자랑</span>
       <div class="action-buttons">
         <button @click="goToList">목록</button>
         <template v-if="isAuthor">
           <button @click="editPost">수정</button>
           <button @click="confirmDeletePost">삭제</button>
         </template>
-        <template v-else>
+        <template v-else-if="isLogin">
           <button @click="openReportModal">신고</button>
         </template>
       </div>
@@ -17,14 +17,19 @@
     <hr/>
 
     <div class="post-title">
-      <h1>{{ post.comuSubject }}</h1>
+      <h1>{{ post.projPostTitle }}</h1>
       <span class="post-date">{{ formatDate(post.createdDate) }}</span>
     </div>
 
     <hr/>
 
     <div class="post-content">
-      <p>{{ post.comuContent }}</p>
+      <p>{{ post.projPostContent }}</p>
+
+      <!-- URL 버튼 추가 -->
+      <div v-if="post.projUrl" class="url-button">
+        <button @click="openProjectUrl">프로젝트 주소</button>
+      </div>
 
       <div v-if="post.images && post.images.length" class="image-slider">
         <swiper
@@ -33,7 +38,7 @@
             :pagination="{ clickable: true }"
         >
           <swiper-slide v-for="(image, index) in post.images" :key="index">
-            <img :src="getImageUrl(image.fileName)" alt="게시글 이미지" />
+            <img :src="getImageUrl(image.fileName)" alt="게시글 이미지"/>
           </swiper-slide>
         </swiper>
       </div>
@@ -45,8 +50,13 @@
       <div class="author-info">
         <span>{{ post.userNick }}</span>
       </div>
+      <div class="proj-tags">
+        <span v-for="(tag, index) in post.projTagContents" :key="index" class="tag">
+          #{{ tag }}
+        </span>
+      </div>
       <div class="post-actions">
-        <template v-if="!isAuthor">
+        <template v-if="!isAuthor && isLogin">
           <button @click="openMessageModal">쪽지</button>
           <button>북마크</button>
           <span>{{ post.bookmarkCount }}</span>
@@ -66,8 +76,9 @@
     <div class="comment-list">
       <div v-for="comment in comments" :key="comment.id" class="comment-item">
         <div class="comment-author">{{ comment.userNick }}</div>
-        <div class="comment-content">{{ comment.comuCmtContent }}</div>
+        <div class="comment-content">{{ comment.projCmtContent }}</div>
         <div class="comment-date">{{ formatDate(comment.createdDate) }}</div>
+        <button v-if="isCmtAuthor(comment) && isLogin" @click="confirmDeleteComment(comment.projCmtCode)">삭제</button>
       </div>
     </div>
 
@@ -105,12 +116,12 @@ import axios from 'axios';
 import {ref, onMounted, computed} from 'vue';
 import {useRoute, useRouter} from 'vue-router';
 import {BASE_IMAGE_URL} from '@/config/image-base-url.js';
-import { Swiper, SwiperSlide } from 'swiper/vue';
+import {Swiper, SwiperSlide} from 'swiper/vue';
 import 'swiper/swiper-bundle.css'; // Swiper 스타일
 
 const route = useRoute();
 const router = useRouter();
-const comuCode = route.params.id; // URL에서 게시글 ID 추출
+const projPostCode = route.params.id; // URL에서 게시글 ID 추출
 
 const post = ref({});
 const comments = ref([]);
@@ -126,6 +137,9 @@ const reportReasonCategory = ref('');
 
 // 게시글 작성자인지 확인
 const isAuthor = computed(() => post.value.userCode === currentUserCode);
+const isCmtAuthor = (comment) => comment.userCode === currentUserCode;
+
+const isLogin = computed(() => localStorage.getItem('accessToken') !== null);
 
 // 이미지 URL 생성 함수
 const getImageUrl = (fileName) => `${BASE_IMAGE_URL}/${fileName}`;
@@ -133,17 +147,24 @@ const getImageUrl = (fileName) => `${BASE_IMAGE_URL}/${fileName}`;
 // 게시글 상세 조회
 const fetchPost = async () => {
   try {
-    const response = await axios.get(`/public/comu/post/${comuCode}`);
+    const response = await axios.get(`/public/proj/post/${projPostCode}`);
     post.value = response.data;
   } catch (error) {
     console.error('게시글 조회 실패:', error);
   }
 };
 
+// URL
+const openProjectUrl = () => {
+  if (post.value.projUrl) {
+    window.open(post.value.projUrl, '_blank');
+  }
+};
+
 // 댓글 목록 조회
 const fetchComments = async () => {
   try {
-    const response = await axios.get(`/public/comu/post/${comuCode}/cmt`);
+    const response = await axios.get(`/public/proj/post/${projPostCode}/cmt`);
     comments.value = response.data;
   } catch (error) {
     console.error('댓글 조회 실패:', error);
@@ -157,8 +178,8 @@ const submitComment = async () => {
   try {
     const token = localStorage.getItem('accessToken')?.trim();
     await axios.post(
-        `/comu/post/${comuCode}/cmt`,
-        {comuCmtContent: newComment.value}, // DTO에 맞춰 수정
+        `/proj/post/${projPostCode}/cmt`,
+        {projCmtContent: newComment.value}, // DTO에 맞춰 수정
         {
           headers: {
             Authorization: `${token}`,
@@ -169,6 +190,31 @@ const submitComment = async () => {
     await fetchComments(); // 댓글 목록 갱신
   } catch (error) {
     console.error('댓글 등록 실패:', error);
+  }
+};
+
+// 댓글 삭제 확인
+const confirmDeleteComment = (commentId) => {
+  const confirmed = confirm('정말로 이 댓글을 삭제하시겠습니까?');
+  if (confirmed) {
+    deleteComment(commentId);
+  }
+};
+
+// 댓글 삭제 메서드
+const deleteComment = async (commentId) => {
+  try {
+    const token = localStorage.getItem('accessToken')?.trim();
+    await axios.delete(`/proj/post/${projPostCode}/cmt/${commentId}`, {
+      headers: {
+        Authorization: `${token}`,
+      },
+    });
+    await fetchComments(); // 댓글 목록 갱신
+    alert('댓글이 삭제되었습니다.');
+  } catch (error) {
+    console.error('댓글 삭제 실패:', error);
+    alert('댓글 삭제에 실패했습니다.');
   }
 };
 
@@ -184,22 +230,22 @@ const confirmDeletePost = () => {
 const deletePost = async () => {
   try {
     const token = localStorage.getItem('accessToken')?.trim();
-    await axios.delete(`/comu/post/${comuCode}`, {
+    await axios.delete(`/proj/post/${projPostCode}`, {
       headers: {
         Authorization: `${token}`,
       },
     });
-    await router.push('/community'); // 삭제 후 목록 페이지로 이동
+    await router.push('/project'); // 삭제 후 목록 페이지로 이동
   } catch (error) {
     console.error('게시글 삭제 실패:', error);
   }
 };
 
 // 게시글 수정 페이지로 이동
-const editPost = () => router.push(`/community/update/${comuCode}`);
+const editPost = () => router.push(`/project/update/${projPostCode}`);
 
 // 목록 페이지로 이동
-const goToList = () => router.push('/community');
+const goToList = () => router.push('/project');
 
 // 날짜 포맷팅 함수
 const formatDate = (dateString) => {
@@ -259,8 +305,8 @@ const submitReport = async () => {
     return;
   }
 
-  const postCode = comuCode; // 해당 게시글의 comuCode 값
-  const reportTypePara = 'COMU'; // 'COMU'로 설정
+  const postCode = projPostCode; // 해당 게시글의 comuCode 값
+  const reportTypePara = 'PROJPOST';
 
   try {
     const token = localStorage.getItem('accessToken')?.trim();
@@ -322,6 +368,24 @@ onMounted(() => {
   color: #969696;
 }
 
+.url-button {
+  margin-top: 10px;
+}
+
+.url-button button {
+  background-color: #4CAF50;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.url-button button:hover {
+  background-color: #45a049;
+}
+
 .image-slider img {
   height: 300px;
   width: auto;
@@ -332,6 +396,21 @@ onMounted(() => {
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+.proj-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 5px;
+}
+
+.tag {
+  background-color: #f1f1f1;
+  padding: 5px 10px;
+  border-radius: 15px;
+  font-size: 14px;
+  color: #333;
 }
 
 .comment-input {

@@ -14,7 +14,6 @@ const selectedItem = ref([]); // 선택한 항목
 // 데이터 가져오기 (onMounted 사용 가능)
 axios.get(`/dbti/result/${props.result}`)
     .then(res => {
-      console.log(res.data);
       fetchedResults.value = res.data; // 통신을 통해 데이터 배열을 받음
     })
     .catch(error => {
@@ -50,7 +49,6 @@ const goToNextPage = () => {
 // 항목 선택 시 호출
 const selectItem = (item) => {
   selectedItem.value = item;
-  console.log(selectedItem.value)
 };
 
 // 항목 선택 완료

@@ -8,6 +8,7 @@ import java.time.LocalDateTime;
 public class ComuCmtDTO {
     private Long comuCmtCode;
     private String comuCmtContent;
+    private Long userCode;
     private String userNick;
     private LocalDateTime createdDate;
 }

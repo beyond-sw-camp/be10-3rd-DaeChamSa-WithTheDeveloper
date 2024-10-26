@@ -1,7 +1,8 @@
 <script setup>
-import { defineProps, defineEmits, onMounted, ref } from 'vue';
+import {computed, defineEmits, defineProps, onMounted, ref} from 'vue';
 import axios from 'axios';
 import router from "@/router/index.js";
+import {useStore} from "vuex";
 
 // props로 모달 상태 받기
 const props = defineProps({
@@ -19,9 +20,6 @@ function toggleModal() {
 // 받은 알림들
 const noties = ref([]);
 
-// 페이지 번호
-let page = ref(1);
-
 // 무한 스크롤을 위한 상태 관리
 const isLoading = ref(false);
 const hasMore = ref(true);
@@ -31,15 +29,12 @@ function loadNotifications() {
   if (isLoading.value || !hasMore.value) return;
 
   isLoading.value = true;
-  console.log(page.value)
-  axios
-      .get(`/noti/received`)
+  axios.get(`/noti/received`)
       .then((res) => {
         if (res.status === 200) {
           const newNoties = res.data;
           if (newNoties.length > 0) {
-            noties.value.push(...newNoties);
-            page.value += 1;
+            noties.value = newNoties;
           } else {
             hasMore.value = false; // 더 이상 데이터가 없으면 로딩 중지
           }
@@ -55,11 +50,23 @@ function loadNotifications() {
       });
 }
 
+// 상태관리
+const store = useStore();
+
+// 로그인 유무
+const isLogin = computed(() => store.getters.isLoggedIn);
+
 // 페이지가 마운트될 때 첫 번째 알림 페이지 로드
 onMounted(() => {
-  console.log('로깅')
-  loadNotifications();
+  if (isLogin.value)
+    loadNotifications();
 });
+
+// 10분마다 알람 불러오기 함수 호출
+setInterval(() => {
+  if (isLogin.value)
+    loadNotifications();
+}, 60000 * 10);
 
 // 스크롤 이벤트를 감지하여 무한 스크롤 처리
 function handleScroll() {

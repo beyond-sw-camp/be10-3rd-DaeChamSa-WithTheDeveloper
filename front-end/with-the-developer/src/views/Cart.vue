@@ -1,6 +1,7 @@
 <script setup>
 import axios from "axios";
 import { ref, reactive, onMounted, watch, computed } from "vue";
+
 // 모달 관련 import 및 선언
 import BlueModal from "@/components/blueModal.vue";
 const isBlueModalOpen = ref(false);
