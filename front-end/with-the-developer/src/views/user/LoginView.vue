@@ -1,6 +1,5 @@
 <script setup>
 
-import NavigationBar from "@/components/NavigationBar.vue";
 import router from "@/router/index.js";
 import {ref} from "vue";
 import {useStore} from "vuex";
@@ -13,7 +12,7 @@ const moveToRegister = () => {
 
 // 메인화면
 const moveToMain = () => {
-  router.push('/');
+  window.location.href ='/';  // 새로고침을 동반한 페이지 이동
 }
 
 // 아이디 찾기 창
@@ -34,8 +33,7 @@ const saveId = ref(false);
 const store = useStore();
 
 const login = () => {
-  console.log(userId.value);
-  console.log(userPw.value);
+
   const userDTO = {
     userId : userId.value,
     userPw : userPw.value
@@ -43,11 +41,11 @@ const login = () => {
   axios.post('/user/login', userDTO)
       .then(res => {
         if (res.status === 200){
-          console.log(res);
           const accessToken = res.headers['authorization']; // 대소문자 구분
           const refreshToken = res.headers['refresh-token']; // 대소문자 구분
           store.dispatch('login', accessToken); // Vuex 스토어에 로그인 처리
-
+          // 북마크 목록 vuex에 초기화
+          store.dispatch('fetchItems');
           // 로컬스토리지에 토큰값 저장
           localStorage.setItem('refreshToken', refreshToken);
 
@@ -59,13 +57,8 @@ const login = () => {
           localStorage.setItem('userRole', userRole);
           localStorage.setItem('userCode', userCode);
           localStorage.setItem('userId', userId);
-
-
-          console.log('액세스토큰 : ', accessToken);
-          console.log('리프레시토큰 : ', refreshToken);
-          console.log('유저 권한 : ', userRole);
+          
           alert('로그인 성공');
-          console.log(res.data)
           if (!res.data){
             moveToDbtiTest();
           } else{
@@ -99,10 +92,10 @@ const parseJwt = (token) => {
     <h2>로그인</h2>
     <form>
       <div class="input-group">
-        <input type="text" placeholder="아이디를 입력해주세요." v-model="userId" />
+        <input type="text" placeholder="아이디를 입력해주세요." v-model="userId" @keyup.enter="login"/>
       </div>
       <div class="input-group">
-        <input type="password" placeholder="비밀번호를 입력해주세요." v-model="userPw" />
+        <input type="password" placeholder="비밀번호를 입력해주세요." v-model="userPw" @keyup.enter="login"/>
       </div>
 
       <div class="options">

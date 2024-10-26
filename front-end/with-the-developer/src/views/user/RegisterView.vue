@@ -1,7 +1,6 @@
 <script setup>
 
-import NavigationBar from "@/components/NavigationBar.vue";
-import {computed, ref, watch} from "vue";
+import {computed, ref} from "vue";
 import axios from "axios";
 import router from "@/router/index.js";
 
@@ -54,7 +53,6 @@ const selectedGender = ref('');
 const genderValid = ref(true);
 const selectGender = (gender) => {
   selectedGender.value = gender;
-  console.log(selectedGender.value);
 }
 
 // 유효성 검사 틀 및 메세지
@@ -205,7 +203,6 @@ const validatePhone = () => {
 // 생년월일 유효성 검사 및 형식 변환
 const validateBirth = () => {
   // 생년월일 입력값
-  console.log(birthDay.value);
   const birthValue = birthDay.value;
   // 입력값이 비어있거나 8자리가 아닐 경우
   if (!birthValue || birthValue.length !== 8) {
@@ -277,7 +274,6 @@ const checkingId = () => {
   } else {
     userId = id.value + '@' + email.value;
   }
-  console.log(userId)
   axios.get(`/user/check-id/${userId}`)
       .then(res => {
         if(res.data){
@@ -285,7 +281,6 @@ const checkingId = () => {
           isIdValid.value = true;
           idCheck.value = true;
           alert('사용 가능한 아이디입니다.');
-          console.log(idCheck.value);
         } else{
           alert('이미 존재하는 아이디입니다.');
         }

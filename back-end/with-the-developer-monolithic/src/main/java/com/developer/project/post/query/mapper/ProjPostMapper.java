@@ -16,4 +16,6 @@ public interface ProjPostMapper {
     ProjPostResponseDTO findByCode(@Param("projPostCode") Long projPostCode);
 
     List<ProjPostListResponseDTO> findByProjTag(Map<String, Object> params);
+
+    List<ProjPostResponseDTO> findByUserCode(Long userCode);
 }

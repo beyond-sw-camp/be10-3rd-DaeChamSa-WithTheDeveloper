@@ -38,7 +38,7 @@ public class UserQueryController {
 
         log.info("로그인 되어있는 userCode {}", userCode);
         ResponseUserDTO byUserCode = userService.findByUserCode(userCode);
-
+        System.out.println(byUserCode.toString());
         return ResponseEntity.ok(byUserCode);
     }
 

@@ -12,9 +12,11 @@ public class ProjPostListResponseDTO {
 
     private Long projPostCode;
     private String projPostTitle;
+    private String projPostContent;
     private Long userCode;
     private String userNick;
     private LocalDateTime createdDate;
     private LocalDateTime modifiedDate;
+    private Long bookmarkCount;
     private List<String> projTagContents;
 }

@@ -38,21 +38,27 @@ public class PaymentCommandServiceImpl implements PaymentCommandService {
     private final UserRepository userRepository;
 
     @Override
-    public RequestPayDTO findRequestDTO(String orderUid) {
+    public RequestPayDTO findRequestDTO(String orderUid, Long userCode) {
 
         log.info("로깅 확인 findRequestDTO");
         Order order = orderRepository.findByOrderUid(orderUid)
                 .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_ORDER));
+
+        // 로그인 한 유저와 주문유저정보 일치하지 않음
+        if (!userCode.equals(order.getUserCode())) {
+            throw new CustomException(ErrorCode.INVALID_VALUE);
+        }
 
         User user = userRepository.findByUserCode(order.getUserCode())
                 .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_USER));
 
         return RequestPayDTO.builder()
                 .buyerName(user.getUserName())
-                .buyerEmail(user.getUserName())
+                .buyerEmail(user.getUserId())
                 .paymentPrice(order.getTotalPrice())
                 .itemName("order")
                 .orderUid(order.getOrderUid())
+                .buyerPhone(user.getUserPhone())
                 .build();
     }
 

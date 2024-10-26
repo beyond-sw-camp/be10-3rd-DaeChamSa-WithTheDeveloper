@@ -11,4 +11,6 @@ public class ReqMsgResponseDTO {
     private String msgContent;
     private LocalDateTime createdDate;
     private Long userCode;
+    private String userId;
+    private String userNick;
 }

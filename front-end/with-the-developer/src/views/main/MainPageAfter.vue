@@ -1,57 +1,49 @@
 <script setup>
   import { reactive } from 'vue';
+  import router from "@/router/index.js";
   const postList = reactive([
     {title: "테스트 타이틀 입니다. 테스트 타이틀입니다." , date: "24.10.10", bookmark: 10},
     {title: "테스트 타이틀 입니다. 테스트 타이틀입니다." , date: "24.10.10", bookmark: 10},
     {title: "테스트 타이틀 입니다. 테스트 타이틀입니다." , date: "24.10.10", bookmark: 10},
     {title: "테스트 타이틀 입니다. 테스트 타이틀입니다." , date: "24.10.10", bookmark: 10}
   ]);
+  const moveTo = (type) => {
+    router.push(`${type}`)
+  }
 </script>
 
 <template>
     <article id="menu_area">
-      <a href="#">
-        <div class="menu_area_item">
+        <div class="menu_area_item" @click="moveTo('/team')">
           <p class="button_title">팀모집</p>
           <img src="https://img.icons8.com/?size=100&id=24945&format=png&color=000000" alt="팀모집아이콘">
           <p class="button_subtitle">새로운 팀을 모집하거나 <br> 지원해보세요!</p><br>
         </div>
-      </a>
-      <a href="#">
-        <div class="menu_area_item">
-          <p class="button_title">프로젝트</p>
+        <div class="menu_area_item" @click="moveTo('/project')">
+          <p class="button_title" >프로젝트</p>
           <img src="https://img.icons8.com/?size=100&id=VuNO5eSHIj35&format=png&color=000000" alt="프로젝트아이콘">
           <p class="button_subtitle">자신의 프로젝트를 <br> 자랑해보세요!</p><br>
         </div>
-      </a>
-      <a href="#">
-        <div class="menu_area_item">
+        <div class="menu_area_item" @click="moveTo('/goods')">
           <p class="button_title">굿즈</p>
           <img src="https://img.icons8.com/?size=100&id=x9gD2am0uGsn&format=png&color=000000" alt="팀모집아이콘">
           <p class="button_subtitle">다양한 굿즈를 <br> 구매해보세요!</p><br>
         </div>
-      </a>
-      <a href="#">
-        <div class="menu_area_item">
+        <div class="menu_area_item" @click="moveTo('/recruit')">
           <p class="button_title">채용공고</p>
           <img src="https://img.icons8.com/?size=100&id=14356&format=png&color=000000" alt="채용공고아이콘">
           <p class="button_subtitle">다양한 채용공고를 <br> 확인하세요!</p><br>
         </div>
-      </a>
-      <a href="#">
-        <div class="menu_area_item">
+        <div class="menu_area_item" @click="moveTo('/community')">
           <p class="button_title">커뮤니티</p>
           <img src="https://img.icons8.com/?size=100&id=94518&format=png&color=000000" alt="커뮤니티아이콘">
           <p class="button_subtitle">다양한 사람들과  <br> 정보를 공유하세요!</p><br>
         </div>
-        </a>
-      <a href="#">
-        <div class="menu_area_item">
+        <div class="menu_area_item" @click="moveTo('/mypage/bookmark/community')">
           <p class="button_title">북마크</p>
           <img src="https://img.icons8.com/?size=100&id=82461&format=png&color=000000" alt="북마크아이콘">
           <p class="button_subtitle">다시 보고 싶은 컨텐츠를 <br> 저장하세요!</p><br>
         </div>
-      </a>
 
     </article>
     <article id="post_area">
@@ -137,6 +129,7 @@
     border: 1px solid #B0ADAD;
     border-radius: 20px;
     text-align: center;
+    cursor: pointer;
   }
   .button_title{
     font-size: 25px;

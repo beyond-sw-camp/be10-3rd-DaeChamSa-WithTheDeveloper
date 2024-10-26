@@ -5,6 +5,7 @@ import com.developer.search.query.service.SearchService;
 import com.developer.team.post.query.dto.TeamPostDTO;
 import com.developer.team.post.query.dto.TeamPostListDTO;
 import com.developer.team.post.query.service.TeamPostQueryService;
+import com.developer.user.security.SecurityUtil;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -29,6 +30,17 @@ public class TeamPostQueryController {
     @Operation(summary = "팀모집 게시글 상세 조회", description = "등록되어 있는 팀모집 게시글의 상세 내용을 조회합니다.")
     public ResponseEntity<TeamPostDTO> teamPostDetail(@PathVariable(name = "teamPostCode") Long teamPostCode) {
         TeamPostDTO foundTeamPost = teamPostQueryService.selectByTeamPostCode(teamPostCode);
+
+        return ResponseEntity.ok(foundTeamPost);
+    }
+    // 팀 모집 유저 코드로 조회
+    @GetMapping("/mypage")
+    @Operation(summary = "내 팀모집 게시글 목록 조회", description = "등록되어 있는 내 팀모집 게시글 목록을 조회합니다.")
+    public ResponseEntity<List<TeamPostDTO>> teamPostMypage() {
+
+        Long userCode = SecurityUtil.getCurrentUserCode();
+
+        List<TeamPostDTO> foundTeamPost = teamPostQueryService.selectByUserCode(userCode);
 
         return ResponseEntity.ok(foundTeamPost);
     }

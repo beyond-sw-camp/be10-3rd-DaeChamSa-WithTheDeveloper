@@ -73,4 +73,9 @@ public class RecruitQueryService {
         log.info(searchList.toString());
         return searchList;
     }
+
+    public List<RecruitDetailReadDTO> readRecruitByUserCode(Long userCode) {
+
+        return recruitMapper.readRecruitByUserCode(userCode);
+    }
 }

@@ -13,8 +13,12 @@ const props = defineProps({
   },
 })
 
-const emit = defineEmits(['update:blueModalValue']);
+const emit = defineEmits(['update:blueModalValue', 'confirm']);
 
+const handleConfirm = () => {
+  emit('confirm');
+  closeBlueModal(); // 확인버튼 눌러도 모달창 닫혀야하므로
+}
 
 const closeBlueModal = () => {
   emit('update:blueModalValue', false);
@@ -29,7 +33,7 @@ const closeBlueModal = () => {
       <div class="blue_modal_content">
         <div>{{ content }}</div>
         <div class="blue_modal_buttons_box">
-          <button class="blue_design">확인</button>
+          <button class="blue_design" @click="handleConfirm">확인</button>
           <button @click="closeBlueModal">취소</button>
         </div>
       </div>
@@ -72,7 +76,7 @@ const closeBlueModal = () => {
 }
 
 .blue_modal_content {
-  width: 250px;
+  width: 400px;
   height: 100px;
   margin: 50px auto;
 }

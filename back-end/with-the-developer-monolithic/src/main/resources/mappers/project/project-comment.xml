@@ -7,13 +7,15 @@
             parameterType="map"
             resultType="ProjCmtResponseDTO">
         SELECT
-            proj_cmt_code,
-            proj_cmt_content,
-            proj_post_code,
-            user_code,
-            created_date,
-            modified_date
-        FROM proj_cmt
+            p.proj_cmt_code,
+            p.proj_cmt_content,
+            p.proj_post_code,
+            p.user_code,
+            u.user_nick,
+            p.created_date,
+            p.modified_date
+        FROM proj_cmt p
+        JOIN user u ON (p.user_code = u.user_code)
         WHERE proj_post_code = #{projPostCode}
         AND del_status = false
         ORDER BY created_date

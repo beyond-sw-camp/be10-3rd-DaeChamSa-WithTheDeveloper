@@ -1,6 +1,6 @@
 <script setup>
 import {computed, ref} from "vue";
-import AdminBlock from "@/views/AdminBlock.vue";
+import AdminBlock from "@/views/admin/AdminBlock.vue";
 import Modal from '@/components/Modal.vue';
 import {usePagination} from "@/components/Pagination.js";
 

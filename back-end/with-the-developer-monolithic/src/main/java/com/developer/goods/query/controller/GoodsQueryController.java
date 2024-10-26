@@ -30,6 +30,7 @@ public class GoodsQueryController {
         List<GoodsResponseDTO> goodsList = goodsQueryService.selectAllGoods(page);
 
         return ResponseEntity.ok(goodsList);
+
     }
 
     // 굿즈 특정 번호로 조회
