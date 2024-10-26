@@ -2,6 +2,7 @@ package com.developer.noti.command.application.service;
 
 import com.developer.common.exception.CustomException;
 import com.developer.common.exception.ErrorCode;
+import com.developer.noti.command.application.dto.NotiAllDTO;
 import com.developer.noti.command.application.dto.NotiMsgCreateDTO;
 import com.developer.noti.command.application.dto.NotiCommentCreateDTO;
 import com.developer.noti.command.application.dto.NotiRecruitCreateDTO;
@@ -16,6 +17,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Slf4j
@@ -126,6 +129,26 @@ public class NotiCommandService {
         );
 
         notiRepository.save(noti);
+    }
+
+    // 알림 전체 읽음 처리
+    @Transactional
+    public void readNotiAll(List<Long> notiAll){
+
+        for (Long notiCode : notiAll){
+            notiRepository.findByNotiCode(notiCode)
+                    .ifPresent(Noti::readNoti);
+        }
+    }
+
+    // 알림 전체 삭제 처리
+    @Transactional
+    public void deleteNotiAll(List<Long> notiAll){
+
+        for (Long notiCode : notiAll){
+            notiRepository.findByNotiCode(notiCode)
+                    .ifPresent(Noti::deleteNoti);
+        }
     }
 
     // PostType 확인하기

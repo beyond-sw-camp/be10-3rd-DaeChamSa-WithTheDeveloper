@@ -15,9 +15,12 @@
         SELECT
             a.block_code,
             a.user_code as blocker_code,
-            b.user_code as blocked_code
+            b.user_code as blocked_code,
+            c.user_id as user_id,
+            c.user_nick as user_nick
         FROM block a
         JOIN blocked_user b ON ( a.block_code = b.block_code )
+        JOIN user c ON (b.user_code = c.user_code)
         WHERE a.user_code = #{blockerCode}
         ORDER BY a.block_code
     </select>

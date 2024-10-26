@@ -1,8 +1,14 @@
 <script setup>
-import NavigationBar from "@/components/NavigationBar.vue";
 import axios from "axios";
-import {ref, reactive, onMounted, watch, computed} from "vue";
+import { ref, reactive, onMounted, watch, computed } from "vue";
+// 모달 관련 import 및 선언
+import BlueModal from "@/components/blueModal.vue";
+const isBlueModalOpen = ref(false);
+const openBlueModal = () => {
+  isBlueModalOpen.value = true;
+}
 
+// 장바구니
 const cartGoods = reactive([]);
 
 // 전체 선택에 대한 상태 관리 (false: 전체 선택 안됨, true: 전체 선택 됨)
@@ -217,6 +223,7 @@ onMounted(async() => {
 </script>
 
 <template>
+  <BlueModal :blueModalValue="isBlueModalOpen" @update:blueModalValue="isBlueModalOpen = $event" title="결제기" content="결제를 진행하시겠습니까?"/>
   <div>
     <div id="cart_title">장바구니</div>
     <div id="cart_content_box" class="flex">
@@ -296,7 +303,7 @@ onMounted(async() => {
             <div id="total_price_text">{{ formatPrice(getSelectedCartGoodsPrice() + 3000)}}원</div>
           </div>
         </div>
-        <button id="order_btn" class="pointer">{{ formatPrice(getSelectedCartGoodsPrice() + 3000)}}원 주문하기</button>
+        <button id="order_btn" class="pointer" @click="openBlueModal">{{ formatPrice(getSelectedCartGoodsPrice() + 3000)}}원 주문하기</button>
       </div>
     </div>
   </div>

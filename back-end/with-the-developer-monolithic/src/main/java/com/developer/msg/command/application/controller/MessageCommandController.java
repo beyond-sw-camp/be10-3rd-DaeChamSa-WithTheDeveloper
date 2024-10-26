@@ -27,6 +27,8 @@ public class MessageCommandController {
 
         Long msgCode = messageCommandService.sendMessage(messageRequestDTO, loginUser);
 
+        System.out.println(msgCode + messageRequestDTO.toString() + "확인");
+
         return ResponseEntity.created(URI.create("/msg/send" + msgCode)).build();
     }
 

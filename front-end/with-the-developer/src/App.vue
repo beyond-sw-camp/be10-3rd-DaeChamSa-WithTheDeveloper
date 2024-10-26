@@ -8,6 +8,7 @@ import SearchBar from "@/components/SearchBar.vue";
 import AdminUser from "@/views/admin/Admin-User.vue";
 import AdminSideBar from "@/components/AdminSideBar.vue";
 
+
 </script>
 
 <template>

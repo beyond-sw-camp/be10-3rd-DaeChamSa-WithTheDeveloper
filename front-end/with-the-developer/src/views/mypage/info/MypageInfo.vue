@@ -1,22 +1,26 @@
 <script setup>
-import { reactive } from 'vue';
-
-import NavigationBar from "@/components/NavigationBar.vue";
+import {onMounted, ref} from 'vue';
 import MypageSideBar from "@/components/MypageSideBar.vue";
+import axios from "axios";
 
-const user = reactive({
-  name: "테스트",
-  prefix: "계획적인 백엔드",
-  nickname: "대참사",
-  email: "test@naver.com",
-  phone: "010-1111-1111",
-  birth: "2000.11.11",
-  alarm: false
+const userInfo = ref({});
+const fetchUserInfo = async () => {
+  try{
+    return (await axios.get('user',{
+      headers: {
+        Authorization: `${localStorage.getItem('accessToken')}`
+      }
+    })).data;
+  }catch (error){
+    alert('회원정보 조회 중 에러 발생!' + error);
+  }
+}
+onMounted(async () => {
+  userInfo.value = await fetchUserInfo();
 })
 </script>
 
 <template>
-<NavigationBar/>
   <section>
     <MypageSideBar/>
     <div id="content">
@@ -26,27 +30,27 @@ const user = reactive({
         <div id="main_info">
           <img src="https://img.icons8.com/?size=100&id=52232&format=png&color=000000" alt="프로필이미지" id="profile">
           <ul>
-            <li id="name">{{user.name}}</li>
-            <li id="prefix">{{user.prefix}}</li>
-            <li>{{user.nickname}}</li>
-            <li>{{user.email}}</li>
+            <li id="name">{{userInfo.userName}}</li>
+            <li id="prefix">감각적인백엔드</li>
+            <li>{{userInfo.userNick}}</li>
+            <li>{{userInfo.userId}}</li>
           </ul>
 
         </div>
         <div id="sub_info">
           <div class="sub_info_content">
-            <img class="info-icon" src="https://img.icons8.com/?size=100&id=UYmVJ09dKuF8&format=png&color=000000" alt="핸드폰"><p>{{user.phone}}</p>
+            <img class="info-icon" src="https://img.icons8.com/?size=100&id=UYmVJ09dKuF8&format=png&color=000000" alt="핸드폰"><p>{{userInfo.userPhone}}</p>
           </div>
           <hr>
           <div class="sub_info_content">
-            <img class="info-icon" src="https://img.icons8.com/?size=100&id=E5UKUDD1Rzlf&format=png&color=000000" alt="생일"><p>{{user.birth}}</p>
+            <img class="info-icon" src="https://img.icons8.com/?size=100&id=E5UKUDD1Rzlf&format=png&color=000000" alt="생일"><p>{{userInfo.userBirth}}</p>
           </div>
           <hr>
           <div class="sub_info_content">
             <img class="info-icon" src="https://img.icons8.com/?size=100&id=54481&format=png&color=000000" alt="알림허용여부">
             <p>알림허용여부</p>
             <label id="check">
-              <input role="switch" type="checkbox" :checked="user.alarm" />
+              <input role="switch" type="checkbox" :checked="userInfo.resNoti" />
             </label>
           </div>
         </div>
