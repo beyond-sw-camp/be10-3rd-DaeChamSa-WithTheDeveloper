@@ -21,12 +21,12 @@ const handleConfirm = async() => {
       }));
 
   try {
-    // 1. <br><br>주문 생성
+    // 1. 주문 생성
     const orderResponse = await createOrder(orderGoods);
     const orderUid = orderResponse.data;
     console.log("주문 생성 성공", orderUid);
 
-    // 2. <br><br>결제 요청
+    // 2. 결제 요청
     const paymentResponse = await createPayment(orderUid);
     console.log("결제 생성 성공");
   } catch(error) {
@@ -40,7 +40,7 @@ const createOrder = async(orderGoods) => {
     const response = await axios.post("http://localhost:8080/order", {
       orderGoods: orderGoods
     });
-    console.log("주문이 성공적으로 생성되었습니다. <br><br>주문번호: ", response.data);
+    console.log("주문이 성공적으로 생성되었습니다. 주문번호: ", response.data);
     return response;
   } catch(error) {
     console.log("주문 생성 중 에러 발생", error);
@@ -302,7 +302,7 @@ onMounted(async() => {
   }
   await fetchCartGoods();
   getCheckboxState(); // 체크박스 상태 가져오기
-  // cartGoods의 변화를 감지. <br><br>변화가 있을 경우 saveCheckboxState 함수 호출해서 체크박스 상태 저장
+  // cartGoods의 변화를 감지. 변화가 있을 경우 saveCheckboxState 함수 호출해서 체크박스 상태 저장
   watch(cartGoods, saveCheckboxState, {deep: true});  // deep: true -> 배열의 속성 값의 변화까지도 감시
   watch(cartGoods, updateSelectAllCheckbox, {deep: true});
 });

@@ -158,7 +158,7 @@ const validateNick = () => {
       pwValid.value = false;
     } else if (!pwPattern.test(password.value)){
       lastMiddleErrorField.value = 'password';
-      errorMiddleMessage.value = '* 영문자, 숫자, 특수문자가 하나씩 포함되어야 합니다. <br><br>최소 8자리 ~ 최대 16자리';
+      errorMiddleMessage.value = '* 영문자, 숫자, 특수문자가 하나씩 포함되어야 합니다. 최소 8자리 ~ 최대 16자리';
       pwValid.value = false;
     } else {
       lastMiddleErrorField.value = '';
@@ -216,7 +216,7 @@ const validateBirth = () => {
   const datePattern = /^(19|20)\d{2}(0[1-9]|1[0-2])(0[1-9]|[12]\d|3[01])$/;
   if (!datePattern.test(birthValue)) {
     lastBottomErrorField.value = 'birthDay';
-    errorBottomMessage.value = '* 유효한 날짜를 입력하세요. <br><br>(예: 19900101)';
+    errorBottomMessage.value = '* 유효한 날짜를 입력하세요. (예: 19900101)';
     birthValid.value = false;
     return;
   }
