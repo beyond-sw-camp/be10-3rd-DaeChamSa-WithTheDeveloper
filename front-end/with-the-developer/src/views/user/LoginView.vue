@@ -64,7 +64,10 @@ const login = () => {
           } else{
             moveToMain();
           }
-        } else {
+        } else if (res.status === 401){
+          alert('정지된 회원입니다.');
+        }
+        else {
           alert('로그인 실패');
         }
       })

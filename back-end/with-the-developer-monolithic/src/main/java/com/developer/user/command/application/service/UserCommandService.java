@@ -117,6 +117,15 @@ public class UserCommandService {
         return prefixRepository.existsByUserCode(userCode);
     }
 
+    // 로그인 시 유저가 정지 회원인지 확인
+    public void checkUserStatus(Long userCode) throws CustomException{
+
+        // 정지된 회원
+        if (userRepository.findUserByUserStatusBANORDELETE(userCode)) {
+            throw new CustomException(ErrorCode.USER_STATUS_BANED);
+        }
+    }
+
     // 회원 로그아웃
     @Transactional
     public void logoutUser(String userId, String accessToken){

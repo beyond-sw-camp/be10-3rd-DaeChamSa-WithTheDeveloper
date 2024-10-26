@@ -13,11 +13,11 @@ const users = ref([]);
 
 // 테스트 데이터 (가상의 사용자 목록)
 const testUsers = [
-  { id: 1, nickName: "user1", blockCount: 2, status: "사용중" },
-  { id: 2, nickName: "user2", blockCount: 0, status: "사용중" },
-  { id: 3, nickName: "user3", blockCount: 1, status: "정지" },
-  { id: 4, nickName: "user4", blockCount: 3, status: "사용중" },
-  { id: 5, nickName: "user5", blockCount: 0, status: "정지" },
+  { id: 1, nickName: "user1", orderCount: 5, payment: "완료", deliveryStatus: "배송중" },
+  { id: 2, nickName: "user2", orderCount: 3, payment: "대기", deliveryStatus: "준비중" },
+  { id: 3, nickName: "user3", orderCount: 8, payment: "완료", deliveryStatus: "배송완료" },
+  { id: 4, nickName: "user4", orderCount: 1, payment: "취소", deliveryStatus: "취소됨" },
+  { id: 5, nickName: "user5", orderCount: 0, payment: "완료", deliveryStatus: "배송중" },
   // 더 많은 사용자 데이터 추가 가능
 ];
 
@@ -41,8 +41,11 @@ fetchUsers();
       <div class="userStatusFilter">
         <select id="userStatus" class="filterClick">
           <option value="전체">전체</option>
-          <option value="활성화">활성화</option>
-          <option value="정지">정지</option>
+          <option value="배송중">배송중</option>
+          <option value="배송완료">배송완료</option>
+          <option value="회수중">회수중</option>
+          <option value="회수중">회수완료</option>
+          <option value="결제취소">결제취소</option>
         </select>
         <input
             type="text"
@@ -60,9 +63,9 @@ fetchUsers();
           <th><input type="checkbox" /></th>
           <th>회원번호</th>
           <th>닉네임</th>
-          <th>신고횟수</th>
-          <th>상태</th>
-          <th>관리</th>
+          <th>주문수량</th>
+          <th>결제상태</th>
+          <th>배송상태</th>
         </tr>
         </thead>
         <tbody>
@@ -70,12 +73,9 @@ fetchUsers();
           <td><input type="checkbox" /></td>
           <td>{{ user.id }}</td>
           <td>{{ user.nickName }}</td>
-          <td>{{ user.blockCount }}회</td>
-          <td>{{ user.status }}</td>
-          <td>
-            <button class="block-button" v-if="user.status === '사용중'">정지</button>
-            <button class="activate-button" v-else>활성화</button>
-          </td>
+          <td>{{ user.orderCount }}회</td>
+          <td>{{ user.payment }}</td>
+          <td>{{ user.deliveryStatus }}</td>
         </tr>
         </tbody>
       </table>
