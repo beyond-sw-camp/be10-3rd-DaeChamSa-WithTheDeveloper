@@ -3,6 +3,8 @@ import axios from "axios";
 import { ref, onMounted } from "vue";
 import {useRoute} from "vue-router";
 import BlueModal from "@/components/blueModal.vue";
+import {Swiper, SwiperSlide} from "swiper/vue";
+import {BASE_IMAGE_URL} from "@/config/image-base-url.js";
 
 const route = useRoute();
 const goodsCode = route.params.goodsCode;
@@ -12,7 +14,7 @@ const goodsTitle = ref('');
 const goodsContent = ref('');
 //const goodsStatus = ref('');
 const goodsPrice = ref('0');
-const goodsImages = ref('');
+const goodsImages = ref([]);
 const goodsAmount = ref('1');
 
 // 장바구니에 담을 굿즈들에 관한 선언
@@ -27,6 +29,9 @@ const openBlueModal = () => {
 const handleConfirm = () => {
   addToCart(goodsCode, goodsAmount.value);
 }
+
+// 이미지 URL 생성 함수
+const getImageUrl = (fileName) => `${BASE_IMAGE_URL}/${fileName}`;
 
 // 로그인
 const loginUser = async () => {
@@ -58,7 +63,7 @@ const fetchGoodsDetail = async() => {
     goodsContent.value = goodsDetail.value.goodsContent;
     //goodsStatus.value = goodsDetail.goodsStatus;
     goodsPrice.value = goodsDetail.value.goodsPrice;
-    goodsImages.value = goodsDetail.value.images[0]?.url || [];
+    goodsImages.value = goodsDetail.value.images;
     goodsAmount.value = 1;
 
   } catch (error) {
@@ -118,7 +123,17 @@ onMounted(() => {
       content="해당 상품을 장바구니에 담으시겠습니까?"/>
   <div>
     <div id="goods_summary_box" class="flex">
-      <div><img src="../assets/images/goods.png"></div>
+      <div v-if="goodsImages && goodsImages.length" class="image-slider">
+        <swiper
+            :slides-per-view="1"
+            :navigation="true"
+            :pagination="{ clickable: true }"
+        >
+          <swiper-slide v-for="(image, index) in goodsImages" :key="index">
+            <img :src="getImageUrl(image.fileName)" alt="게시글 이미지"/>
+          </swiper-slide>
+        </swiper>
+      </div>
       <div id="goods_summary_text_box">
         <div id="goods_title_text">{{ goodsTitle }}</div>
         <br>
@@ -158,6 +173,16 @@ onMounted(() => {
 
 .flex {
   display: flex;
+}
+
+.image-slider {
+  width: 360px;
+}
+
+.image-slider img {
+  height: 300px;
+  width: auto;
+  object-fit: cover;
 }
 
 #goods_summary_box img {
