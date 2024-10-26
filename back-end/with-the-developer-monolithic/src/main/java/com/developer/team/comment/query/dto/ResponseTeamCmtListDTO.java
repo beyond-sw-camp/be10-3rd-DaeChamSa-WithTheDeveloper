@@ -19,5 +19,7 @@ public class ResponseTeamCmtListDTO {
 
     private LocalDateTime modifiedDate;
 
+    private Long userCode;
+
     private String userNick;
 }

@@ -3,7 +3,6 @@
 import Footer from "@/components/Footer.vue";
 import NavigationBar from "@/components/NavigationBar.vue";
 import SearchBar from "@/components/SearchBar.vue";
-import AdminSideBar from "@/components/AdminSideBar.vue";
 </script>
 
 <template>

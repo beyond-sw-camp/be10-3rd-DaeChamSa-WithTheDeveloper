@@ -2,10 +2,10 @@
   <div class="board-list">
     <div v-if="posts.length === 0">게시글이 없습니다.</div>
     <div v-else class="post-list">
-      <div v-for="post in posts" :key="post.projPostCode" class="post-item">
+      <div v-for="post in posts" :key="post.teamPostCode" class="post-item">
         <div class="post-header">
-          <router-link :to="{ name: 'projectPostDetail', params: { id: post.projPostCode } }" id="title-link">
-            <h3 class="post-title">{{ post.projPostTitle }}</h3>
+          <router-link :to="{ name: 'teamPostDetail', params: { id: post.teamPostCode } }" id="title-link">
+            <h3 class="post-title">{{ post.teamPostTitle }}</h3>
           </router-link>
           <div class="post-user-info">
             <span class="nickname">{{ post.userNick }}</span>
@@ -13,12 +13,13 @@
         </div>
 
         <div class="post-content">
-          <p class="content-text">{{ truncatedContent(post.projPostContent) }}</p>
+          <p class="content-text">{{ truncatedContent(post.teamContent) }}</p>
+          <span>[모집기간] ~ {{ post.teamDeadline }}까지</span>
         </div>
 
         <div class="post-footer">
           <div class="post-tags">
-            <span v-for="(tag, index) in post.projTagContents" :key="index" class="tag">
+            <span v-for="(tag, index) in post.jobTagNames" :key="index" class="tag">
               #{{ tag }}
             </span>
           </div>
@@ -106,6 +107,7 @@ const formatDate = (dateString) => {
 }
 
 .post-content {
+  display: flex;
   margin-top: 10px;
   margin-left: 8%;
   margin-right: 30%;

@@ -15,6 +15,7 @@ import MainRouter from "@/router/MainRouter.js";
 import CommunityRouter from "@/router/CommunityRouter.js";
 import ProjectRouter from "@/router/ProjectRouter.js";
 import MyPageRouter from "@/router/MyPageRouter.js";
+import TeamRouter from "@/router/TeamRouter.js";
 import NotFound from "@/views/error/NotFound.vue";
 
 const routes = [
@@ -84,6 +85,9 @@ const routes = [
         // 프로젝트 게시판 라우터
         ...ProjectRouter,
 
+        // 팀모집 게시판 라우터
+        ...TeamRouter,
+  
         {
             path: "/:pathMatch(.*)*",
             redirect: "/notFound"
