@@ -24,11 +24,6 @@ const closeBlueModal = () => {
   emit('update:blueModalValue', false);
 }
 
-const handleConfirm = () => {
-  emit('confirm');
-  closeBlueModal(); // 확인버튼 눌러도 모달창 닫혀야하므로
-}
-
 </script>
 
 <template>
