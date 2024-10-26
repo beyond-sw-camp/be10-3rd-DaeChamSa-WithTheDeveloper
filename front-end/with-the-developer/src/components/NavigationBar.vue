@@ -34,6 +34,10 @@ const moveTo = (type) => {
     window.location.href =`/login`;
     return;
   }
+  if (type === '/' && isLoggedIn.value){
+    window.location.href = '/main';
+    return;
+  }
   console.log(type);
   window.location.href =`${type}`;
 }
