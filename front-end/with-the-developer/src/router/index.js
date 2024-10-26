@@ -1,74 +1,29 @@
-import {createRouter, createWebHashHistory, createWebHistory} from "vue-router";
+import {createRouter, createWebHistory} from "vue-router";
 import SearchResults from "@/views/SearchResults.vue";
-import RegisterView from "@/views/RegisterView.vue";
-import TosView from "@/views/TosView.vue";
-import LoginView from "@/views/LoginView.vue";
-import FindIdView from "@/views/FindIdView.vue";
-import MainPageBefore from "@/views/MainPageBefore.vue";
 import Cart from "@/views/Cart.vue";
-import DbtiTestView from "@/views/DbtiTestView.vue";
 import AdminUser from "@/views/Admin-User.vue";
 import AdminGoods from "@/views/AdminGoods.vue";
 import AdminTag from "@/views/Admin-Tag.vue";
 import PayFail from "@/views/PayFail.vue";
 import PayComplete from "@/views/PayComplete.vue";
-import DbtiResultView from "@/views/DbtiResultView.vue";
+import PrefixRouter from "@/router/PrefixRouter.js";
+import UserRouter from "@/router/UserRouter.js";
 import GoodsList from "@/views/GoodsList.vue";
-import JobSelectView from "@/views/JobSelectView.vue";
 import CommunityBoardView from "@/views/community/CommunityBoardView.vue";
 import CommunityPostView from "@/views/community/CommunityPostView.vue";
 import CommunityCreateView from "@/views/community/CommunityCreateView.vue";
 import CommunityUpdateView from "@/views/community/CommunityUpdateView.vue";
-import PrefixResultView from "@/views/PrefixResultView.vue";
 import ProjectPostView from "@/views/project/ProjectPostView.vue";
 import ProjectBoardView from "@/views/project/ProjectBoardView.vue";
 import ProjectCreateView from "@/views/project/ProjectCreateView.vue";
 import ProjectUpdateView from "@/views/project/ProjectUpdateView.vue";
+import MainRouter from "@/router/MainRouter.js";
+import MyPageRouter from "@/router/myPageRouter.js";
 
-const router = createRouter({
-    history: createWebHistory(),
-    routes: [
-        {
-            path: '/',
-            component: MainPageBefore
-        },
+const routes = [
         {
             path: '/search',
             component: SearchResults // 검색 결과 페이지
-        },
-        {
-            path: '/register/tos',
-            component: TosView  // 약관동의 페이지
-        },
-        {
-            path: '/register',
-            component: RegisterView // 회원가입 페이지
-        },
-        {
-            path: '/login',
-            component: LoginView    // 로그인 페이지
-        },
-        {
-            path: '/find-id',
-            component: FindIdView   // 아이디 찾기
-        },
-        {
-            path: '/prefix/test',
-            component: DbtiTestView // 성향 테스트
-        },
-        {
-            path: '/prefix/dbti-result/:result',
-            name: 'ResultPage',
-            component: DbtiResultView,   // 성향테스트 결과
-            props: true
-        },
-        {
-            path: '/prefix/job-tag',
-            component: JobSelectView    // 수식언 직무태그 선택
-        },
-        {
-            path: '/prefix/result',
-            component: PrefixResultView // 수식언 결과 페이지
         },
         {
             path: '/cart-goods',
@@ -144,7 +99,32 @@ const router = createRouter({
             name: 'projectPostUpdate',
             component: ProjectUpdateView
         },
-    ]
+        // 성향 라우터
+        ...PrefixRouter,
+
+        // 유저 라우터
+        ...UserRouter,
+
+        // 메인 페이지 라우터
+        ...MainRouter,
+
+        // 마이 페이지 라우터
+        ...MyPageRouter
+];
+
+const router = createRouter({
+    history: createWebHistory(),
+    routes,
+    // 라우팅 시 화면 최 상단으로 이동됨.
+    scrollBehavior(to, from, savedPosition) {
+        // savedPosition이 있는 경우(예: 뒤로 가기), 해당 위치로 이동
+        if (savedPosition) {
+            return savedPosition;
+        } else {
+            // 새로운 페이지 이동 시 맨 위로 스크롤
+            return { top: 0 };
+        }
+    }
 });
 
 // 페이지 이동 전에 실행되는 가드

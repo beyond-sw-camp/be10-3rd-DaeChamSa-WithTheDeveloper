@@ -2,12 +2,7 @@
 
 import Footer from "@/components/Footer.vue";
 import NavigationBar from "@/components/NavigationBar.vue";
-import DbtiTestView from "@/views/DbtiTestView.vue";
-import AdminGoods from "@/views/AdminGoods.vue";
 import SearchBar from "@/components/SearchBar.vue";
-import AdminUser from "@/views/Admin-User.vue";
-import AdminSideBar from "@/components/AdminSideBar.vue";
-
 </script>
 
 <template>

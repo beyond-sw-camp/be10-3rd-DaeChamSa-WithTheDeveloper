@@ -1,5 +1,8 @@
 <script setup>
-
+import router from '@/router'
+const moveTo = (type) => {
+  router.push(`${type}`);
+}
 </script>
 
 <template>
@@ -9,7 +12,7 @@
         <div class="small-content"><p>다양한 개발자들과 함께하세요!</p></div>
         <div class="big-content">
           <p>개발자랑에 어서오세요!</p>
-          <button id="register">가입하기</button>
+          <button id="register" @click="moveTo('/register')">가입하기</button>
         </div>
       </div>
       <div class="articles-image">
@@ -51,7 +54,7 @@
         <div class="small-content"><p>귀여운 굿즈들을 만나보세요!</p></div>
         <div class="big-content">
           <p>다양한 굿즈!</p>
-          <button id="goods">굿즈 구매</button>
+          <button id="goods" @click="moveTo('/goods')">굿즈 구매</button>
         </div>
       </div>
     </article>
@@ -111,6 +114,7 @@ button {
   transition: none;
   font-size: 17px;
   color: white;
+  cursor: pointer;
 }
 #register{
   background-color: #9C9C9C;
