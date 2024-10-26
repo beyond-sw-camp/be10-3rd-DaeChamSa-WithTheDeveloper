@@ -4,6 +4,7 @@ import {onMounted, reactive, ref} from "vue";
 
 const orderGoodsList = reactive([]);
 let orderDate = ref([]);
+let totalPrice = ref([]);
 
 const orderUid = ref('');
 // URL에서 orderCode 추출
@@ -40,7 +41,8 @@ const fetchOrderDetail = async () => {
           Authorization: `Bearer ${localStorage.getItem('jwtToken')}`,
         }
       });
-      console.log("Payment Details:", paymentResponse.data); // 결제 정보 출력
+      totalPrice = paymentResponse.data.paymentPrice;
+      //console.log("Payment Details:", paymentResponse.data.paymentPrice); // 결제 정보 출력
       specificOrder.orderGoods.forEach(goods => {
             orderGoodsList.push({
               orderGoodsCode: goods.orderGoodsCode,
@@ -113,7 +115,7 @@ onMounted((async() => {
         </div>
         <div>
           <div>결제금액</div>
-          <div>22400원</div>
+          <div>{{ totalPrice }}원</div>
         </div>
       </div>
 
