@@ -31,6 +31,12 @@ const moveTo = (type) => {
   router.push(`${type}`);
 }
 
+// 모달 상태 관리
+const showModal = ref(false);
+function toggleModal() {
+  showModal.value = !showModal.value;
+}
+
 </script>
 
 <template>
@@ -99,6 +105,14 @@ header{
 .nav-menu{
   margin-right: 40px;
   height: auto;
+}
+.nav-menu span{
+  cursor: pointer;
+}
+.nav-menu span:hover{
+  color: #1b5ac2;
+}
+.nav-menu{
   text-decoration-line: none;
   color: #7E7E7E;
 }

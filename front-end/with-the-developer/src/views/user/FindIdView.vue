@@ -25,8 +25,6 @@ import {ref, watch} from "vue";
   });
 
   const findId = () => {
-    console.log(userName.value);
-    console.log(userPhone.value);
     const findIdDTO = {
       userName: userName.value,
       userPhone: userPhone.value

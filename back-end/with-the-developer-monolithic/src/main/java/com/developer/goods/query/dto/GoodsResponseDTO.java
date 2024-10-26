@@ -12,5 +12,6 @@ public class GoodsResponseDTO {
     private String goodsContent;
     private String goodsStatus;
     private int goodsPrice;
+    private boolean delStatus;
     private List<Image> images;
 }

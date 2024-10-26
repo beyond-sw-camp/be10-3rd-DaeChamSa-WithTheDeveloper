@@ -29,7 +29,6 @@
         <input type="file" @change="handelFileUpload" multiple/>
         <button @click="submitGoods">이미지 업로드</button>
       </div>
-
       <div class="input-group">
         <label for="content">본문</label>
         <textarea v-model="goodsContent" id="content" placeholder="본문"></textarea>
@@ -45,6 +44,11 @@
 
 <script setup>
 import { ref } from 'vue';
+import axios from 'axios';
+import {useRouter} from "vue-router";
+
+// 이벤트 정의
+const emit = defineEmits(['goods-registered', 'cancel']);
 
 // 폼 데이터
 const goodsName = ref('');
@@ -55,6 +59,11 @@ const goodsContent = ref('');
 // 이미지 목록, 파일데이터
 const imageList = ref([]);
 const fileList = ref([]);
+
+const router = useRouter();
+
+// admin 테스트 위한 토큰 하드코딩
+const adminToken = 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsInVzZXJDb2RlIjoxLCJhdXRoIjoiUk9MRV9BRE1JTiIsImV4cCI6MTcyOTkxMDA1Nn0.6iXhnbWaWTgYzBiwKPgrzfVYbQim8MRRN2wPKXV4I3qkVzD41zPFd7sS0XP1VYr_B1wBztGSi7i75WhdkaDTTw';
 
 // 이미지 업로드
 const handelFileUpload = (event) => {
@@ -73,19 +82,47 @@ const handelFileUpload = (event) => {
 };
 
 // 굿즈 등록하기
-const submitGoods = () => {
+const submitGoods = async () => {
   const formData = new FormData();
 
-  fileList.value.forEach((file, index)=>{
-    formData.append(`{file_${index}`,file);
+  const goodsCreateDTO = {
+    imageList: imageList.value,
+    goodsName: goodsName.value,
+    goodsPrice: goodsPrice.value,
+    goodsStatus: goodsStatus.value,
+    goodsContent: goodsContent.value,
+  };
+
+  formData.append('goodsCreateDTO', new Blob([JSON.stringify(goodsCreateDTO)],{type:"application/json"}));
+  fileList.value.forEach((file)=>{
+    formData.append('images', file);
   });
-}
+
+  try{
+    localStorage.setItem('jwtToken', adminToken);
+    axios.defaults.headers.common['Authorization'] = adminToken;
+
+    await axios.post('http://localhost:8080/goods', formData,{
+      headers:{
+        'Content-Type' : 'multipart/form-data',
+        Authorization: `Bearer ${adminToken}`, // Authorization 헤더에 토큰 추가
+      },
+    });
+    // const response = router.push("/goods");
+    console.log("굿즈 등록 성공:");
+    emit('goods-registered');
+    emit('cancel');
+  } catch (error){
+    console.log("굿즈 등록 실패: ", error)
+  }
+};
+
 </script>
 
 <style scoped>
 .container {
   display: flex;
-  width: 300px;
+  width: 80%;
   flex-direction: row;
   margin-bottom: 20px;
   margin-top: 20px;
@@ -150,6 +187,7 @@ button:hover {
 
 *{
   font-family: "Neo둥근모 Pro";
+  font-size: 25px;
   margin: 0 auto;
 }
 </style>

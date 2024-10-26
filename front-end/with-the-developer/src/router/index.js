@@ -1,23 +1,19 @@
 import {createRouter, createWebHistory} from "vue-router";
 import SearchResults from "@/views/SearchResults.vue";
 import Cart from "@/views/Cart.vue";
-import AdminUser from "@/views/Admin-User.vue";
-import AdminGoods from "@/views/AdminGoods.vue";
-import AdminTag from "@/views/Admin-Tag.vue";
+import DbtiTestView from "@/views/DbtiTestView.vue";
+import AdminUser from "@/views/admin/Admin-User.vue";
+import AdminGoods from "@/views/admin/AdminGoods.vue";
+import AdminTag from "@/views/admin/Admin-Tag.vue";
 import PayFail from "@/views/PayFail.vue";
 import PayComplete from "@/views/PayComplete.vue";
 import PrefixRouter from "@/router/PrefixRouter.js";
 import UserRouter from "@/router/UserRouter.js";
 import GoodsList from "@/views/GoodsList.vue";
-import CommunityBoardView from "@/views/community/CommunityBoardView.vue";
-import CommunityPostView from "@/views/community/CommunityPostView.vue";
-import CommunityCreateView from "@/views/community/CommunityCreateView.vue";
-import CommunityUpdateView from "@/views/community/CommunityUpdateView.vue";
-import ProjectPostView from "@/views/project/ProjectPostView.vue";
-import ProjectBoardView from "@/views/project/ProjectBoardView.vue";
-import ProjectCreateView from "@/views/project/ProjectCreateView.vue";
-import ProjectUpdateView from "@/views/project/ProjectUpdateView.vue";
+import GoodsDetail from "@/views/GoodsDetail.vue";
 import MainRouter from "@/router/MainRouter.js";
+import CommunityRouter from "@/router/CommunityRouter.js";
+import ProjectRouter from "@/router/ProjectRouter.js";
 import MyPageRouter from "@/router/MyPageRouter.js";
 
 const routes = [
@@ -36,6 +32,10 @@ const routes = [
         {
             path: '/payment/complete',
             component: PayComplete
+        },
+        {
+            path: '/goods/:goodsCode',
+            component: GoodsDetail
         },
         {
             path: '/goods',
@@ -109,7 +109,13 @@ const routes = [
         ...MainRouter,
 
         // 마이 페이지 라우터
-        ...MyPageRouter
+        ...MyPageRouter,
+
+        // 커뮤니티 게시판 라우터
+        ...CommunityRouter,
+
+        // 프로젝트 게시판 라우터
+        ...ProjectRouter,
 ];
 
 const router = createRouter({

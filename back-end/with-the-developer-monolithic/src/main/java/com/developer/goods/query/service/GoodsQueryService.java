@@ -52,4 +52,9 @@ public class GoodsQueryService {
 
         return goodsResponseDTO;
     }
+
+    @Transactional
+    public int getTotalGoodsCount() {
+        return sqlSession.getMapper(GoodsMapper.class).selectTotalGoodsCount();
+    }
 }
