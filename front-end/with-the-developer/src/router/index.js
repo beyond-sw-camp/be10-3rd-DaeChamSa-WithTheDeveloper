@@ -94,5 +94,15 @@ router.beforeEach((to, from, next) => {
     }
     next(); // 페이지 이동 허용
 });
+// 페이지 이동 전에 실행되는 가드
+router.beforeEach((to, from, next) => {
+    const allowedPages = ['/prefix/result', '/prefix/job-tag']; // `dbti`와 `jobTag`가 필요한 페이지 목록
+    if (!allowedPages.includes(to.path)) {
+        // 페이지가 허용되지 않은 경우 localStorage에서 항목 삭제
+        localStorage.removeItem('dbti');
+        localStorage.removeItem('jobTag');
+    }
+    next(); // 페이지 이동 허용
+});
 
 export default router;
