@@ -121,8 +121,7 @@ const updateAnswer = (index, answer, selected) => {
     console.error(`인덱스 ${index}의 질문이 정의되지 않았습니다.`);
   }
   // 선택한 답변 확인
-  console.log(userAnswers.value);
-  console.log(userAnswersDbti.value)
+
 };
 
 // 숫자 가장 많이 나온거에 따른 DBTI
@@ -155,7 +154,6 @@ function getRandomMostFrequentNumber(arr) {
     return mostFrequentNumbers[randomIndex];
   }
 
-  console.log(mostFrequentNumbers[0]);
   switch (mostFrequentNumbers[0]){
     case 0: mostDbti.value = 'BACKEND'
           break;
@@ -165,7 +163,6 @@ function getRandomMostFrequentNumber(arr) {
           break;
     case 3: mostDbti.value = 'DESIGNER'
   }
-  console.log(mostDbti.value);
 
 }
 

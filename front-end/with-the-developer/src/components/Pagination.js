@@ -15,10 +15,15 @@ export function usePagination(countItem, itemsPage){
         currentPage.value = page;
     };
 
+    const setTotalPage = (pageCount) => {
+        totalPage.value = pageCount;
+    }
+
     return {
         currentPage,
         totalPage,
         paginatedItems,
         setPage,
+        setTotalPage
     };
 }

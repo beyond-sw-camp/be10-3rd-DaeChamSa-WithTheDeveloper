@@ -7,20 +7,15 @@ import AdminGoods from "@/views/admin/AdminGoods.vue";
 import AdminTag from "@/views/admin/Admin-Tag.vue";
 import PayFail from "@/views/PayFail.vue";
 import PayComplete from "@/views/PayComplete.vue";
-<<<<<<< HEAD
-import DbtiResultView from "@/views/DbtiResultView.vue";
 import AdminGoodsDetail from "@/views/admin/AdminGoodsDetail.vue";
-=======
 import PrefixRouter from "@/router/PrefixRouter.js";
 import UserRouter from "@/router/UserRouter.js";
 import GoodsList from "@/views/GoodsList.vue";
-import CommunityBoardView from "@/views/CommunityBoardView.vue";
-import CommunityPostView from "@/views/CommunityPostView.vue";
-import CommunityCreateView from "@/views/CommunityCreateView.vue";
-import CommunityUpdateView from "@/views/CommunityUpdateView.vue";
+import GoodsDetail from "@/views/GoodsDetail.vue";
 import MainRouter from "@/router/MainRouter.js";
 import MyPageRouter from "@/router/myPageRouter.js";
->>>>>>> 5696e58c001b50e8108c1c57844977f341c2fb04
+import CommunityRouter from "@/router/CommunityRouter.js";
+import ProjectRouter from "@/router/ProjectRouter.js";
 
 const routes = [
         {
@@ -38,6 +33,10 @@ const routes = [
         {
             path: '/payment/complete',
             component: PayComplete
+        },
+        {
+            path: '/goods/:goodsCode',
+            component: GoodsDetail
         },
         {
             path: '/goods',
@@ -61,28 +60,6 @@ const routes = [
         },
         // *** 관리자
 
-        // *** 커뮤니티
-        {
-            path: '/community', // 게시판 목록 페이지
-            name: 'communityList',
-            component: CommunityBoardView
-        },
-        {
-            path: '/community/:id', // 게시글 상세 페이지
-            name: 'CommunityPostDetail',
-            component: CommunityPostView,
-            props: true, // URL 파라미터를 props로 전달
-        },
-        {
-            path: '/community/create',
-            name: 'communityPostCreate',
-            component: CommunityCreateView
-        },
-        {
-            path: '/community/update/:comuCode',
-            name: 'communityPostUpdate',
-            component: CommunityUpdateView
-        },
         // 성향 라우터
         ...PrefixRouter,
 
@@ -93,7 +70,13 @@ const routes = [
         ...MainRouter,
 
         // 마이 페이지 라우터
-        ...MyPageRouter
+        ...MyPageRouter,
+
+        // 커뮤니티 게시판 라우터
+        ...CommunityRouter,
+
+        // 프로젝트 게시판 라우터
+        ...ProjectRouter,
 ];
 
 const router = createRouter({
@@ -111,6 +94,16 @@ const router = createRouter({
     }
 });
 
+// 페이지 이동 전에 실행되는 가드
+router.beforeEach((to, from, next) => {
+    const allowedPages = ['/prefix/result', '/prefix/job-tag']; // `dbti`와 `jobTag`가 필요한 페이지 목록
+    if (!allowedPages.includes(to.path)) {
+        // 페이지가 허용되지 않은 경우 localStorage에서 항목 삭제
+        localStorage.removeItem('dbti');
+        localStorage.removeItem('jobTag');
+    }
+    next(); // 페이지 이동 허용
+});
 // 페이지 이동 전에 실행되는 가드
 router.beforeEach((to, from, next) => {
     const allowedPages = ['/prefix/result', '/prefix/job-tag']; // `dbti`와 `jobTag`가 필요한 페이지 목록

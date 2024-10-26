@@ -30,6 +30,13 @@ const moveToLogin = () => {
 const moveTo = (type) => {
   router.push(`${type}`);
 }
+
+// 모달 상태 관리
+const showModal = ref(false);
+function toggleModal() {
+  showModal.value = !showModal.value;
+}
+
 </script>
 
 <template>

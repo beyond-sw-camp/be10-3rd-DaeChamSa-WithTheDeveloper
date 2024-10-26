@@ -7,10 +7,12 @@
     <resultMap id="findAllResult" type="com.developer.project.post.query.dto.ProjPostListResponseDTO">
         <result column="proj_post_code" property="projPostCode"/>
         <result column="proj_post_title" property="projPostTitle"/>
+        <result column="proj_post_content" property="projPostContent"/>
         <result column="user_code" property="userCode"/>
         <result column="user_nick" property="userNick"/>
         <result column="created_date" property="createdDate"/>
         <result column="modified_date" property="modifiedDate"/>
+        <result column="bookmark_count" property="bookmarkCount"/>
 
         <collection property="projTagContents" ofType="String">
             <result column="tag_content" property="tagContent"/>
@@ -26,6 +28,7 @@
         <result column="user_nick" property="userNick"/>
         <result column="created_date" property="createdDate"/>
         <result column="modified_date" property="modifiedDate"/>
+        <result column="bookmark_count" property="bookmarkCount"/>
 
         <collection property="projTagContents" ofType="String">
             <result column="tag_content" property="tagContent"/>
@@ -38,14 +41,21 @@
         SELECT
             p.proj_post_code,
             p.proj_post_title,
+            p.proj_post_content,
             u.user_code,
             u.user_nick,
             p.created_date,
             p.modified_date,
-            pt.tag_content
+            pt.tag_content,
+            IFNULL(b.bookmark_count, 0) AS bookmark_count
         FROM proj_post p
         JOIN user u ON ( p.user_code = u.user_code )
         LEFT JOIN proj_tag pt ON ( p.proj_post_code = pt.proj_post_code )
+        LEFT JOIN (
+        SELECT proj_post_code, COUNT(*) AS bookmark_count
+        FROM bookmark
+        GROUP BY proj_post_code
+        ) b ON p.proj_post_code = b.proj_post_code
         WHERE p.del_status = false
         ORDER BY p.created_date DESC
         LIMIT 10 OFFSET #{offset}
@@ -63,10 +73,16 @@
         u.user_nick,
         p.created_date,
         p.modified_date,
-        pt.tag_content
+        pt.tag_content,
+        IFNULL(b.bookmark_count, 0) AS bookmark_count
         FROM proj_post p
         JOIN user u ON ( p.user_code = u.user_code )
         LEFT JOIN proj_tag pt ON ( p.proj_post_code = pt.proj_post_code )
+        LEFT JOIN (
+        SELECT proj_post_code, COUNT(*) AS bookmark_count
+        FROM bookmark
+        GROUP BY proj_post_code
+        ) b ON p.proj_post_code = b.proj_post_code
         WHERE p.proj_post_code = #{projPostCode}
         AND p.del_status = false
     </select>
