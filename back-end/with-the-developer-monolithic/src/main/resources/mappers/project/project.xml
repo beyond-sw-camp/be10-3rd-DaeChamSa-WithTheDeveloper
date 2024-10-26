@@ -87,6 +87,32 @@
         AND p.del_status = false
     </select>
 
+    <select id="findByUserCode"
+            parameterType="Long"
+            resultMap="findByCodeResult">
+        SELECT
+        p.proj_post_code,
+        p.proj_post_title,
+        p.proj_post_content,
+        p.proj_url,
+        u.user_code,
+        u.user_nick,
+        p.created_date,
+        p.modified_date,
+        pt.tag_content,
+        IFNULL(b.bookmark_count, 0) AS bookmark_count
+        FROM proj_post p
+        JOIN user u ON ( p.user_code = u.user_code )
+        LEFT JOIN proj_tag pt ON ( p.proj_post_code = pt.proj_post_code )
+        LEFT JOIN (
+        SELECT proj_post_code, COUNT(*) AS bookmark_count
+        FROM bookmark
+        GROUP BY proj_post_code
+        ) b ON p.proj_post_code = b.proj_post_code
+        WHERE p.user_code = #{userCode}
+        AND p.del_status = false
+    </select>
+
     <select id="findByProjTag"
             parameterType="map"
             resultMap="findAllResult">

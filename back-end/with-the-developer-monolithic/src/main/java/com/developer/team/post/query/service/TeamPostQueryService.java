@@ -56,4 +56,9 @@ public class TeamPostQueryService {
         log.info(searchList.toString());
         return searchList;
     }
+
+    public List<TeamPostDTO> selectByUserCode(Long userCode) {
+
+        return teamPostMapper.selectByUserCode(userCode);
+    }
 }
