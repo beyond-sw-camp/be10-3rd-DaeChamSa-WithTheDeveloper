@@ -2,9 +2,20 @@ import {ref, computed} from "vue";
 
 export function usePagination(countItem, itemsPage){
     const currentPage = ref(1);
-    const totalPage = computed(() => Math.ceil(countItem.value.length/itemsPage));
+
+    const totalPage = computed(() => {
+        if(!countItem.value || countItem.value.length === 0 ) {
+            return 1; // 총 페이지 수 1
+        }
+    return Math.ceil(countItem.value.length/itemsPage);
+});
 
     const paginatedItems = computed(() => {
+
+        if (!Array.isArray(countItem.value) || countItem.value.length === 0) {
+            return [];
+        }
+
         const start = (currentPage.value-1) * itemsPage;
         const end = start + itemsPage;
         return countItem.value.slice(start, end);
