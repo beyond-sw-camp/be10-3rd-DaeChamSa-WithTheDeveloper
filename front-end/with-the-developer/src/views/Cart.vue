@@ -13,7 +13,7 @@ const handleConfirm = async() => {
       .filter(goods => goods.isSelected) // 선택된 굿즈만 포함
       .map(goods => ({
         goodsCode: goods.goodsCode,
-        amount: goods.amount,
+        goodsAmount: goods.amount,
       }));
 
   let userName = '';
@@ -63,16 +63,18 @@ const createOrder = async(orderGoods) => {
 
 const createPayment = async(orderUid) => {
   try {
-    const response  = await axios.post(`http://localhost:8080/payment/${orderUid}`, null, {
+    const response  = await axios.get(`http://localhost:8080/payment/${orderUid}`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('jwtToken')}`,
+        'Content-Type': 'application/json'
       }
     })
 
     console.log(response)
+    window.location.href = `http://localhost:8080/payment/${orderUid}`;
 
   } catch(error) {
-    console.log("결제 정보 생성 중 에러 발생")
+    console.log("결제 정보 생성 중 에러 발생", error)
   }
 }
 

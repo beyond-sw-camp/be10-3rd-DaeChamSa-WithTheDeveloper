@@ -29,7 +29,7 @@ const routes = [
             component: Cart  // 장바구니
         },
         {
-            path: '/payment/fail',
+            path: '/fail-payment',
             component: PayFail
         },
         {

@@ -29,7 +29,7 @@ public class PaymentCommandController {
     @Value("${iam.ipm.code}")
     private String ipmKey;
 
-    @PostMapping("/{orderUid}")
+    @GetMapping("/{orderUid}")
     @Operation(summary = "결제 정보 생성", description = "주문한 내역을 토대로 결제 정보를 생성합니다.")
     public String payment(@PathVariable(name = "orderUid") String orderUid,
                           Model model){
@@ -38,7 +38,6 @@ public class PaymentCommandController {
         RequestPayDTO requestPayDTO = paymentService.findRequestDTO(orderUid);
         model.addAttribute("requestDto", requestPayDTO);
         model.addAttribute("ipmKey", ipmKey);
-
         return "payment";
     }
 
