@@ -11,6 +11,7 @@
         t.team_cmt,
         t.created_date,
         t.modified_date,
+        t.user_code,
         u.user_nick
         FROM team_cmt t
         JOIN user u ON ( t.user_code = u.user_code )
