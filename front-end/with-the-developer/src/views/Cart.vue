@@ -16,14 +16,29 @@ const handleConfirm = async() => {
         amount: goods.amount,
       }));
 
+  let userName = '';
+
+  try {
+    const userResponse = await axios.get(`http://localhost:8080/user`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('jwtToken')}`,
+      }
+    });
+    userName = userResponse.data.userName;
+    console.log(userName);
+  } catch(error) {
+    console.log("회원 이름을 가져오던 중 에러 발생", error);
+  }
+
   try {
     // 1. 주문 생성
     const orderResponse = await createOrder(orderGoods);
-    console.log("주문 생성 성공", orderResponse);
+    const orderUid = orderResponse.data;
+    console.log("주문 생성 성공", orderUid);
 
     // 2. 결제 요청
-    const paymentResponse = await createPayment(orderResponse);
-    console.log("주문 생성 성공");
+    const paymentResponse = await createPayment(orderUid);
+    console.log("결제 생성 성공");
   } catch(error) {
     console.log("주문 및 결제 중 에러 발생함", error);
   }
@@ -39,21 +54,23 @@ const createOrder = async(orderGoods) => {
         Authorization: `Bearer ${localStorage.getItem('jwtToken')}`,
       }
     });
+    return response;
     console.log("주문이 성공적으로 생성되었습니다. 주문번호: ", response.data);
   } catch(error) {
     console.log("주문 생성 중 에러 발생", error);
   }
 }
 
-const createPayment = async(orderResponse) => {
+const createPayment = async(orderUid) => {
   try {
-    const response  = await axios.post("http://localhost:8080/payment", {
-      orderUid: orderResponse.data.orderUid
-    }, {
+    const response  = await axios.post(`http://localhost:8080/payment/${orderUid}`, null, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('jwtToken')}`,
       }
     })
+
+    console.log(response)
+
   } catch(error) {
     console.log("결제 정보 생성 중 에러 발생")
   }
