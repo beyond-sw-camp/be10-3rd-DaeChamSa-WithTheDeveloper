@@ -1,10 +1,10 @@
 <script setup>
 
-  import {ref} from "vue";
-  import axios from "axios";
-  import router from "@/router/index.js";
+import {ref} from "vue";
+import axios from "axios";
+import router from "@/router/index.js";
 
-  // pw패턴
+// pw패턴
   const pwPattern = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*()_+=-]).{8,16}$/;
 
   // email패턴
@@ -57,7 +57,7 @@
       pwValid.value = false;
     } else if (!pwPattern.test(userPw.value)){
       lastSecondErrorField.value = 'password';
-      errorSecondMessage.value = '* 영문자, 숫자, 특수문자가 하나씩 포함되어야 합니다. 최소 8자리 ~ 최대 16자리';
+      errorSecondMessage.value = '* 영문자, 숫자, 특수문자가 하나씩 포함되어야 합니다. <br><br>최소 8자리 ~ 최대 16자리';
       pwValid.value = false;
     } else {
       lastSecondErrorField.value = '';

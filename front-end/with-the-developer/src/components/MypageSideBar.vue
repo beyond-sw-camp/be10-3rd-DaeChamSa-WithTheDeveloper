@@ -8,7 +8,7 @@
         <button @click="navigateTo('bookmark/team')">북마크</button>
       </li>
       <li>
-        <button @click="navigateTo('posts')">내 게시글</button>
+        <button @click="navigateTo('post/community')">내 게시글</button>
       </li>
       <li>
         <button @click="navigateTo('resMsg')">쪽지</button>

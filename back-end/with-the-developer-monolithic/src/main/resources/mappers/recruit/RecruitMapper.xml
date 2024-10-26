@@ -78,6 +78,27 @@
         WHERE r.recruit_code = #{recruitCode};
     </select>
 
+    <select id="readRecruitByUserCode" resultMap="recruitDetail">
+        SELECT
+        r.recruit_title
+        , r.recruit_content
+        , r.recruit_url
+        , r.recruit_start
+        , r.recruit_end
+        , r.recruit_post_date
+        , r.recruit_status
+        , u.user_id
+        , jt.job_tag_name
+        FROM recruit r
+        JOIN user u
+        ON r.user_code = u.user_code
+        JOIN recruit_tag rt
+        ON r.recruit_code = rt.recruit_code
+        JOIN job_tag jt
+        ON rt.job_tag_code = jt.job_tag_code
+        WHERE r.user_code = #{userCode};
+    </select>
+
     <!-- 채용공고 태그로 검색 -->
     <select id="searchRecruitByTags"
             parameterType="map"

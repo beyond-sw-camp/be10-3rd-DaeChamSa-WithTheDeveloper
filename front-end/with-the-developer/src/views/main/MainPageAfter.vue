@@ -2,10 +2,10 @@
   import { reactive } from 'vue';
   import router from "@/router/index.js";
   const postList = reactive([
-    {title: "테스트 타이틀 입니다. 테스트 타이틀입니다." , date: "24.10.10", bookmark: 10},
-    {title: "테스트 타이틀 입니다. 테스트 타이틀입니다." , date: "24.10.10", bookmark: 10},
-    {title: "테스트 타이틀 입니다. 테스트 타이틀입니다." , date: "24.10.10", bookmark: 10},
-    {title: "테스트 타이틀 입니다. 테스트 타이틀입니다." , date: "24.10.10", bookmark: 10}
+    {title: "테스트 타이틀 입니다. <br><br>테스트 타이틀입니다." , date: "24.10.10", bookmark: 10},
+    {title: "테스트 타이틀 입니다. <br><br>테스트 타이틀입니다." , date: "24.10.10", bookmark: 10},
+    {title: "테스트 타이틀 입니다. <br><br>테스트 타이틀입니다." , date: "24.10.10", bookmark: 10},
+    {title: "테스트 타이틀 입니다. <br><br>테스트 타이틀입니다." , date: "24.10.10", bookmark: 10}
   ]);
   const moveTo = (type) => {
     router.push(`${type}`)

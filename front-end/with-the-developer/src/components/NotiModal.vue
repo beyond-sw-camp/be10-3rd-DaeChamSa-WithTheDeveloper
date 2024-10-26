@@ -121,7 +121,7 @@ function readAllNoti(){
               noti.notiRead = true;
             }
           });
-          alert('전체 읽음 처리 완료');
+          alert('알림 전체 읽음');
         }else {
           alert('전체 읽음 처리 실패');
         }
@@ -143,7 +143,7 @@ function deleteAllNoti(){
       .then(res => {
         if (res.status === 200){
           noties.value = [];
-          alert('알림 전체 삭제 완료');
+          alert('알림 전체 삭제');
         } else {
           alert('알림 전체 삭제 실패');
         }

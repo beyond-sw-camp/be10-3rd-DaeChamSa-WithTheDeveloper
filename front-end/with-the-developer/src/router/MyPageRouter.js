@@ -9,6 +9,10 @@ import MyPageTeamBookmark from "@/views/mypage/bookmark/MyPageTeamBookmark.vue";
 import MyPageRecruitBookmark from "@/views/mypage/bookmark/MyPageRecruitBookmark.vue";
 import MyPageProjectBookmark from "@/views/mypage/bookmark/MyPageProjectBookmark.vue";
 import MyPageCommunityBookmark from "@/views/mypage/bookmark/MyPageCommunityBookmark.vue";
+import MyPageComuPost from "@/views/mypage/post/MyPageComuPost.vue";
+import MyPageTeamPost from "@/views/mypage/post/MyPageTeamPost.vue";
+import MyPageProjectPost from "@/views/mypage/post/MyPageProjectPost.vue";
+import MyPageRecruitPost from "@/views/mypage/post/MyPageRecruitPost.vue";
 
 export default [
     {
@@ -64,5 +68,25 @@ export default [
         path: '/mypage/bookmark/community',
         name: 'communityBookmark',
         component: MyPageCommunityBookmark
+    },
+    {
+        path: '/mypage/post/community',
+        name: 'communityPost',
+        component: MyPageComuPost
+    },
+    {
+        path: '/mypage/post/team',
+        name: 'teamPost',
+        component: MyPageTeamPost
+    },
+    {
+        path: '/mypage/post/project',
+        name: 'projectPost',
+        component: MyPageProjectPost
+    },
+    {
+        path: '/mypage/post/recruit',
+        name: 'recruitPost',
+        component: MyPageRecruitPost
     }
 ];

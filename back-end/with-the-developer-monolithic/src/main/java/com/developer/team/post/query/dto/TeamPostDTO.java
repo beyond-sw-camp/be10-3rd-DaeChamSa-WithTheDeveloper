@@ -29,6 +29,8 @@ public class TeamPostDTO {
 
     private List<String> jobTagNames;
 
+    private Integer bookmarkCount;
+
     private List<Image> images;
 
 }
