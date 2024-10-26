@@ -12,7 +12,12 @@
             bmk_code,
             bmk_url,
             bmk_title,
-            bmk_create_date
+            bmk_create_date,
+            user_code,
+            team_post_code,
+            proj_post_code,
+            comu_post_code,
+            recruit_post_code
           FROM bookmark
          WHERE user_code = #{userCode}
          ORDER BY bmk_create_date desc

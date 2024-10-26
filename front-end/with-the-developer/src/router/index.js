@@ -14,7 +14,7 @@ import CommunityPostView from "@/views/CommunityPostView.vue";
 import CommunityCreateView from "@/views/CommunityCreateView.vue";
 import CommunityUpdateView from "@/views/CommunityUpdateView.vue";
 import MainRouter from "@/router/MainRouter.js";
-import MyPageRouter from "@/router/myPageRouter.js";
+import MyPageRouter from "@/router/MyPageRouter.js";
 
 const routes = [
         {
