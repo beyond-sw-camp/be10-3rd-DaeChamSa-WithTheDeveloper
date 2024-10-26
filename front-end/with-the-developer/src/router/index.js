@@ -13,6 +13,7 @@ import AdminTag from "@/views/admin/Admin-Tag.vue";
 import PayFail from "@/views/PayFail.vue";
 import PayComplete from "@/views/PayComplete.vue";
 import DbtiResultView from "@/views/DbtiResultView.vue";
+import AdminGoodsDetail from "@/views/admin/AdminGoodsDetail.vue";
 
 
 const router = createRouter({
@@ -76,6 +77,9 @@ const router = createRouter({
         {
             path: '/goods',
             component: AdminGoods,
+        },
+        {
+            path: '/goods/:goodsCode', component: AdminGoodsDetail, props: true
         },
         {
             path: '/jop-tag',
