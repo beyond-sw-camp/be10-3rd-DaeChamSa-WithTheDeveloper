@@ -51,6 +51,6 @@ public class GoodsService {
         Goods goods = jpaGoodsRepository.findById(goodsCode)
                 .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_POST));
 
-        jpaGoodsRepository.delete(goods);
+        jpaGoodsRepository.deleteById(goodsCode);
     }
 }

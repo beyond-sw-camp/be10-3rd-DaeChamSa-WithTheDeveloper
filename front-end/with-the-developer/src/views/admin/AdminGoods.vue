@@ -14,7 +14,7 @@ const openModal = () => showModal.value = true;
 const closeModal = () => showModal.value = false;
 
 // admin 테스트 위한 토큰 하드코딩
-const adminToken = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsInVzZXJDb2RlIjoxLCJhdXRoIjoiUk9MRV9BRE1JTiIsImV4cCI6MTcyOTg3NzQ5NX0.3tOLtjdkni_MEE4AvUL7Dv2xc0QMRQHrBHByfcfo1YjQP1OunmTIPo20vs9guVh6NUpCZCfg0NaWqbgeuzYBsA"
+const adminToken = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsInVzZXJDb2RlIjoxLCJhdXRoIjoiUk9MRV9BRE1JTiIsImV4cCI6MTcyOTkxMDA1Nn0.6iXhnbWaWTgYzBiwKPgrzfVYbQim8MRRN2wPKXV4I3qkVzD41zPFd7sS0XP1VYr_B1wBztGSi7i75WhdkaDTTw"
 // 서버에서 가져온 굿즈 데이터
 // const products = ref([]);
 // const currentPage = ref(1); // 현재 페이지
@@ -142,7 +142,6 @@ const deleteGoods = async () => {
         <tr v-if="products.length === 0">
           <td colspan="6">데이터가 없습니다.</td>
         </tr>
-<!--        <tr v-for="product in products" :key="product.goodsCode">-->
         <tr v-for="product in paginatedItems" :key="product.goodsCode">
           <td><input type="checkbox" @change="toggleChecked(product.goodsCode)"/></td>
           <td><img :src="product.images[0] || 'default-image-path.png'" alt="product image"/></td>
@@ -150,7 +149,7 @@ const deleteGoods = async () => {
             <a @click.prevent="viewProductDetail(product.goodsCode)" class="name-click">{{ product.goodsName }}</a>
           </td>
           <td>{{ product.goodsPrice.toLocaleString() }}원</td>
-          <td>{{ product.goodsStatus }}</td>
+          <td>{{ product.delStatus }}</td>
           <td>
             <button class="edit-button">수정</button>
           </td>

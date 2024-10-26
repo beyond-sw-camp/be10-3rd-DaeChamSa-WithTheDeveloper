@@ -63,7 +63,7 @@ const fileList = ref([]);
 const router = useRouter();
 
 // admin 테스트 위한 토큰 하드코딩
-const adminToken = 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsInVzZXJDb2RlIjoxLCJhdXRoIjoiUk9MRV9BRE1JTiIsImV4cCI6MTcyOTg3NzQ5NX0.3tOLtjdkni_MEE4AvUL7Dv2xc0QMRQHrBHByfcfo1YjQP1OunmTIPo20vs9guVh6NUpCZCfg0NaWqbgeuzYBsA';
+const adminToken = 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsInVzZXJDb2RlIjoxLCJhdXRoIjoiUk9MRV9BRE1JTiIsImV4cCI6MTcyOTkxMDA1Nn0.6iXhnbWaWTgYzBiwKPgrzfVYbQim8MRRN2wPKXV4I3qkVzD41zPFd7sS0XP1VYr_B1wBztGSi7i75WhdkaDTTw';
 
 // 이미지 업로드
 const handelFileUpload = (event) => {
@@ -86,6 +86,7 @@ const submitGoods = async () => {
   const formData = new FormData();
 
   const goodsCreateDTO = {
+    imageList: imageList.value,
     goodsName: goodsName.value,
     goodsPrice: goodsPrice.value,
     goodsStatus: goodsStatus.value,

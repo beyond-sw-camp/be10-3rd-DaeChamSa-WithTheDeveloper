@@ -9,7 +9,8 @@
         goods_name,
         goods_content,
         goods_status,
-        goods_price
+        goods_price,
+        del_status
         FROM goods
     </select>
 
