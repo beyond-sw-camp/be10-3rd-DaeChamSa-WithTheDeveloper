@@ -20,15 +20,22 @@ const isLoggedIn = computed(() => store.getters.isLoggedIn);
 // 로그인
 const moveToLogin = () => {
   if (!isLoggedIn.value) {
-    router.push('/login');
+    window.location.href =`/login`;
   } else {
     store.dispatch('logout'); // 로그아웃 처리
-    router.push('/');
+    window.location.href =`/`;
   }
 };
 
 const moveTo = (type) => {
-  router.push(`${type}`);
+
+  if (type === '/mypage/info' && !isLoggedIn.value) {
+    alert('로그인이 필요한 서비스입니다.');
+    window.location.href =`/login`;
+    return;
+  }
+  console.log(type);
+  window.location.href =`${type}`;
 }
 
 // 모달 상태 관리

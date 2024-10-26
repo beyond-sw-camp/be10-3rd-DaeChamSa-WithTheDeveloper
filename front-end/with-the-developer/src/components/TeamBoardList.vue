@@ -2,10 +2,10 @@
   <div class="board-list">
     <div v-if="posts.length === 0" class="no-posts-message">게시글이 없습니다.</div>
     <div v-else class="post-list">
-      <div v-for="post in posts" :key="post.projPostCode" class="post-item">
+      <div v-for="post in posts" :key="post.teamPostCode" class="post-item">
         <div class="post-header">
-          <router-link :to="{ name: 'projectPostDetail', params: { id: post.projPostCode } }" class="title-link">
-            <h3 class="post-title">{{ post.projPostTitle }}</h3>
+          <router-link :to="{ name: 'teamPostDetail', params: { id: post.teamPostCode } }" class="title-link">
+            <h3 class="post-title">{{ post.teamPostTitle }}</h3>
           </router-link>
           <div class="post-user-info">
             <span class="nickname">{{ post.userNick }}</span>
@@ -13,16 +13,17 @@
         </div>
 
         <div class="post-content">
-          <p class="content-text">{{ truncatedContent(post.projPostContent) }}</p>
+          <p class="content-text">{{ truncatedContent(post.teamContent) }}</p>
+          <span class="deadline-text">[모집기간] ~ {{ post.teamDeadline }}까지</span>
         </div>
 
         <div class="post-footer">
           <div class="post-tags">
-            <span v-for="(tag, index) in post.projTagContents" :key="index" class="tag">#{{ tag }}</span>
+            <span v-for="(tag, index) in post.jobTagNames" :key="index" class="tag">#{{ tag }}</span>
           </div>
           <span class="post-time">{{ formatDate(post.createdDate) }}</span>
           <button class="bookmark-button" @click="toggleBookmark(post)">
-            <img :src="bookmarkedIcon" alt="북마크" class="bookmark-image"/>
+            <img :src="bookmarkedIcon" alt="북마크" class="bookmark-image" />
           </button>
           <span class="bookmark-count">{{ post.bookmarkCount }}</span>
         </div>
@@ -32,7 +33,7 @@
 </template>
 
 <script setup>
-import { defineProps } from 'vue';
+import {defineProps} from 'vue';
 import axios from 'axios';
 
 const props = defineProps({
@@ -48,10 +49,10 @@ const toggleBookmark = async (post) => {
   const userCode = localStorage.getItem('userCode'); // 사용자 코드 가져오기
 
   const bookmarkData = {
-    bmkUrl: `/project/${post.projPostCode}`,
-    bmkTitle: post.projPostTitle,
-    postType: 'projPost',
-    postCode: post.projPostCode,
+    bmkUrl: `/team/${post.teamPostCode}`,
+    bmkTitle: post.teamPostTitle,
+    postType: 'teamPost',
+    postCode: post.teamPostCode,
     userCode: userCode,
   };
 
@@ -67,7 +68,7 @@ const toggleBookmark = async (post) => {
 const truncatedContent = (content) => (content.length > 100 ? content.slice(0, 100) + '...' : content);
 
 const formatDate = (dateString) => {
-  const options = { year: 'numeric', month: 'short', day: 'numeric' };
+  const options = {year: 'numeric', month: 'short', day: 'numeric'};
   return new Date(dateString).toLocaleDateString(undefined, options);
 };
 </script>
@@ -135,6 +136,12 @@ const formatDate = (dateString) => {
   overflow: hidden;
   text-overflow: ellipsis;
   color: #444;
+}
+
+.deadline-text {
+  display: block;
+  margin-top: 5px;
+  color: #666;
 }
 
 .post-footer {

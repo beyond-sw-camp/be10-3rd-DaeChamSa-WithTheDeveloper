@@ -41,4 +41,11 @@ public class ComuPostQueryService {
 
         return comuPostResponseDTO;
     }
+
+    // 내 커뮤니티 게시글 조회
+    public List<ComuPostResponseDTO> selectComuPostByUserCode(Long userCode) {
+
+        return comuPostMapper.selectComuPostByUserCode(userCode);
+
+    }
 }

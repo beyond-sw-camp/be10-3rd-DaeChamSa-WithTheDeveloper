@@ -60,4 +60,9 @@ public class ProjPostQueryService {
 
         return searchList;
     }
+
+    public List<ProjPostResponseDTO> readByUserCode(Long userCode) {
+
+        return projPostMapper.findByUserCode(userCode);
+    }
 }

@@ -1,6 +1,5 @@
 <script setup>
 
-import NavigationBar from "@/components/NavigationBar.vue";
 import router from "@/router/index.js";
 import {ref} from "vue";
 import {useStore} from "vuex";
@@ -93,10 +92,10 @@ const parseJwt = (token) => {
     <h2>로그인</h2>
     <form>
       <div class="input-group">
-        <input type="text" placeholder="아이디를 입력해주세요." v-model="userId" />
+        <input type="text" placeholder="아이디를 입력해주세요." v-model="userId" @keyup.enter="login"/>
       </div>
       <div class="input-group">
-        <input type="password" placeholder="비밀번호를 입력해주세요." v-model="userPw" />
+        <input type="password" placeholder="비밀번호를 입력해주세요." v-model="userPw" @keyup.enter="login"/>
       </div>
 
       <div class="options">

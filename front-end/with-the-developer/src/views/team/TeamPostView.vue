@@ -1,7 +1,7 @@
 <template>
   <div class="post-detail">
     <div class="post-header">
-      <span class="board-category">커뮤니티</span>
+      <span class="board-category">팀모집</span>
       <div class="action-buttons">
         <button @click="goToList">목록</button>
         <template v-if="isAuthor">
@@ -17,14 +17,14 @@
     <hr/>
 
     <div class="post-title">
-      <h1>{{ post.comuSubject }}</h1>
+      <h1>{{ post.teamPostTitle }}</h1>
       <span class="post-date">{{ formatDate(post.createdDate) }}</span>
     </div>
 
     <hr/>
 
     <div class="post-content">
-      <p>{{ post.comuContent }}</p>
+      <p>{{ post.teamContent }}</p>
 
       <div v-if="post.images && post.images.length" class="image-slider">
         <swiper
@@ -33,7 +33,7 @@
             :pagination="{ clickable: true }"
         >
           <swiper-slide v-for="(image, index) in post.images" :key="index">
-            <img :src="getImageUrl(image.fileName)" alt="게시글 이미지" />
+            <img :src="getImageUrl(image.fileName)" alt="게시글 이미지"/>
           </swiper-slide>
         </swiper>
       </div>
@@ -45,6 +45,12 @@
       <div class="author-info">
         <span>{{ post.userNick }}</span>
       </div>
+      <div class="proj-tags">
+        <span v-for="(tag, index) in post.jobTagNames" :key="index" class="tag">
+          #{{ tag }}
+        </span>
+      </div>
+      <span>[모집기간] ~ {{ post.teamDeadline }}까지</span>
       <div class="post-actions">
         <template v-if="!isAuthor && isLogin">
           <button @click="openMessageModal">쪽지</button>
@@ -66,9 +72,9 @@
     <div class="comment-list">
       <div v-for="comment in comments" :key="comment.id" class="comment-item">
         <div class="comment-author">{{ comment.userNick }}</div>
-        <div class="comment-content">{{ comment.comuCmtContent }}</div>
+        <div class="comment-content">{{ comment.teamCmt }}</div>
         <div class="comment-date">{{ formatDate(comment.createdDate) }}</div>
-        <button v-if="isCmtAuthor(comment) && isLogin" @click="confirmDeleteComment(comment.comuCmtCode)">삭제</button>
+        <button v-if="isCmtAuthor(comment) && isLogin" @click="confirmDeleteComment(comment.teamCmtCode)">삭제</button>
       </div>
     </div>
 
@@ -106,12 +112,12 @@ import axios from 'axios';
 import {ref, onMounted, computed} from 'vue';
 import {useRoute, useRouter} from 'vue-router';
 import {BASE_IMAGE_URL} from '@/config/image-base-url.js';
-import { Swiper, SwiperSlide } from 'swiper/vue';
+import {Swiper, SwiperSlide} from 'swiper/vue';
 import 'swiper/swiper-bundle.css'; // Swiper 스타일
 
 const route = useRoute();
 const router = useRouter();
-const comuCode = route.params.id; // URL에서 게시글 ID 추출
+const teamPostCode = route.params.id; // URL에서 게시글 ID 추출
 
 const post = ref({});
 const comments = ref([]);
@@ -137,7 +143,7 @@ const getImageUrl = (fileName) => `${BASE_IMAGE_URL}/${fileName}`;
 // 게시글 상세 조회
 const fetchPost = async () => {
   try {
-    const response = await axios.get(`/public/comu/post/${comuCode}`);
+    const response = await axios.get(`/public/team/post/${teamPostCode}`);
     post.value = response.data;
   } catch (error) {
     console.error('게시글 조회 실패:', error);
@@ -147,7 +153,7 @@ const fetchPost = async () => {
 // 댓글 목록 조회
 const fetchComments = async () => {
   try {
-    const response = await axios.get(`/public/comu/post/${comuCode}/cmt`);
+    const response = await axios.get(`/public/team/cmt/${teamPostCode}`);
     comments.value = response.data;
   } catch (error) {
     console.error('댓글 조회 실패:', error);
@@ -161,8 +167,10 @@ const submitComment = async () => {
   try {
     const token = localStorage.getItem('accessToken')?.trim();
     await axios.post(
-        `/comu/post/${comuCode}/cmt`,
-        {comuCmtContent: newComment.value}, // DTO에 맞춰 수정
+        `/team/cmt`,
+        {teamCmt: newComment.value,
+              teamPostCode: teamPostCode,
+              userCode: localStorage.getItem('userCode')}, // DTO에 맞춰 수정
         {
           headers: {
             Authorization: `${token}`,
@@ -188,7 +196,7 @@ const confirmDeleteComment = (commentId) => {
 const deleteComment = async (commentId) => {
   try {
     const token = localStorage.getItem('accessToken')?.trim();
-    await axios.delete(`/comu/post/cmt/${commentId}`, {
+    await axios.delete(`/team/cmt/${commentId}`, {
       headers: {
         Authorization: `${token}`,
       },
@@ -213,22 +221,22 @@ const confirmDeletePost = () => {
 const deletePost = async () => {
   try {
     const token = localStorage.getItem('accessToken')?.trim();
-    await axios.delete(`/comu/post/${comuCode}`, {
+    await axios.delete(`/team/post/${teamPostCode}`, {
       headers: {
         Authorization: `${token}`,
       },
     });
-    await router.push('/community'); // 삭제 후 목록 페이지로 이동
+    await router.push('/team'); // 삭제 후 목록 페이지로 이동
   } catch (error) {
     console.error('게시글 삭제 실패:', error);
   }
 };
 
 // 게시글 수정 페이지로 이동
-const editPost = () => router.push(`/community/update/${comuCode}`);
+const editPost = () => router.push(`/team/update/${teamPostCode}`);
 
 // 목록 페이지로 이동
-const goToList = () => router.push('/community');
+const goToList = () => router.push('/team');
 
 // 날짜 포맷팅 함수
 const formatDate = (dateString) => {
@@ -240,10 +248,10 @@ const toggleBookmark = async (post) => {
   const userCode = localStorage.getItem('userCode'); // 사용자 코드 가져오기
 
   const bookmarkData = {
-    bmkUrl: `/community/${post.comuCode}`,
-    bmkTitle: post.comuSubject,
-    postType: 'comuPost',
-    postCode: post.comuCode,
+    bmkUrl: `/team/${post.teamPostCode}`,
+    bmkTitle: post.teamPostTitle,
+    postType: 'teamPost',
+    postCode: post.teamPostCode,
     userCode: userCode,
   };
 
@@ -308,8 +316,8 @@ const submitReport = async () => {
     return;
   }
 
-  const postCode = comuCode; // 해당 게시글의 comuCode 값
-  const reportTypePara = 'COMU'; // 'COMU'로 설정
+  const postCode = teamPostCode; // 해당 게시글의 comuCode 값
+  const reportTypePara = 'TEAMPOST';
 
   try {
     const token = localStorage.getItem('accessToken')?.trim();
@@ -371,6 +379,24 @@ onMounted(() => {
   color: #969696;
 }
 
+.url-button {
+  margin-top: 10px;
+}
+
+.url-button button {
+  background-color: #4CAF50;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.url-button button:hover {
+  background-color: #45a049;
+}
+
 .image-slider img {
   height: 300px;
   width: auto;
@@ -381,6 +407,21 @@ onMounted(() => {
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+.proj-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 5px;
+}
+
+.tag {
+  background-color: #f1f1f1;
+  padding: 5px 10px;
+  border-radius: 15px;
+  font-size: 14px;
+  color: #333;
 }
 
 .comment-input {

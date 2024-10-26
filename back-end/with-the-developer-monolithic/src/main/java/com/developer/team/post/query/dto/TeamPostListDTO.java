@@ -12,6 +12,8 @@ public class TeamPostListDTO {
 
     private String teamPostTitle;
 
+    private String teamContent;
+
     private String createdDate;
 
     private String teamDeadline;
@@ -20,7 +22,7 @@ public class TeamPostListDTO {
 
     private String userNick;
 
+    private Long bookmarkCount;
+
     private List<String> jobTagNames;
-
-
 }

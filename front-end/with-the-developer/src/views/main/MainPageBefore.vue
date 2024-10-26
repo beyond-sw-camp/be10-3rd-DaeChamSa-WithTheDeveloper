@@ -12,7 +12,7 @@ const moveTo = (type) => {
         <div class="small-content"><p>다양한 개발자들과 함께하세요!</p></div>
         <div class="big-content">
           <p>개발자랑에 어서오세요!</p>
-          <button id="register" @click="moveTo('/register')">가입하기</button>
+          <button id="register" @click="moveTo('/register/tos')">가입하기</button>
         </div>
       </div>
       <div class="articles-image">

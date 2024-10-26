@@ -1,10 +1,10 @@
 <script setup>
 
-  import {ref} from "vue";
-  import axios from "axios";
-  import router from "@/router/index.js";
+import {ref} from "vue";
+import axios from "axios";
+import router from "@/router/index.js";
 
-  // pw패턴
+// pw패턴
   const pwPattern = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*()_+=-]).{8,16}$/;
 
   // email패턴

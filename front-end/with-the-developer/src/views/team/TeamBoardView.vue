@@ -1,6 +1,6 @@
 <template>
   <div class="board-page">
-    <h1 id="board-title">프로젝트 자랑</h1>
+    <h1 id="board-title">팀모집</h1>
     <div class="upper-menu">
       <search-bar />
       <button class="post-button" @click="goToCreatePage">
@@ -12,7 +12,7 @@
         글쓰기
       </button>
     </div>
-    <ProjectBoardList :posts="posts" />
+    <TeamBoardList :posts="posts" />
   </div>
 </template>
 
@@ -22,18 +22,19 @@ import { useRouter } from 'vue-router';
 import axios from 'axios';
 import SearchBar from '@/components/SearchBar.vue';
 import ProjectBoardList from "@/components/ProjectBoardList.vue";
+import TeamBoardList from "@/components/TeamBoardList.vue";
 
 const posts = ref([]);
 const router = useRouter();
 
 const goToCreatePage = () => {
-  router.push('/project/create');
+  router.push('/team/create');
 };
 
 // 게시글 데이터 가져오기
 const fetchPosts = async () => {
   try {
-    const response = await axios.get('/public/proj/post');
+    const response = await axios.get('/public/team/post');
     console.log(response.data); // 응답 확인
     posts.value = response.data.content || response.data; // 서버 데이터 설정
   } catch (error) {

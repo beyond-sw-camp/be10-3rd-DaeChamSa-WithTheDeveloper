@@ -5,6 +5,7 @@ import com.developer.recruit.query.dto.RecruitListReadDTO;
 import com.developer.recruit.query.service.RecruitQueryService;
 import com.developer.search.query.dto.SearchResultDTO;
 import com.developer.search.query.service.SearchService;
+import com.developer.user.security.SecurityUtil;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -38,6 +39,18 @@ public class RecruitQueryController {
     @Operation(summary = "등록된 채용공고 상세 내용 조회", description = "등록된 채용공고의 상세 내용을 조회합니다.")
     public ResponseEntity<RecruitDetailReadDTO> readRecruitDetail(@PathVariable long recruitCode) {
         RecruitDetailReadDTO recruitDetailReadDTO = recruitQueryService.readRecruitDetailById(recruitCode);
+
+        return ResponseEntity.ok(recruitDetailReadDTO);
+    }
+
+    // 내가 등록한 채용공고 상세 내용 조회
+    @GetMapping("/mypage")
+    @Operation(summary = "내가 등록 한 채용공고 목록 조회", description = "등록된 내 채용공고의 목록을 조회합니다.")
+    public ResponseEntity<List<RecruitDetailReadDTO>> readMyRecruit() {
+
+        Long userCode = SecurityUtil.getCurrentUserCode();
+
+        List<RecruitDetailReadDTO> recruitDetailReadDTO = recruitQueryService.readRecruitByUserCode(userCode);
 
         return ResponseEntity.ok(recruitDetailReadDTO);
     }

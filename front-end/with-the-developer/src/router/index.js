@@ -16,6 +16,8 @@ import CommunityRouter from "@/router/CommunityRouter.js";
 import ProjectRouter from "@/router/ProjectRouter.js";
 import MyPageRouter from "@/router/MyPageRouter.js";
 import AdminOrder from "@/views/admin/AdminOrder.vue";
+import TeamRouter from "@/router/TeamRouter.js";
+import NotFound from "@/views/error/NotFound.vue";
 
 const routes = [
         {
@@ -27,7 +29,7 @@ const routes = [
             component: Cart  // 장바구니
         },
         {
-            path: '/payment/fail',
+            path: '/fail-payment',
             component: PayFail
         },
         {
@@ -48,7 +50,7 @@ const routes = [
             component: AdminUser,
         },
         {
-            path: '/goods',
+            path: '/admin/goods',
             component: AdminGoods,
         },
         {
@@ -59,6 +61,13 @@ const routes = [
             component: AdminTag,
         },
         // *** 관리자
+        // 에러 페이지
+        {
+            // 404 NotFound
+            path: '/notFound',
+            name: "notFound",
+            component: NotFound
+        },
         // 성향 라우터
         ...PrefixRouter,
 
@@ -76,6 +85,14 @@ const routes = [
 
         // 프로젝트 게시판 라우터
         ...ProjectRouter,
+
+        // 팀모집 게시판 라우터
+        ...TeamRouter,
+  
+        {
+            path: "/:pathMatch(.*)*",
+            redirect: "/notFound"
+        },
 ];
 
 const router = createRouter({
