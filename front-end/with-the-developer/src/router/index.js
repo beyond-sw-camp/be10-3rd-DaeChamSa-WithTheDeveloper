@@ -1,7 +1,6 @@
 import {createRouter, createWebHistory} from "vue-router";
 import SearchResults from "@/views/SearchResults.vue";
 import Cart from "@/views/Cart.vue";
-import DbtiTestView from "@/views/DbtiTestView.vue";
 import AdminUser from "@/views/admin/Admin-User.vue";
 import AdminGoods from "@/views/admin/AdminGoods.vue";
 import AdminTag from "@/views/admin/Admin-Tag.vue";
@@ -55,50 +54,6 @@ const routes = [
             component: AdminTag,
         },
         // *** 관리자
-
-        // *** 커뮤니티
-        {
-            path: '/community', // 게시판 목록 페이지
-            name: 'communityList',
-            component: CommunityBoardView
-        },
-        {
-            path: '/community/:id', // 게시글 상세 페이지
-            name: 'CommunityPostDetail',
-            component: CommunityPostView,
-            props: true, // URL 파라미터를 props로 전달
-        },
-        {
-            path: '/community/create',
-            name: 'communityPostCreate',
-            component: CommunityCreateView
-        },
-        {
-            path: '/community/update/:comuCode',
-            name: 'communityPostUpdate',
-            component: CommunityUpdateView
-        },
-        {
-            path: '/project',
-            name: 'projectList',
-            component: ProjectBoardView
-        },
-        {
-            path: '/project/:id',
-            name: 'projectPostDetail',
-            component: ProjectPostView,
-            props: true
-        },
-        {
-            path: '/project/create',
-            name: 'projectPostCreate',
-            component: ProjectCreateView
-        },
-        {
-            path: '/project/update/:projPostCode',
-            name: 'projectPostUpdate',
-            component: ProjectUpdateView
-        },
         // 성향 라우터
         ...PrefixRouter,
 
