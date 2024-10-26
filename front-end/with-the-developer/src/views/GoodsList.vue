@@ -19,7 +19,6 @@ const fetchGoodsList = async (page = 1) => {
     const response = await axios.get(`http://localhost:8080/public/goods?page=${page}`);
     const goodsList = response.data;
 
-    products.length = 0; // 기존 내용을 초기화
     goodsList.forEach(goods => {
       products.push({
         goodsCode: goods.goodsCode,
@@ -29,9 +28,6 @@ const fetchGoodsList = async (page = 1) => {
       });
     });
 
-    // 총 페이지 수 업데이트
-    const totalCount = parseInt(response.headers['totalCount'], 10) || 0; // parseInt로 변환
-    setTotalPage(Math.ceil(totalCount / itemsPerPage));
   } catch (error) {
     console.error("굿즈 목록을 불러오는 중 에러가 발생했습니다.", error);
   }
@@ -40,11 +36,6 @@ const fetchGoodsList = async (page = 1) => {
 // 컴포넌트가 마운트될 때 첫 번째 페이지의 굿즈 목록을 가져옵니다.
 onMounted(() => {
   fetchGoodsList();
-});
-
-// 페이지 변경 시 굿즈 목록 업데이트
-watch(currentPage, (newPage) => {
-  fetchGoodsList(newPage);
 });
 
 </script>
