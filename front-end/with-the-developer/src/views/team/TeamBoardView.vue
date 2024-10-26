@@ -63,11 +63,6 @@ onMounted(fetchPosts);
   text-align: center;
 }
 
-.sort-menu {
-  margin-left: 5%;
-  margin-top: 1%;
-}
-
 .post-button {
   margin-right: 15%;
   background-color: #617CC2;
