@@ -185,6 +185,8 @@ function getRandomMostFrequentNumber(arr) {
                 :name="'question' + currentQuestionIndex"
                 :checked="userAnswers[currentQuestionIndex] === answer"
                 @input="updateAnswer(currentQuestionIndex, answer, index)"
+                @keyup.enter="nextQuestion"
+                @keyup.left="prevQuestion"
             />
             <span class="radio-text">{{ answer }}</span> <!-- 여기에 답변 내용 출력 -->
           </label>
