@@ -9,6 +9,16 @@ import PayComplete from "@/views/PayComplete.vue";
 import PrefixRouter from "@/router/PrefixRouter.js";
 import UserRouter from "@/router/UserRouter.js";
 import GoodsList from "@/views/GoodsList.vue";
+import CommunityBoardView from "@/views/CommunityBoardView.vue";
+import CommunityPostView from "@/views/CommunityPostView.vue";
+import CommunityCreateView from "@/views/CommunityCreateView.vue";
+import CommunityUpdateView from "@/views/CommunityUpdateView.vue";
+import PrefixResultView from "@/views/PrefixResultView.vue";
+import GoodsDetail from "@/views/GoodsDetail.vue";
+import ProjectPostView from "@/views/project/ProjectPostView.vue";
+import ProjectBoardView from "@/views/project/ProjectBoardView.vue";
+import ProjectCreateView from "@/views/project/ProjectCreateView.vue";
+import ProjectUpdateView from "@/views/project/ProjectUpdateView.vue";
 import MainRouter from "@/router/MainRouter.js";
 import MyPageRouter from "@/router/myPageRouter.js";
 import CommunityRouter from "@/router/CommunityRouter.js";
@@ -30,6 +40,10 @@ const routes = [
         {
             path: '/payment/complete',
             component: PayComplete
+        },
+        {
+            path: '/goods/:goodsCode',
+            component: GoodsDetail
         },
         {
             path: '/goods',

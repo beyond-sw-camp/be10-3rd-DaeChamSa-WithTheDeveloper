@@ -1,6 +1,7 @@
 <script setup>
 import axios from "axios";
 import { ref, reactive, onMounted, watch, computed } from "vue";
+
 // 모달 관련 import 및 선언
 import BlueModal from "@/components/blueModal.vue";
 const isBlueModalOpen = ref(false);
@@ -223,7 +224,7 @@ onMounted(async() => {
 </script>
 
 <template>
-  <BlueModal :blueModalValue="isBlueModalOpen" @update:blueModalValue="isBlueModalOpen = $event" title="결제기" content="결제를 진행하시겠습니까?"/>
+  <BlueModal :blueModalValue="isBlueModalOpen" @update:blueModalValue="isBlueModalOpen = $event" title="결제하기" content="결제를 진행하시겠습니까?"/>
   <div>
     <div id="cart_title">장바구니</div>
     <div id="cart_content_box" class="flex">
