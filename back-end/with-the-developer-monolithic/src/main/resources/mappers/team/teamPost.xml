@@ -12,6 +12,7 @@
         <result column="team_deadline" property="teamDeadline"/>
         <result column="user_code" property="userCode"/>
         <result column="user_nick" property="userNick"/>
+        <result column="bookmark_count" property="bookmarkCount"/>
 
         <collection property="jobTagNames" ofType="String">
             <result column="job_tag_name" property="jobTagName"/>
@@ -64,11 +65,17 @@
         t.team_deadline,
         u.user_code,
         u.user_nick,
-        j.job_tag_name
+        j.job_tag_name,
+        IFNULL(b.bookmark_count, 0) AS bookmark_count
         FROM team_post t
         JOIN user u ON ( t.user_code = u.user_code )
         LEFT JOIN team_tag tt ON ( tt.team_post_code = t. team_post_code)
         LEFT JOIN job_tag j ON ( j.job_tag_code = tt.job_tag_code )
+        LEFT JOIN (
+        SELECT team_post_code, COUNT(*) AS bookmark_count
+        FROM bookmark
+        GROUP BY team_post_code
+        ) b ON t.team_post_code = b.team_post_code
         WHERE t.user_code = #{userCode}
         AND t.del_status = false
     </select>

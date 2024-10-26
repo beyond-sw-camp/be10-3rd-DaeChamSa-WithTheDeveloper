@@ -46,7 +46,7 @@ public class RecruitQueryController {
     // 내가 등록한 채용공고 상세 내용 조회
     @GetMapping("/mypage")
     @Operation(summary = "내가 등록 한 채용공고 목록 조회", description = "등록된 내 채용공고의 목록을 조회합니다.")
-    public ResponseEntity<List<RecruitDetailReadDTO>> readMyRecruit(@PathVariable long recruitCode) {
+    public ResponseEntity<List<RecruitDetailReadDTO>> readMyRecruit() {
 
         Long userCode = SecurityUtil.getCurrentUserCode();
 

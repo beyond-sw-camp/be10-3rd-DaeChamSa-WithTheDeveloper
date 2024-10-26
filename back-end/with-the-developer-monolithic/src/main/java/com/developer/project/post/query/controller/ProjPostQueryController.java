@@ -41,7 +41,7 @@ public class ProjPostQueryController {
 
     @GetMapping("/post/mypage")
     @Operation(summary = " 내 프로젝트 자랑 게시글 목록 조회", description = "등록되어 있는 내 프로젝트 게시글 목록을 조회합니다.")
-    public ResponseEntity<List<ProjPostResponseDTO>> readByCode(@PathVariable(value = "projPostCode") Long projPostCode) {
+    public ResponseEntity<List<ProjPostResponseDTO>> readByUserCode() {
 
         Long userCode = SecurityUtil.getCurrentUserCode();
 
