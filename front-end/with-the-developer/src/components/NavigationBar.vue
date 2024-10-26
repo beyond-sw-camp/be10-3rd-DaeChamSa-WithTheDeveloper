@@ -116,6 +116,7 @@ header{
   text-decoration-line: none;
   color: #7E7E7E;
 }
+
 .nav-menu:hover{
   color: #1b5ac2;
   cursor: pointer;
@@ -152,7 +153,7 @@ input{
   outline: none;
   float: left;
 }
-button{
+button {
   width: 50px;
   height: 100%;
   border: 0;

@@ -5,6 +5,10 @@ import MypageBlock from "@/views/mypage/msg/MypageBlock.vue";
 import MypageResMsgDetail from "@/views/mypage/msg/MypageResMsgDetail.vue";
 import MypageReqMsgDetail from "@/views/mypage/msg/MypageReqMsgDetail.vue";
 import MypageInfo from "@/views/mypage/info/MypageInfo.vue";
+import MyPageTeamBookmark from "@/views/mypage/bookmark/MyPageTeamBookmark.vue";
+import MyPageRecruitBookmark from "@/views/mypage/bookmark/MyPageRecruitBookmark.vue";
+import MyPageProjectBookmark from "@/views/mypage/bookmark/MyPageProjectBookmark.vue";
+import MyPageCommunityBookmark from "@/views/mypage/bookmark/MyPageCommunityBookmark.vue";
 
 export default [
     {
@@ -40,5 +44,25 @@ export default [
         name: 'reqMsgDetail',
         component: MypageReqMsgDetail,
         props: true
+    },
+    {
+        path: '/mypage/bookmark/team',
+        name: 'teamBookmark',
+        component: MyPageTeamBookmark
+    },
+    {
+        path: '/mypage/bookmark/recruit',
+        name: 'recruitBookmark',
+        component: MyPageRecruitBookmark
+    },
+    {
+        path: '/mypage/bookmark/project',
+        name: 'projectBookmark',
+        component: MyPageProjectBookmark
+    },
+    {
+        path: '/mypage/bookmark/community',
+        name: 'communityBookmark',
+        component: MyPageCommunityBookmark
     }
 ];
