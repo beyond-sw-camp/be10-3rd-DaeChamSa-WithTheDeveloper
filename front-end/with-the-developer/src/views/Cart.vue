@@ -2,6 +2,9 @@
 import axios from "axios";
 import { ref, reactive, onMounted, watch, computed } from "vue";
 
+// IamPort 전역객체 사용 준비
+const { IMP } = window;
+
 // 모달 관련 import 및 선언
 import BlueModal from "@/components/blueModal.vue";
 const isBlueModalOpen = ref(false);
@@ -16,20 +19,6 @@ const handleConfirm = async() => {
         goodsCode: goods.goodsCode,
         goodsAmount: goods.amount,
       }));
-
-  let userName = '';
-
-  try {
-    const userResponse = await axios.get(`http://localhost:8080/user`, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem('jwtToken')}`,
-      }
-    });
-    userName = userResponse.data.userName;
-    console.log(userName);
-  } catch(error) {
-    console.log("회원 이름을 가져오던 중 에러 발생", error);
-  }
 
   try {
     // 1. <br><br>주문 생성
@@ -50,13 +39,9 @@ const createOrder = async(orderGoods) => {
   try {
     const response = await axios.post("http://localhost:8080/order", {
       orderGoods: orderGoods
-    }, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem('jwtToken')}`,
-      }
     });
-    return response;
     console.log("주문이 성공적으로 생성되었습니다. <br><br>주문번호: ", response.data);
+    return response;
   } catch(error) {
     console.log("주문 생성 중 에러 발생", error);
   }
@@ -64,15 +49,45 @@ const createOrder = async(orderGoods) => {
 
 const createPayment = async(orderUid) => {
   try {
-    const response  = await axios.get(`http://localhost:8080/payment/${orderUid}`, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem('jwtToken')}`,
-        'Content-Type': 'application/json'
-      }
-    })
+    await axios.get(`/payment/${orderUid}`)
+        .then(res => {
+          if (res.status === 200){
+            console.log(res.data);
+            IMP.init(res.data.imp_key);
 
-    console.log(response)
-    window.location.href = `http://localhost:8080/payment/${orderUid}`;
+            IMP.request_pay({
+              pg : 'html5_inicis.INIpayTest',
+              pay_method : 'card',
+              merchant_uid: res.data.order_uid, // 주문 번호
+              name : res.data.item_name, // 상품 이름
+              amount : res.data.payment_price, // 상품 가격
+              buyer_email : res.data.buyer_email, // 구매자 이메일
+              buyer_name : res.data.buyer_name, // 구매자 이름
+              buyer_tel : res.data.buyer_phone, // 임의의 값
+              buyer_postcode : '123-456', // 임의의 값
+            },
+            function (rsp){
+              if (rsp.success){
+
+                axios.post('/payment/validation', {
+                  payment_uid: rsp.imp_uid,
+                  order_uid: rsp.merchant_uid
+                })
+                    .then(res => {
+                      console.log(res);
+                      alert('결제 완료!');
+                    })
+                    .catch(error => {
+                      console.error("결제 중 오류", error);
+                      alert('결제 실패!');
+                    })
+              } else {
+                alert('결제 실패!');
+              }
+            });
+
+          }
+        })
 
   } catch(error) {
     console.log("결제 정보 생성 중 에러 발생", error)

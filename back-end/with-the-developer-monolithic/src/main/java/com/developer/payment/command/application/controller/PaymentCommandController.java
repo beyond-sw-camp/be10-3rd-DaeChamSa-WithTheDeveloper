@@ -18,7 +18,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @Tag(name = "payment", description = "결제 API")
-@Controller
+@RestController
 @RequiredArgsConstructor
 @Slf4j
 @RequestMapping("/payment")
@@ -26,19 +26,20 @@ public class PaymentCommandController {
 
     private final PaymentCommandService paymentService;
 
-    @Value("${iam.ipm.code}")
-    private String ipmKey;
+    @Value("${iam.imp.code}")
+    private String impKey;
 
     @GetMapping("/{orderUid}")
     @Operation(summary = "결제 정보 생성", description = "주문한 내역을 토대로 결제 정보를 생성합니다.")
-    public String payment(@PathVariable(name = "orderUid") String orderUid,
-                          Model model){
+    public ResponseEntity<RequestPayDTO> payment(@PathVariable(name = "orderUid") String orderUid){
 
         log.info("로깅 확인 payment");
-        RequestPayDTO requestPayDTO = paymentService.findRequestDTO(orderUid);
-        model.addAttribute("requestDto", requestPayDTO);
-        model.addAttribute("ipmKey", ipmKey);
-        return "payment";
+        Long currentUserCode = SecurityUtil.getCurrentUserCode();
+
+        RequestPayDTO requestPayDTO = paymentService.findRequestDTO(orderUid, currentUserCode);
+        requestPayDTO.insertImpKey(impKey);
+
+        return ResponseEntity.ok(requestPayDTO);
     }
 
     @ResponseBody
