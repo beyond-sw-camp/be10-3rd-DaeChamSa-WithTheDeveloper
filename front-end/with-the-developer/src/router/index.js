@@ -18,8 +18,6 @@ import MainRouter from "@/router/MainRouter.js";
 import MyPageRouter from "@/router/MyPageRouter.js";
 import CommunityRouter from "@/router/CommunityRouter.js";
 import ProjectRouter from "@/router/ProjectRouter.js";
-import MyPageRouter from "@/router/MyPageRouter.js";
-import AdminOrder from "@/views/admin/AdminOrder.vue";
 import TeamRouter from "@/router/TeamRouter.js";
 
 const routes = [
