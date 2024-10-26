@@ -1,8 +1,9 @@
 <script setup>
 
 import {computed, ref} from 'vue';
-import router from "@/router/index.js";
+import router from "@/router";
 import {useStore} from "vuex";
+import NotiModal from "@/components/NotiModal.vue";
 
 const searchState = ref(false);
 
@@ -26,17 +27,20 @@ const moveToLogin = () => {
   }
 };
 
+const moveTo = (type) => {
+  router.push(`${type}`);
+}
 </script>
 
 <template>
   <header>
     <div id="nav-left">
-      <img src="../assets/images/logo.png" alt="로고 이미지" id="logo-image">
+      <img src="../assets/images/logo.png" alt="로고 이미지" id="logo-image" @click="moveTo('/')">
       <ul class="nav-ul">
-        <li class="nav-menu"><a>게시판</a></li>
-        <li class="nav-menu"><a>채용공고</a></li>
-        <li class="nav-menu"><a>굿즈</a></li>
-        <li class="nav-menu"><a>마이페이지</a></li>
+        <li class="nav-menu" @click="moveTo('/main')">게시판</li>
+        <li class="nav-menu" @click="moveTo('/')">채용공고</li>
+        <li class="nav-menu" @click="moveTo('/goods')">굿즈</li>
+        <li class="nav-menu" @click="moveTo('/mypage/info')">마이페이지</li>
       </ul>
     </div>
     <div id="nav-right">
@@ -44,7 +48,8 @@ const moveToLogin = () => {
         <li class="nav-menu">
           <span @click="moveToLogin">{{ isLoggedIn ? '로그아웃' : '로그인' }}</span>
         </li>
-        <li class="nav-menu"><a id="login"><img src="https://img.icons8.com/?size=100&id=eMfeVHKyTnkc&format=png&color=000000" alt="alarm" class="nav-img"></a></li>
+        <li class="nav-menu"><a id="login" @click="toggleModal">
+          <img src="https://img.icons8.com/?size=100&id=eMfeVHKyTnkc&format=png&color=000000" alt="alarm" class="nav-img"></a></li>
         <li class="nav-menu"><a id="login"><img src="https://img.icons8.com/?size=100&id=zhda2EVBCvHY&format=png&color=000000" alt="cart" class="nav-img"></a></li>
         <li class="nav-menu">
           <a id="login">
@@ -58,6 +63,9 @@ const moveToLogin = () => {
     <input type="text" placeholder="검색어 입력">
     <button type="submit">검색</button>
   </form>
+
+  <!-- 알림 모달 추가 -->
+  <NotiModal :showModal="showModal" @close="toggleModal" />
 
 </template>
 
@@ -79,6 +87,7 @@ header{
   height: 50px;
   margin-top: 5px;
   margin-left: 30px;
+  cursor: pointer;
 }
 .nav-ul{
   list-style: none;
@@ -96,12 +105,13 @@ header{
 .nav-menu span:hover{
   color: #1b5ac2;
 }
-.nav-menu > a {
+.nav-menu{
   text-decoration-line: none;
   color: #7E7E7E;
 }
-.nav-menu > a:hover{
+.nav-menu:hover{
   color: #1b5ac2;
+  cursor: pointer;
 }
 #nav-right{
   display: flex;

@@ -12,4 +12,6 @@ public class ResMsgResponseDTO {
     private LocalDateTime createdDate;
     private Boolean isRead;
     private Long userCode;
+    private String userId;
+    private String userNick;
 }

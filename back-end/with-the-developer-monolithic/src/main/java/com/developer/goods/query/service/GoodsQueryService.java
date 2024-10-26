@@ -25,7 +25,7 @@ public class GoodsQueryService {
     // 굿즈 전체 상품 조회
     @Transactional
     public List<GoodsResponseDTO> selectAllGoods(Integer page) {
-        int offset = (page - 1) * 10;
+        int offset = (page - 1) * 12;
 
         List<GoodsResponseDTO> goodsList = sqlSession.getMapper(GoodsMapper.class).selectAllGoods(offset);
 

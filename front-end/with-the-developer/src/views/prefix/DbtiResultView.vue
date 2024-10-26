@@ -1,6 +1,7 @@
 <script setup>
 import { ref, computed } from 'vue';
 import axios from 'axios';
+import router from "@/router";
 
 const props = defineProps(['result']); // result prop 수신
 
@@ -51,11 +52,18 @@ const selectItem = (item) => {
   selectedItem.value = item;
   console.log(selectedItem.value)
 };
+
+// 항목 선택 완료
+const complete = () => {
+  alert(`${selectedItem.value.dbtiValue} 선택 완료`);
+  localStorage.setItem('dbti', JSON.stringify(selectedItem.value));
+  router.push('/prefix/job-tag');
+}
 </script>
 
 <template>
   <div class="result-container">
-    <h2>성향 테스트 결과</h2>
+    <h2>성향 테스트 수식어 선택</h2>
     <p>당신의 성향은 <strong>{{ result }}</strong>와 가깝습니다.</p>
 
     <div class="buttons-container">
@@ -76,7 +84,7 @@ const selectItem = (item) => {
 
     <!-- 선택시 완료 버튼 표시 -->
     <div v-if="selectedItem">
-      <button class="complete-button">완료</button>
+      <button class="complete-button" @click="complete">선택</button>
     </div>
   </div>
 </template>
@@ -87,17 +95,22 @@ const selectItem = (item) => {
 }
 
 .buttons-container {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
   justify-content: center;
   gap: 10px;
+  grid-template-columns: repeat(2, minmax(20%, auto));
 }
 
 button {
+  width: 150px;
   padding: 10px 20px;
   border: 1px solid #000;
   background-color: white;
   cursor: pointer;
+}
+.pagination button{
+  width: 100px;
+  margin: 15px;
 }
 
 button.selected {
@@ -116,5 +129,9 @@ button.selected {
   color: white;
   border: none;
   cursor: pointer;
+}
+strong{
+  color: #F66666;
+  font-size: 20px;
 }
 </style>

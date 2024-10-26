@@ -14,6 +14,8 @@ public class ComuPostResponseDTO {
     private String comuContent;
     private LocalDateTime createdDate;
     private LocalDateTime modifiedDate;
-    private ComuPostUserDTO user;
+    private Long userCode;
+    private String userNick;
+    private Long bookmarkCount;
     private List<Image> images;
 }
