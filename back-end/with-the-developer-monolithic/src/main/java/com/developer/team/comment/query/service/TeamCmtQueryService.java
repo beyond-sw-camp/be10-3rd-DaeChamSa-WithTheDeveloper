@@ -26,7 +26,7 @@ public class TeamCmtQueryService {
         params.put("offset", offset);
         List<ResponseTeamCmtListDTO> teamCmtList = teamCmtMapper.selectTeamCmtList(params);
 
-        if (teamCmtList == null || teamCmtList.isEmpty()) {
+        if (teamCmtList == null) {
             throw new CustomException(ErrorCode.NOT_FOUND_COMMENT);
         }
         return teamCmtList;
