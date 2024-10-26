@@ -8,7 +8,7 @@
           <button @click="editPost">수정</button>
           <button @click="confirmDeletePost">삭제</button>
         </template>
-        <template v-else>
+        <template v-else-if="isLogin">
           <button @click="openReportModal">신고</button>
         </template>
       </div>
@@ -46,7 +46,7 @@
         <span>{{ post.userNick }}</span>
       </div>
       <div class="post-actions">
-        <template v-if="!isAuthor">
+        <template v-if="!isAuthor && isLogin">
           <button @click="openMessageModal">쪽지</button>
           <button>북마크</button>
           <span>{{ post.bookmarkCount }}</span>
@@ -68,6 +68,7 @@
         <div class="comment-author">{{ comment.userNick }}</div>
         <div class="comment-content">{{ comment.comuCmtContent }}</div>
         <div class="comment-date">{{ formatDate(comment.createdDate) }}</div>
+        <button v-if="isCmtAuthor(comment) && isLogin" @click="confirmDeleteComment(comment.comuCmtCode)">삭제</button>
       </div>
     </div>
 
@@ -126,6 +127,9 @@ const reportReasonCategory = ref('');
 
 // 게시글 작성자인지 확인
 const isAuthor = computed(() => post.value.userCode === currentUserCode);
+const isCmtAuthor = (comment) => comment.userCode === currentUserCode;
+
+const isLogin = computed(() => localStorage.getItem('accessToken') !== null);
 
 // 이미지 URL 생성 함수
 const getImageUrl = (fileName) => `${BASE_IMAGE_URL}/${fileName}`;
@@ -169,6 +173,31 @@ const submitComment = async () => {
     await fetchComments(); // 댓글 목록 갱신
   } catch (error) {
     console.error('댓글 등록 실패:', error);
+  }
+};
+
+// 댓글 삭제 확인
+const confirmDeleteComment = (commentId) => {
+  const confirmed = confirm('정말로 이 댓글을 삭제하시겠습니까?');
+  if (confirmed) {
+    deleteComment(commentId);
+  }
+};
+
+// 댓글 삭제 메서드
+const deleteComment = async (commentId) => {
+  try {
+    const token = localStorage.getItem('accessToken')?.trim();
+    await axios.delete(`/comu/post/cmt/${commentId}`, {
+      headers: {
+        Authorization: `${token}`,
+      },
+    });
+    await fetchComments(); // 댓글 목록 갱신
+    alert('댓글이 삭제되었습니다.');
+  } catch (error) {
+    console.error('댓글 삭제 실패:', error);
+    alert('댓글 삭제에 실패했습니다.');
   }
 };
 

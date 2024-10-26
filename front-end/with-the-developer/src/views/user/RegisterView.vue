@@ -1,7 +1,6 @@
 <script setup>
 
-import NavigationBar from "@/components/NavigationBar.vue";
-import {computed, ref, watch} from "vue";
+import {computed, ref} from "vue";
 import axios from "axios";
 import router from "@/router/index.js";
 

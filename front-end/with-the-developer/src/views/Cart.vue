@@ -8,6 +8,76 @@ const isBlueModalOpen = ref(false);
 const openBlueModal = () => {
   isBlueModalOpen.value = true;
 }
+const handleConfirm = async() => {
+  // 주문할 굿즈들
+  const orderGoods = cartGoods
+      .filter(goods => goods.isSelected) // 선택된 굿즈만 포함
+      .map(goods => ({
+        goodsCode: goods.goodsCode,
+        goodsAmount: goods.amount,
+      }));
+
+  let userName = '';
+
+  try {
+    const userResponse = await axios.get(`http://localhost:8080/user`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('jwtToken')}`,
+      }
+    });
+    userName = userResponse.data.userName;
+    console.log(userName);
+  } catch(error) {
+    console.log("회원 이름을 가져오던 중 에러 발생", error);
+  }
+
+  try {
+    // 1. 주문 생성
+    const orderResponse = await createOrder(orderGoods);
+    const orderUid = orderResponse.data;
+    console.log("주문 생성 성공", orderUid);
+
+    // 2. 결제 요청
+    const paymentResponse = await createPayment(orderUid);
+    console.log("결제 생성 성공");
+  } catch(error) {
+    console.log("주문 및 결제 중 에러 발생함", error);
+  }
+}
+
+
+const createOrder = async(orderGoods) => {
+  try {
+    const response = await axios.post("http://localhost:8080/order", {
+      orderGoods: orderGoods
+    }, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('jwtToken')}`,
+      }
+    });
+    return response;
+    console.log("주문이 성공적으로 생성되었습니다. 주문번호: ", response.data);
+  } catch(error) {
+    console.log("주문 생성 중 에러 발생", error);
+  }
+}
+
+const createPayment = async(orderUid) => {
+  try {
+    const response  = await axios.get(`http://localhost:8080/payment/${orderUid}`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('jwtToken')}`,
+        'Content-Type': 'application/json'
+      }
+    })
+
+    console.log(response)
+    window.location.href = `http://localhost:8080/payment/${orderUid}`;
+
+  } catch(error) {
+    console.log("결제 정보 생성 중 에러 발생", error)
+  }
+}
 
 // 장바구니
 const cartGoods = reactive([]);
@@ -210,6 +280,7 @@ const updateQuantity = async(index, amount) => {
   }
 }
 
+
 onMounted(async() => {
   if (!localStorage.getItem('userId')) {
    await loginUser();
@@ -224,7 +295,11 @@ onMounted(async() => {
 </script>
 
 <template>
-  <BlueModal :blueModalValue="isBlueModalOpen" @update:blueModalValue="isBlueModalOpen = $event" title="결제하기" content="결제를 진행하시겠습니까?"/>
+  <BlueModal
+      :blueModalValue="isBlueModalOpen"
+      @update:blueModalValue="isBlueModalOpen = $event"
+      @confirm="handleConfirm" title="결제하기"
+      content="결제를 진행하시겠습니까?"/>
   <div>
     <div id="cart_title">장바구니</div>
     <div id="cart_content_box" class="flex">

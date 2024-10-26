@@ -1,10 +1,10 @@
 <script setup>
 
 import {ref, watch} from "vue";
-  import router from "@/router/index.js";
-  import axios from "axios";
+import router from "@/router/index.js";
+import axios from "axios";
 
-  const userName = ref('');
+const userName = ref('');
   const userPhone = ref('');
   const resultId = ref('');
 
