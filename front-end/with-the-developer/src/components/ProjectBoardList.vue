@@ -17,9 +17,14 @@
         </div>
 
         <div class="post-footer">
+          <div class="post-tags">
+            <span v-for="(tag, index) in post.projTagContents" :key="index" class="tag">
+              #{{ tag }}
+            </span>
+          </div>
           <span class="post-time">{{ formatDate(post.createdDate) }}</span>
           <button class="bookmark-button" @click="toggleBookmark(post)">
-            <img :src="bookmarkedIcon" alt="북마크" id="bookmark-image" />
+            <img :src="bookmarkedIcon" alt="북마크" id="bookmark-image"/>
           </button>
           <span class="bookmark-count">{{ post.bookmarkCount }}</span>
         </div>
@@ -29,7 +34,7 @@
 </template>
 
 <script setup>
-import { defineProps } from 'vue';
+import {defineProps} from 'vue';
 import axios from 'axios';
 
 const props = defineProps({
@@ -57,7 +62,7 @@ const truncatedContent = (content) =>
 
 // 날짜 포맷팅 함수
 const formatDate = (dateString) => {
-  const options = { year: 'numeric', month: 'short', day: 'numeric' };
+  const options = {year: 'numeric', month: 'short', day: 'numeric'};
   return new Date(dateString).toLocaleDateString(undefined, options);
 };
 </script>
@@ -120,6 +125,21 @@ const formatDate = (dateString) => {
   align-items: center;
   margin-top: 10px;
   margin-left: 75%;
+}
+
+.post-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 5px;
+}
+
+.tag {
+  background-color: #f1f1f1;
+  padding: 5px 10px;
+  border-radius: 15px;
+  font-size: 14px;
+  color: #333;
 }
 
 .post-time {
