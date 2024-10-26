@@ -33,26 +33,6 @@ const handleConfirm = () => {
 // 이미지 URL 생성 함수
 const getImageUrl = (fileName) => `${BASE_IMAGE_URL}/${fileName}`;
 
-// 로그인
-const loginUser = async () => {
-  try {
-    const token = `eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyMDFAbmF2ZXIuY29tIiwidXNlckNvZGUiOjEsImF1dGgiOiJST0xFX1VTRVIiLCJleHAiOjE3Mjk4NzQ2NjF9.zoZ6mx8vLwMW0vXeh6HXRBW3PYBJiureWZW6ghgJchZsAqfzw-AKpfKQEZ1aLpDxg6Kr0tUDnDvYfumfIK82JA`;
-    localStorage.setItem('jwtToken', token);
-
-    //JWT 토큰에서 userId 추출 후 로컬스토리지에 저장
-    const decodedToken = parseJwt(token);
-    const userId = decodedToken.sub;
-    localStorage.setItem('userId', userId);
-
-    // Axios 기본 헤더에 JWT 토큰 추가
-    axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-    console.log(axios.defaults.headers.common['Authorization']);
-    console.log('로그인 성공:', response.data);
-  } catch (error) {
-    console.error('로그인 실패:', error.response ? error.response.data : error.message);
-  }
-};
-
 const fetchGoodsDetail = async() => {
   try {
     const response = await axios.get(`http://localhost:8080/public/goods/${goodsCode}`);

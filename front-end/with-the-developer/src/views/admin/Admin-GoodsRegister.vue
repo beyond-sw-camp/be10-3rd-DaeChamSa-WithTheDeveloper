@@ -84,8 +84,8 @@ const handelFileUpload = (event) => {
 // 굿즈 등록하기
 const submitGoods = async () => {
   // 관리자 확인
-  const userRole = localStorage.getItem('USER_ROLE');
-  if(userRole !== "USER_ADMIN"){
+  const userRole = localStorage.getItem('userRole');
+  if(userRole !== "ROLE_ADMIN"){
     alert("관리자 권한이 아닙니다.");
     return;
   }
