@@ -2,10 +2,12 @@
 import axios from "axios";
 import { ref, onMounted } from "vue";
 import {useRoute} from "vue-router";
+import BlueModal from "@/components/blueModal.vue";
 
 const route = useRoute();
 const goodsCode = route.params.goodsCode;
 
+// 굿즈 상세 페이지에 관한 선언
 const goodsTitle = ref('');
 const goodsContent = ref('');
 //const goodsStatus = ref('');
@@ -13,18 +15,52 @@ const goodsPrice = ref('0');
 const goodsImages = ref('');
 const goodsAmount = ref('1');
 
+// 장바구니에 담을 굿즈들에 관한 선언
+const goodsDetail = ref(null);
+//const cartGoods = ref([]);
+
+// 모달
+const isBlueModalOpen = ref(false);
+const openBlueModal = () => {
+  isBlueModalOpen.value = true;
+}
+const handleConfirm = () => {
+  addToCart(goodsCode, goodsAmount.value);
+}
+
+// 로그인
+const loginUser = async () => {
+  try {
+    const token = `eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyMDFAbmF2ZXIuY29tIiwidXNlckNvZGUiOjEsImF1dGgiOiJST0xFX1VTRVIiLCJleHAiOjE3Mjk4NzQ2NjF9.zoZ6mx8vLwMW0vXeh6HXRBW3PYBJiureWZW6ghgJchZsAqfzw-AKpfKQEZ1aLpDxg6Kr0tUDnDvYfumfIK82JA`;
+    localStorage.setItem('jwtToken', token);
+
+    //JWT 토큰에서 userId 추출 후 로컬스토리지에 저장
+    const decodedToken = parseJwt(token);
+    const userId = decodedToken.sub;
+    localStorage.setItem('userId', userId);
+
+    // Axios 기본 헤더에 JWT 토큰 추가
+    axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+    console.log(axios.defaults.headers.common['Authorization']);
+    console.log('로그인 성공:', response.data);
+  } catch (error) {
+    console.error('로그인 실패:', error.response ? error.response.data : error.message);
+  }
+};
+
 const fetchGoodsDetail = async() => {
   try {
-    console.log(goodsCode);
     const response = await axios.get(`http://localhost:8080/public/goods/${goodsCode}`);
-    const goodsDetail = response.data;
 
-    goodsTitle.value = goodsDetail.goodsName;
-    goodsContent.value = goodsDetail.goodsContent;
+    goodsDetail.value = response.data;
+
+    goodsTitle.value = goodsDetail.value.goodsName;
+    goodsContent.value = goodsDetail.value.goodsContent;
     //goodsStatus.value = goodsDetail.goodsStatus;
-    goodsPrice.value = goodsDetail.goodsPrice;
-    goodsImages.value = goodsDetail.images[0]?.url || [];
+    goodsPrice.value = goodsDetail.value.goodsPrice;
+    goodsImages.value = goodsDetail.value.images[0]?.url || [];
     goodsAmount.value = 1;
+
   } catch (error) {
     console.log("굿즈 상세 정보를 불러오던 중 에러 발생", error);
   }
@@ -47,12 +83,39 @@ const updateQuantity = async(amount) => {
   }
 }
 
+const addToCart = async (goodsCode, amount) => {
+  // FormData 객체를 생성하여 데이터 추가
+  const formData = new FormData();
+  formData.append('cartGoodsAddDTO', JSON.stringify({
+    goodsCode: goodsCode,
+    goodsAmount: amount
+  }));
+
+  try {
+    await axios.post("http://localhost:8080/cart-goods", formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',  // multipart 형식 지정
+        Authorization: `Bearer ${localStorage.getItem('jwtToken')}`,
+      }
+    });
+    console.log("장바구니에 상품이 성공적으로 추가되었습니다.");
+  } catch (error) {
+    console.error("장바구니에 추가하던 중 에러 발생", error);
+  }
+}
+
 onMounted(() => {
   fetchGoodsDetail();
 })
 </script>
 
 <template>
+  <BlueModal
+      :blueModalValue="isBlueModalOpen"
+      @update:blueModalValue="isBlueModalOpen = $event"
+      @confirm="handleConfirm"
+      title="장바구니"
+      content="해당 상품을 장바구니에 담으시겠습니까?"/>
   <div>
     <div id="goods_summary_box" class="flex">
       <div><img src="../assets/images/goods.png"></div>
@@ -60,7 +123,7 @@ onMounted(() => {
         <div id="goods_title_text">{{ goodsTitle }}</div>
         <br>
         <div id="price_text">
-          <span>{{ goodsPrice }}</span>
+          <span>{{ formatPrice(goodsPrice) }}</span>
           <span>원</span>
         </div>
         <div id="quantity_text_box" class="flex">
@@ -73,9 +136,9 @@ onMounted(() => {
         </div>
         <div id="price_text_box" class="flex">
           <div>총 상품금액 </div>
-          <div>{{formatPrice(goodsPrice * goodsAmount)}}원</div>
+          <div>{{ formatPrice(goodsPrice * goodsAmount) }}원</div>
         </div>
-        <button>장바구니</button>
+        <button @click="openBlueModal">장바구니에 담기</button>
       </div>
     </div>
     <hr>
