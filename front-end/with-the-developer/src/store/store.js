@@ -25,7 +25,7 @@ const store = createStore({
             alert('로그아웃 성공');
         },
         setMyBookmark(state, data) {
-            state.bookmarkList = data;
+            state.bookmarkList.value = data;
         }
     },
     actions: {
@@ -37,7 +37,11 @@ const store = createStore({
         },
         async fetchItems({ commit }) {
             try {
-                const response = await axios.get('http://localhost:8080/api/items'); // Spring Boot API 엔드포인트 호출
+                const response = await axios.get('http://localhost:8080/bookmark',{
+                    headers: {
+                        Authorization: `${localStorage.getItem('accessToken')}`
+                    }
+                }); // Spring Boot API 엔드포인트 호출
                 commit('setMyBookmark', response.data); // 데이터 저장
             } catch (error) {
                 console.error('Error fetching items:', error);
@@ -47,7 +51,7 @@ const store = createStore({
     getters: {
         isLoggedIn: (state) => state.isLoggedIn,
         accessToken: (state) => state.accessToken,
-        myTeamBookmarkList: (state) => state.bookmarkList
+        bookmarkList: (state) => state.bookmarkList
     }
 });
 

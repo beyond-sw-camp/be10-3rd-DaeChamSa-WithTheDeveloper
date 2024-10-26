@@ -13,6 +13,7 @@ public class BookmarkListDTO {
     private Long userCode;
     private Long teamPostCode;
     private Long projPostCode;
-    private Long comuPostCode;
-    private Long recruitPostCode;
+    private Long comuCode;
+    private Long recruitCode;
+    private Integer bmkCount;
 }

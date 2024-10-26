@@ -47,7 +47,8 @@ const login = () => {
           const accessToken = res.headers['authorization']; // 대소문자 구분
           const refreshToken = res.headers['refresh-token']; // 대소문자 구분
           store.dispatch('login', accessToken); // Vuex 스토어에 로그인 처리
-
+          // 북마크 목록 vuex에 초기화
+          store.dispatch('fetchItems');
           // 로컬스토리지에 토큰값 저장
           localStorage.setItem('refreshToken', refreshToken);
 

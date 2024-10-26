@@ -9,18 +9,25 @@
             parameterType="Long"
             resultType="com.developer.bookmark.query.dto.BookmarkListDTO">
         SELECT
-            bmk_code,
-            bmk_url,
-            bmk_title,
-            bmk_create_date,
-            user_code,
-            team_post_code,
-            proj_post_code,
-            comu_post_code,
-            recruit_post_code
-          FROM bookmark
-         WHERE user_code = #{userCode}
-         ORDER BY bmk_create_date desc
+        a.bmk_code,
+        a.bmk_url,
+        a.bmk_title,
+        a.bmk_create_date,
+        a.user_code,
+        a.team_post_code,
+        a.proj_post_code,
+        a.comu_code,
+        a.recruit_code,
+        b.bmk_count AS bmk_count -- 같은 URL의 개수 반환
+        FROM bookmark AS a
+        LEFT JOIN (
+        SELECT bmk_url, COUNT(*) AS bmk_count
+        FROM bookmark
+        GROUP BY bmk_url
+        ) AS b
+        ON a.bmk_url = b.bmk_url
+        WHERE a.user_code = #{userCode}
+        ORDER BY bmk_create_date DESC;
     </select>
 
 </mapper>
