@@ -266,12 +266,12 @@ import router from "@/router/index.js";
   }
 
   .form_item button{
-    color: black;
+    color: white;
     background-color: #A4BCF9;
     border: solid 1px grey;
     height: 35px;
     border-radius: 5px;
-    font-size: 15px;
+    font-size: 12px;
     cursor: pointer;
   }
 

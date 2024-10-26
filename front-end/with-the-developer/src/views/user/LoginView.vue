@@ -12,12 +12,12 @@ const moveToRegister = () => {
 
 // 메인화면
 const moveToMain = () => {
-  window.location.href ='/';  // 새로고침을 동반한 페이지 이동
+  window.location.href ='/main';  // 새로고침을 동반한 페이지 이동
 }
 
 // 아이디 찾기 창
-const moveToFindId = () => {
-  router.push('/find-id');
+const moveTo = (type) => {
+  router.push(`${type}`);
 }
 
 // 성향테스트 창
@@ -107,7 +107,7 @@ const parseJwt = (token) => {
           아이디 저장
         </label>
         <span>
-          <span @click="moveToFindId">아이디 찾기</span> / <span>비밀번호 찾기</span>
+          <span @click="moveTo('/find-id')">아이디 찾기</span> / <span @click="moveTo('/reset-pw')">비밀번호 찾기</span>
         </span>
       </div>
 

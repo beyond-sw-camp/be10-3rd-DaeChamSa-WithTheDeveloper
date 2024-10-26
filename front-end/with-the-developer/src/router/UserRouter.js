@@ -2,6 +2,7 @@ import TosView from "@/views/user/TosView.vue";
 import RegisterView from "@/views/user/RegisterView.vue";
 import LoginView from "@/views/user/LoginView.vue";
 import FindIdView from "@/views/user/FindIdView.vue";
+import ReSettingPwPage from "@/views/user/ReSettingPwPage.vue";
 
 export default [
     {
@@ -19,5 +20,9 @@ export default [
     {
         path: '/find-id',
         component: FindIdView   // 아이디 찾기
+    },
+    {
+        path: '/reset-pw',
+        component: ReSettingPwPage  // 비밀번호 재설정
     },
 ]
