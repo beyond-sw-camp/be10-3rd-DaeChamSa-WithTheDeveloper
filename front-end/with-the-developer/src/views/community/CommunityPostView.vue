@@ -48,7 +48,7 @@
       <div class="post-actions">
         <template v-if="!isAuthor && isLogin">
           <button @click="openMessageModal">쪽지</button>
-          <button>북마크</button>
+          <button class="bookmark-button" @click="toggleBookmark(post)">북마크</button>
           <span>{{ post.bookmarkCount }}</span>
         </template>
       </div>
@@ -234,6 +234,26 @@ const goToList = () => router.push('/community');
 const formatDate = (dateString) => {
   const options = {year: 'numeric', month: 'short', day: 'numeric'};
   return new Date(dateString).toLocaleDateString(undefined, options);
+};
+
+const toggleBookmark = async (post) => {
+  const userCode = localStorage.getItem('userCode'); // 사용자 코드 가져오기
+
+  const bookmarkData = {
+    bmkUrl: `/community/${post.comuCode}`,
+    bmkTitle: post.comuSubject,
+    postType: 'comuPost',
+    postCode: post.comuCode,
+    userCode: userCode,
+  };
+
+  try {
+    const response = await axios.post('/bookmark', bookmarkData);
+    post.bookmarked = response.data.bookmarked; // 북마크 상태 업데이트
+    post.bookmarkCount = response.data.bookmarkCount; // 북마크 개수 업데이트
+  } catch (error) {
+    console.error('북마크 처리 중 오류 발생:', error);
+  }
 };
 
 // 모달 열기
