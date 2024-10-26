@@ -5,6 +5,7 @@ import {onMounted, reactive, ref} from "vue";
 const orderGoodsList = reactive([]);
 let orderDate = ref([]);
 let totalPrice = ref([]);
+const paymentUid = ref('');
 
 const orderUid = ref('');
 // URL에서 orderCode 추출
@@ -42,6 +43,8 @@ const fetchOrderDetail = async () => {
         }
       });
       totalPrice = paymentResponse.data.paymentPrice;
+      paymentUid.value = paymentResponse.data.paymentUid;
+
       //console.log("Payment Details:", paymentResponse.data.paymentPrice); // 결제 정보 출력
       specificOrder.orderGoods.forEach(goods => {
             orderGoodsList.push({
@@ -83,6 +86,20 @@ onMounted((async() => {
   await fetchOrderDetail();
   //await getOrderUid(orderCode);
 }))
+
+function orderCancel(){
+  axios.put(`/payment/${paymentUid.value}`)
+      .then(res => {
+         if (res.status === 200){
+           alert('결제 취소 성공');
+         } else {
+           alert('결제 취소 실패');
+         }
+      })
+      .catch(error => {
+        console.error('결제 취소중 오류 발생', error);
+      })
+}
 </script>
 
 <template>
@@ -120,7 +137,7 @@ onMounted((async() => {
       </div>
 
     </div>
-    <button>주문 취소</button>
+    <button @click="orderCancel">주문 취소</button>
   </div>
 </template>
 
