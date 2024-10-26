@@ -45,7 +45,7 @@ public class GoodsController {
     }
 
     // 굿즈 수정
-    @PutMapping(
+    @PutMapping(value = "/{goodsCode}",
             consumes = MediaType.MULTIPART_FORM_DATA_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
     @Operation(summary = "굿즈 수정", description = "등록되어 있는 굿즈의 이름(goods_name) 또는 내용(goods_content)을 수정합니다.")
@@ -62,7 +62,7 @@ public class GoodsController {
     // 굿즈 삭제
     @DeleteMapping("/{goodsCode}")
     @Operation(summary = "굿즈 삭제", description = "등록되어 있는 굿즈를 삭제합니다.")
-    public ResponseEntity<Void> deleteGoods(@PathVariable(name = "goodsCode") Long goodsCode) throws Exception {
+    public ResponseEntity<Void> deleteGoods(@PathVariable(value = "goodsCode") Long goodsCode) throws Exception {
 
         postAndImageService.goodsDelete(goodsCode);
 

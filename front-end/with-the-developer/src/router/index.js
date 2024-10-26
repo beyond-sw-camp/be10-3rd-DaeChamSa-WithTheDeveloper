@@ -1,9 +1,10 @@
 import {createRouter, createWebHistory} from "vue-router";
 import SearchResults from "@/views/SearchResults.vue";
 import Cart from "@/views/Cart.vue";
-import AdminUser from "@/views/Admin-User.vue";
-import AdminGoods from "@/views/AdminGoods.vue";
-import AdminTag from "@/views/Admin-Tag.vue";
+import DbtiTestView from "@/views/DbtiTestView.vue";
+import AdminUser from "@/views/admin/Admin-User.vue";
+import AdminGoods from "@/views/admin/AdminGoods.vue";
+import AdminTag from "@/views/admin/Admin-Tag.vue";
 import PayFail from "@/views/PayFail.vue";
 import PayComplete from "@/views/PayComplete.vue";
 import PrefixRouter from "@/router/PrefixRouter.js";

@@ -2,16 +2,24 @@
 
 import Footer from "@/components/Footer.vue";
 import NavigationBar from "@/components/NavigationBar.vue";
+import DbtiTestView from "@/views/DbtiTestView.vue";
+import AdminGoods from "@/views/admin/AdminGoods.vue";
 import SearchBar from "@/components/SearchBar.vue";
+import AdminUser from "@/views/admin/Admin-User.vue";
+import AdminSideBar from "@/components/AdminSideBar.vue";
+
+
 </script>
 
 <template>
   <SearchBar/>
   <NavigationBar/>
+  <div class="admin-layout">
+    <AdminSideBar/>
   <main class="main">
     <RouterView/>
   </main>
-
+  </div>
   <footer>
     <Footer/>
   </footer>
