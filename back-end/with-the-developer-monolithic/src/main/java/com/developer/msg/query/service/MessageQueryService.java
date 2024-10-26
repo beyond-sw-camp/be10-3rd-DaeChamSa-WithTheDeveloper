@@ -2,7 +2,9 @@ package com.developer.msg.query.service;
 
 import com.developer.common.exception.CustomException;
 import com.developer.common.exception.ErrorCode;
+import com.developer.msg.query.dto.ReqMsgDetailResponseDTO;
 import com.developer.msg.query.dto.ReqMsgResponseDTO;
+import com.developer.msg.query.dto.ResMsgDetailResponseDTO;
 import com.developer.msg.query.dto.ResMsgResponseDTO;
 import com.developer.msg.query.mapper.MessageMapper;
 import lombok.RequiredArgsConstructor;
@@ -30,12 +32,12 @@ public class MessageQueryService {
     }
 
     @Transactional(readOnly = true)
-    public ReqMsgResponseDTO findReqMsgByMsgCodeAndUserCode(Long msgCode, Long userCode) {
+    public ReqMsgDetailResponseDTO findReqMsgByMsgCodeAndUserCode(Long msgCode, Long userCode) {
         Map<String, Object> params = new HashMap<>();
         params.put("msgCode", msgCode);
         params.put("userCode", userCode);
 
-        ReqMsgResponseDTO reqMsg = messageMapper.findReqMsgByMsgCodeAndUserCode(params);
+        ReqMsgDetailResponseDTO reqMsg = messageMapper.findReqMsgByMsgCodeAndUserCode(params);
 
         if (reqMsg == null) {
             throw new CustomException(ErrorCode.NOT_FOUND_MESSAGE);
@@ -45,12 +47,12 @@ public class MessageQueryService {
     }
 
     @Transactional(readOnly = true)
-    public ResMsgResponseDTO findResMsgByMsgCodeAndUserCode(Long msgCode, Long userCode) {
+    public ResMsgDetailResponseDTO findResMsgByMsgCodeAndUserCode(Long msgCode, Long userCode) {
         Map<String, Object> params = new HashMap<>();
         params.put("msgCode", msgCode);
         params.put("userCode", userCode);
 
-        ResMsgResponseDTO resMsg = messageMapper.findResMsgByMsgCodeAndUserCode(params);
+        ResMsgDetailResponseDTO resMsg = messageMapper.findResMsgByMsgCodeAndUserCode(params);
 
         if (resMsg == null) {
             throw new CustomException(ErrorCode.NOT_FOUND_MESSAGE);
@@ -62,5 +64,9 @@ public class MessageQueryService {
     @Transactional(readOnly = true)
     public List<ResMsgResponseDTO> findAllUnReadResMsg(Long userCode) {
         return messageMapper.findAllUnReadResMsg(userCode);
+    }
+
+    public List<ResMsgResponseDTO> findAllIsReadResMsg(Long userCode) {
+        return messageMapper.findAllIsReadResMsg(userCode);
     }
 }

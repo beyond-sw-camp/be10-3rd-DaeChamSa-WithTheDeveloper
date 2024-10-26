@@ -20,17 +20,30 @@ const isLoggedIn = computed(() => store.getters.isLoggedIn);
 // 로그인
 const moveToLogin = () => {
   if (!isLoggedIn.value) {
-    router.push('/login');
+    window.location.href =`/login`;
   } else {
     store.dispatch('logout'); // 로그아웃 처리
-    router.push('/');
+    window.location.href =`/`;
   }
 };
 
+const moveTo = (type) => {
+
+  if (type === '/mypage/info' && !isLoggedIn.value) {
+    alert('로그인이 필요한 서비스입니다.');
+    window.location.href =`/login`;
+    return;
+  }
+  if (type === '/' && isLoggedIn.value){
+    window.location.href = '/main';
+    return;
+  }
+  console.log(type);
+  window.location.href =`${type}`;
+}
 
 // 모달 상태 관리
 const showModal = ref(false);
-
 function toggleModal() {
   showModal.value = !showModal.value;
 }
@@ -40,12 +53,12 @@ function toggleModal() {
 <template>
   <header>
     <div id="nav-left">
-      <img src="../assets/images/logo.png" alt="로고 이미지" id="logo-image">
+      <img src="../assets/images/logo.png" alt="로고 이미지" id="logo-image" @click="moveTo('/')">
       <ul class="nav-ul">
-        <li class="nav-menu"><a>게시판</a></li>
-        <li class="nav-menu"><a>채용공고</a></li>
-        <li class="nav-menu"><a>굿즈</a></li>
-        <li class="nav-menu"><a>마이페이지</a></li>
+        <li class="nav-menu" @click="moveTo('/main')">게시판</li>
+        <li class="nav-menu" @click="moveTo('/')">채용공고</li>
+        <li class="nav-menu" @click="moveTo('/goods')">굿즈</li>
+        <li class="nav-menu" @click="moveTo('/mypage/info')">마이페이지</li>
       </ul>
     </div>
     <div id="nav-right">
@@ -55,7 +68,7 @@ function toggleModal() {
         </li>
         <li class="nav-menu"><a id="login" @click="toggleModal">
           <img src="https://img.icons8.com/?size=100&id=eMfeVHKyTnkc&format=png&color=000000" alt="alarm" class="nav-img"></a></li>
-        <li class="nav-menu"><a id="login"><img src="https://img.icons8.com/?size=100&id=zhda2EVBCvHY&format=png&color=000000" alt="cart" class="nav-img"></a></li>
+        <li class="nav-menu" @click="moveTo('/cart-goods')"><a id="login"><img src="https://img.icons8.com/?size=100&id=zhda2EVBCvHY&format=png&color=000000" alt="cart" class="nav-img"></a></li>
         <li class="nav-menu">
           <a id="login">
             <img src="https://img.icons8.com/?size=100&id=elSdeHsB03U3&format=png&color=000000" alt="search" class="nav-img" @click="switchSearch">
@@ -92,6 +105,7 @@ header{
   height: 50px;
   margin-top: 5px;
   margin-left: 30px;
+  cursor: pointer;
 }
 .nav-ul{
   list-style: none;
@@ -109,12 +123,14 @@ header{
 .nav-menu span:hover{
   color: #1b5ac2;
 }
-.nav-menu > a {
+.nav-menu{
   text-decoration-line: none;
   color: #7E7E7E;
 }
-.nav-menu > a:hover{
+
+.nav-menu:hover{
   color: #1b5ac2;
+  cursor: pointer;
 }
 #nav-right{
   display: flex;
@@ -148,7 +164,7 @@ input{
   outline: none;
   float: left;
 }
-button{
+button {
   width: 50px;
   height: 100%;
   border: 0;

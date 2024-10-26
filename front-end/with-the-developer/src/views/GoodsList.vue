@@ -1,13 +1,17 @@
 <script setup>
 import SearchBar from "@/components/SearchBar.vue";
-import { ref, onMounted, computed, watch, reactive } from "vue";
+import {ref, onMounted, computed, watch, reactive} from "vue";
 import axios from "axios";
 import {usePagination} from "@/components/Pagination.js";
+import {BASE_IMAGE_URL} from "@/config/image-base-url.js";
 
 const products = reactive([]);
 const itemsPerPage = 12; // 한페이지에 12개
 
-const { currentPage, totalPage, paginatedItems, setPage } = usePagination(products, itemsPerPage);
+const {currentPage, totalPage, paginatedItems, setPage, setTotalPage} = usePagination(products, itemsPerPage);
+
+// 이미지 URL 생성 함수
+const getImageUrl = (fileName) => `${BASE_IMAGE_URL}/${fileName}`;
 
 // 굿즈 목록을 가져오기
 const fetchGoodsList = async (page = 1) => {
@@ -41,17 +45,23 @@ onMounted(() => {
     <div>총 {{ products.length }}건</div>
     <div id="goods_list_box">
       <div v-for="goods in paginatedItems" :key="goods.goodsCode" class="goods">
-        <img :src="goods.images[0]?.url">
-        <div>
-          <div class="goods_title">{{ goods.goodsTitle}}</div>
-          <div class="goods_price">{{ goods.goodsPrice}}원</div>
-        </div>
+        <router-link :to="`/goods/${goods.goodsCode}`">
+          <img :src="getImageUrl(goods.images[0]?.fileName)">
+          <div>
+            <div class="goods_title">{{ goods.goodsTitle }}</div>
+            <div class="goods_price">{{ goods.goodsPrice }}원</div>
+          </div>
+        </router-link>
       </div>
+
     </div>
+
   </div>
   <!--  페이징 -->
   <div class="pagination">
-    <span v-for="page in totalPage" :key="page" @click="setPage(page)" :class="{ active: currentPage === page }">{{ page }}</span>
+    <span v-for="page in totalPage" :key="page" @click="setPage(page)" :class="{ active: currentPage === page }">{{
+        page
+      }}</span>
   </div>
 </template>
 
@@ -59,6 +69,7 @@ onMounted(() => {
 * {
   margin: 0 auto;
 }
+
 #goods_list_page_box {
   width: 1040px;
 }
@@ -89,7 +100,7 @@ img {
   font-size: 17px;
 }
 
-.pagination{ /* 페이지 넘버링 */
+.pagination { /* 페이지 넘버링 */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -97,13 +108,19 @@ img {
   font-size: 20px;
 }
 
-.pagination span{ /* 페이지 숫자 간격, 마우스 커서 변경 */
+.pagination span { /* 페이지 숫자 간격, 마우스 커서 변경 */
   margin: 0 5px;
   cursor: pointer;
 }
 
-.pagination span.active{
+.pagination span.active {
   font-weight: bold;
   color: #1b5ac2;
 }
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
 </style>

@@ -11,7 +11,6 @@ import SearchBar from "@/components/SearchBar.vue";
   <main class="main">
     <RouterView/>
   </main>
-
   <footer>
     <Footer/>
   </footer>
@@ -24,9 +23,6 @@ import SearchBar from "@/components/SearchBar.vue";
   }
   footer{
     margin-top: 10vh;
-  }
-  .admin-layout{
-    display: flex;
   }
   .main{
     flex-grow: 1;

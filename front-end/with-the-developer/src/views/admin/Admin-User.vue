@@ -1,33 +1,36 @@
 <script setup>
-import {computed, ref} from "vue";
-import AdminBlock from "@/views/AdminBlock.vue";
-import Modal from '@/components/Modal.vue';
-import {usePagination} from "@/components/Pagination.js";
+import { computed, ref } from "vue";
+import { usePagination } from "@/components/Pagination.js";
+import { useRouter } from "vue-router";
 
+const router = useRouter();
 
 const showModal = ref(false);
-const openModal = () => showModal.value = true;
-const closeModal = () => showModal.value = false;
+const openModal = () => (showModal.value = true);
+const closeModal = () => (showModal.value = false);
 
+const users = ref([]);
 
-
-
-// 프론트 구현 위한 임시 굿즈 데이터
-const users = [
-  {id: "user01", nickName: "발랄한개발자", "blockCount": 0, status: "사용중"},
-  {id: "user02", nickName: "발랄한개발자", "blockCount": 0, status: "정지(30일)"},
-  {id: "user03", nickName: "발랄한개발자", "blockCount": 0, status: "사용중"},
-  {id: "user04", nickName: "발랄한개발자", "blockCount": 0, status: "정지(5일)"},
-  {id: "user05", nickName: "발랄한개발자", "blockCount": 0, status: "사용중"},
-  {id: "user06", nickName: "발랄한개발자", "blockCount": 0, status: "사용중"},
-  {id: "user07", nickName: "발랄한개발자", "blockCount": 0, status: "사용중"},
-  {id: "user08", nickName: "발랄한개발자", "blockCount": 0, status: "사용중"},
-  {id: "user09", nickName: "발랄한개발자", "blockCount": 0, status: "사용중"},
-  {id: "user10", nickName: "발랄한개발자", "blockCount": 0, status: "사용중"},
-  {id: "user11", nickName: "발랄한개발자", "blockCount": 0, status: "사용중"}
+// 테스트 데이터 (가상의 사용자 목록)
+const testUsers = [
+  { id: 1, nickName: "user1", blockCount: 2, status: "사용중" },
+  { id: 2, nickName: "user2", blockCount: 0, status: "사용중" },
+  { id: 3, nickName: "user3", blockCount: 1, status: "정지" },
+  { id: 4, nickName: "user4", blockCount: 3, status: "사용중" },
+  { id: 5, nickName: "user5", blockCount: 0, status: "정지" },
+  // 더 많은 사용자 데이터 추가 가능
 ];
 
 const { currentPage, totalPage, paginatedItems, setPage } = usePagination(users, 10);
+
+// 사용자 목록 조회, 갱신
+const fetchUsers = () => {
+  // 임시 테스트 데이터 사용
+  users.value = testUsers; // 테스트 데이터 설정
+};
+
+// 페이지가 로드될 때 사용자 목록을 가져옵니다.
+fetchUsers();
 
 </script>
 
@@ -42,20 +45,19 @@ const { currentPage, totalPage, paginatedItems, setPage } = usePagination(users,
           <option value="정지">정지</option>
         </select>
         <input
-          type="text"
-          v-model="searchBar"
-          placeholder="id 검색"
-          class="search-input"
+            type="text"
+            v-model="searcMiniBar"
+            placeholder="id 검색"
+            class="search-input"
         />
       </div>
     </div>
-
 
     <div class="admin-userList">
       <table>
         <thead>
         <tr>
-          <th><input type="checkbox"/></th>
+          <th><input type="checkbox" /></th>
           <th>회원번호</th>
           <th>닉네임</th>
           <th>신고횟수</th>
@@ -65,13 +67,13 @@ const { currentPage, totalPage, paginatedItems, setPage } = usePagination(users,
         </thead>
         <tbody>
         <tr v-for="user in paginatedItems" :key="user.id">
-          <td><input type="checkbox"/></td>
+          <td><input type="checkbox" /></td>
           <td>{{ user.id }}</td>
-          <td  @click="openModal">{{ user.nickName }}</td>
+          <td>{{ user.nickName }}</td>
           <td>{{ user.blockCount }}회</td>
           <td>{{ user.status }}</td>
           <td>
-            <button class="block-button" v-if="user.status==='사용중'">정지</button>
+            <button class="block-button" v-if="user.status === '사용중'">정지</button>
             <button class="activate-button" v-else>활성화</button>
           </td>
         </tr>
@@ -79,19 +81,6 @@ const { currentPage, totalPage, paginatedItems, setPage } = usePagination(users,
       </table>
     </div>
   </div>
-
-  <!--  페이지 -->
-  <div class="pagination">
-    <span v-for="page in totalPage" :key="page" @click="setPage(page)" :class="{ active: currentPage.value === page }">
-      {{ page }}
-    </span>
-  </div>
-
-<!--  모달페이지 -->
-  <Modal :show="showModal" @close="closeModal">
-    <AdminBlock @cancel="closeModal"/>
-  </Modal>
-
 </template>
 
 <style scoped>
@@ -115,12 +104,12 @@ const { currentPage, totalPage, paginatedItems, setPage } = usePagination(users,
   margin-bottom: 20px;
 }
 
-.userStatusFilter{
+.userStatusFilter {
   flex: 1;
   text-align: right;
 }
 
-.filterClick{
+.filterClick {
   margin-right: 20px;
 }
 
@@ -134,7 +123,8 @@ table {
   text-align: left;
 }
 
-th, td {
+th,
+td {
   padding: 12px;
   border-bottom: 1px solid #ddd;
 }
@@ -148,8 +138,9 @@ td {
   font-size: 14px;
 }
 
-.block-button, .activate-button {
-  background-color: #617CC2;
+.block-button,
+.activate-button {
+  background-color: #617cc2;
   color: white;
   border: none;
   border-radius: 5px;
@@ -158,7 +149,8 @@ td {
   width: 75px;
 }
 
-.block-button:hover, .activate-button:hover {
+.block-button:hover,
+.activate-button:hover {
   background-color: #495b99;
 }
 
@@ -178,6 +170,6 @@ td {
 
 .pagination .active {
   font-weight: bold;
-  color: #617CC2;
+  color: #617cc2;
 }
 </style>

@@ -19,6 +19,7 @@ public class ProjPostResponseDTO {
     private String userNick;
     private LocalDateTime createdDate;
     private LocalDateTime modifiedDate;
+    private Long bookmarkCount;
     private List<String> projTagContents;
     private List<Image> images;
 }

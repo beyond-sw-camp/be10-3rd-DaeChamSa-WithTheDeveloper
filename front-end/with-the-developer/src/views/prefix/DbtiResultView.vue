@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed } from 'vue';
+import {computed, ref} from 'vue';
 import axios from 'axios';
 import router from "@/router";
 
@@ -9,12 +9,11 @@ const props = defineProps(['result']); // result prop 수신
 const fetchedResults = ref([]);
 const currentPage = ref(1);
 const itemsPerPage = 8; // 한 페이지에 표시할 아이템 수
-const selectedItem = ref([]); // 선택한 항목
+const selectedItem = ref(null); // 선택한 항목
 
 // 데이터 가져오기 (onMounted 사용 가능)
 axios.get(`/dbti/result/${props.result}`)
     .then(res => {
-      console.log(res.data);
       fetchedResults.value = res.data; // 통신을 통해 데이터 배열을 받음
     })
     .catch(error => {
@@ -50,7 +49,7 @@ const goToNextPage = () => {
 // 항목 선택 시 호출
 const selectItem = (item) => {
   selectedItem.value = item;
-  console.log(selectedItem.value)
+  console.log(selectedItem.value);
 };
 
 // 항목 선택 완료
@@ -82,9 +81,9 @@ const complete = () => {
       <button @click="goToNextPage" :disabled="currentPage === totalPages">다음</button>
     </div>
 
-    <!-- 선택시 완료 버튼 표시 -->
+    <!-- 선택시 선택 버튼 표시 -->
     <div v-if="selectedItem">
-      <button class="complete-button" @click="complete">선택</button>
+      <button class="complete-button" @click="complete" :disabled="!selectedItem">선택</button>
     </div>
   </div>
 </template>
@@ -92,21 +91,32 @@ const complete = () => {
 <style scoped>
 .result-container {
   text-align: center;
+  width: 800px;
+  background-color: #E6ECFD;
+  border-radius: 10px;
+  height: 450px;
+  padding: 30px 0;
 }
 
 .buttons-container {
   display: grid;
   justify-content: center;
   gap: 10px;
-  grid-template-columns: repeat(2, minmax(20%, auto));
+  grid-template-columns: repeat(2, minmax(25%, auto));
 }
 
+input, button{
+  font-family: "Neo둥근모 Pro";
+}
 button {
+  font-size: 14px;
   width: 150px;
   padding: 10px 20px;
-  border: 1px solid #000;
+  border: 1px solid #617CC2;
   background-color: white;
   cursor: pointer;
+  border-radius: 5px;
+  box-shadow: 0 1px 2px grey;
 }
 .pagination button{
   width: 100px;
@@ -114,8 +124,9 @@ button {
 }
 
 button.selected {
-  background-color: #007BFF;
+  background-color: #3379FF;
   color: white;
+  box-shadow: 0 1px 2px 1px inset black;
 }
 
 .pagination {
@@ -129,6 +140,13 @@ button.selected {
   color: white;
   border: none;
   cursor: pointer;
+}
+button:disabled{
+  cursor: not-allowed;
+}
+.complete-button:disabled{
+  color: #1010104D;
+  background-color: #FFFFFF;
 }
 strong{
   color: #F66666;

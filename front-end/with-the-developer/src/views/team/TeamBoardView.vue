@@ -1,14 +1,7 @@
 <template>
   <div class="board-page">
-    <h1 id="board-title">커뮤니티</h1>
+    <h1 id="board-title">팀모집</h1>
     <div class="upper-menu">
-      <div class="sort-menu">
-        <label for="sortOrder"></label>
-        <select id="sortOrder">
-          <option value="latest">최신순</option>
-          <option value="name">북마크 많은 순</option>
-        </select>
-      </div>
       <search-bar />
       <button class="post-button" @click="goToCreatePage">
         <img
@@ -19,7 +12,7 @@
         글쓰기
       </button>
     </div>
-    <CommunityBoardList :posts="posts" />
+    <TeamBoardList :posts="posts" />
   </div>
 </template>
 
@@ -27,20 +20,21 @@
 import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import axios from 'axios';
-import CommunityBoardList from '@/components/CommunityBoardList.vue';
 import SearchBar from '@/components/SearchBar.vue';
+import ProjectBoardList from "@/components/ProjectBoardList.vue";
+import TeamBoardList from "@/components/TeamBoardList.vue";
 
 const posts = ref([]);
 const router = useRouter();
 
 const goToCreatePage = () => {
-  router.push('/community/create');
+  router.push('/team/create');
 };
 
 // 게시글 데이터 가져오기
 const fetchPosts = async () => {
   try {
-    const response = await axios.get('/public/comu/post');
+    const response = await axios.get('/public/team/post');
     console.log(response.data); // 응답 확인
     posts.value = response.data.content || response.data; // 서버 데이터 설정
   } catch (error) {
@@ -67,11 +61,6 @@ onMounted(fetchPosts);
 
 #board-title {
   text-align: center;
-}
-
-.sort-menu {
-  margin-left: 5%;
-  margin-top: 1%;
 }
 
 .post-button {

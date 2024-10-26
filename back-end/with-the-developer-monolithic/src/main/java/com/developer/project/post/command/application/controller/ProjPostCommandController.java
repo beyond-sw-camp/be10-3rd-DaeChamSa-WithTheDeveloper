@@ -65,7 +65,7 @@ public class ProjPostCommandController {
         Long loginUserCode = SecurityUtil.getCurrentUserCode();
 
         // 게시글 삭제
-        postAndImageService.projPostDelete(projPostCode, loginUserCode);
+        postAndImageService.projPostDelete(loginUserCode, projPostCode);
 
         return ResponseEntity.ok(SuccessCode.PROJ_POST_DELETE_OK);
     }

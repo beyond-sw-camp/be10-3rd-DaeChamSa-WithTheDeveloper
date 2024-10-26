@@ -10,4 +10,10 @@ public class BookmarkListDTO {
     private String bmkUrl;
     private String bmkTitle;
     private LocalDateTime bmkCreateDate;
+    private Long userCode;
+    private Long teamPostCode;
+    private Long projPostCode;
+    private Long comuCode;
+    private Long recruitCode;
+    private Integer bmkCount;
 }

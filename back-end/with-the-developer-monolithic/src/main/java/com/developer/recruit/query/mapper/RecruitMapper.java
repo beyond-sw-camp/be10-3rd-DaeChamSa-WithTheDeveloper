@@ -17,4 +17,6 @@ public interface RecruitMapper {
     RecruitDetailReadDTO readRecruitDetailById(@Param("recruitCode") Long recruitCode);
 
     List<RecruitListReadDTO> searchRecruitByTags(Map<String, Object> params);
+
+    List<RecruitDetailReadDTO> readRecruitByUserCode(Long userCode);
 }

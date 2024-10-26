@@ -1,10 +1,10 @@
 <script setup>
 
-  import {ref} from "vue";
-  import axios from "axios";
-  import router from "@/router/index.js";
+import {ref} from "vue";
+import axios from "axios";
+import router from "@/router/index.js";
 
-  // pw패턴
+// pw패턴
   const pwPattern = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*()_+=-]).{8,16}$/;
 
   // email패턴
@@ -266,12 +266,12 @@
   }
 
   .form_item button{
-    color: black;
+    color: white;
     background-color: #A4BCF9;
     border: solid 1px grey;
     height: 35px;
     border-radius: 5px;
-    font-size: 15px;
+    font-size: 12px;
     cursor: pointer;
   }
 

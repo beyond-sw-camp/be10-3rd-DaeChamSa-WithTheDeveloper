@@ -26,4 +26,12 @@
         ORDER BY order_create_date DESC
     </select>
 
+    <select id="findOrderUidByOrderCode"
+            parameterType="Long"
+            resultType="String">
+        SELECT order_uid
+        FROM orders
+        WHERE order_code = #{ orderCode }
+    </select>
+
 </mapper>

@@ -17,7 +17,7 @@
         <button @click="navigateTo('goods')">굿즈</button>
       </li>
       <li>
-        <button @click="navigateTo('orders')">주문목록</button>
+        <button @click="navigateTo('order')">주문목록</button>
       </li>
       <li>
         <button @click="navigateTo('user')">회원관리</button>
@@ -34,6 +34,7 @@ export default {
   methods: {
     navigateTo(page) {
       const routes = {
+        'order':'/admin/order',
         'goods' : '/goods',
         'user' : '/admin/user/status',
         'jopTag' : '/jop-tag'

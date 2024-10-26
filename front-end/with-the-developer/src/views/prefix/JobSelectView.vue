@@ -1,5 +1,5 @@
 <script setup>
-import {ref, computed, onMounted} from 'vue';
+import {computed, onMounted, ref} from 'vue';
 import axios from 'axios';
 import router from "@/router/index.js";
 
@@ -7,13 +7,12 @@ import router from "@/router/index.js";
 const fetchedResults = ref([]);
 const currentPage = ref(1);
 const itemsPerPage = 8; // 한 페이지에 표시할 아이템 수
-const selectedItem = ref([]); // 선택한 항목
+const selectedItem = ref(null); // 선택한 항목
 
 // 데이터 가져오기
 onMounted(() => {
   axios.get(`/job-tag`)
       .then(res => {
-        console.log(res.data);
         fetchedResults.value = res.data; // 통신을 통해 데이터 배열을 받음
       })
       .catch(error => {
@@ -50,7 +49,6 @@ const goToNextPage = () => {
 // 항목 선택 시 호출
 const selectItem = (item) => {
   selectedItem.value = item;
-  console.log(selectedItem.value)
 };
 
 // 항목 선택 완료
@@ -58,10 +56,7 @@ const complete = () => {
   alert(`${selectedItem.value.jobTagName} 선택 완료`);
   localStorage.setItem('jobTag', JSON.stringify(selectedItem.value));
   const savedDbti = JSON.parse(localStorage.getItem('dbti'));
-  console.log(selectedItem.value.jobTagCode);
-  console.log(savedDbti.dbtiCode);
-  const accessToken = localStorage.getItem('accessToken');
-  console.log(accessToken);
+
   const prefixCreateDTO = {
     dbtiCode: savedDbti.dbtiCode,
     jobTagCode: selectedItem.value.jobTagCode
@@ -112,31 +107,45 @@ const complete = () => {
 <style scoped>
 .result-container {
   text-align: center;
+  width: 800px;
+  background-color: #E6ECFD;
+  border-radius: 10px;
+  height: 450px;
+  padding: 30px 0;
 }
 
 .buttons-container {
   display: grid;
   justify-content: center;
   gap: 10px;
-  grid-template-columns: repeat(2, minmax(20%, auto));
+  grid-template-columns: repeat(2, minmax(25%, auto));
 
 }
 
+input, button{
+  font-family: "Neo둥근모 Pro";
+}
 button {
+  font-size: 14px;
   width: 150px;
   padding: 10px 20px;
-  border: 1px solid #000;
+  border: 1px solid #617CC2;
   background-color: white;
   cursor: pointer;
+  border-radius: 5px;
+  box-shadow: 0 1px 2px grey;
 }
 .pagination button{
   width: 100px;
   margin: 15px;
+  box-shadow: 0 2px 2px grey;
+
 }
 
 button.selected {
-  background-color: #007BFF;
+  background-color: #3379FF;
   color: white;
+  box-shadow: 0 1px 2px 1px inset black;
 }
 
 .pagination {

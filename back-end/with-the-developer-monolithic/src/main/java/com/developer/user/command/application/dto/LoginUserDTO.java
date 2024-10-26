@@ -1,6 +1,5 @@
 package com.developer.user.command.application.dto;
 
-import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

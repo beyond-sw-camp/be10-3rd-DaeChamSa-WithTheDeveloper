@@ -12,4 +12,6 @@ public interface OrderMapper {
     List<OrderGoodsListDTO> findOrderGoodsByOrderCode(Long orderCode);
 
     List<OrderListDTO> findOrderByUserCode(Long userCode);
+
+    String findOrderUidByOrderCode(Long orderCode);
 }

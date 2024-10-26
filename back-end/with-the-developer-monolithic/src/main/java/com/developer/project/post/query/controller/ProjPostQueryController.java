@@ -5,6 +5,7 @@ import com.developer.project.post.query.dto.ProjPostResponseDTO;
 import com.developer.project.post.query.service.ProjPostQueryService;
 import com.developer.search.query.dto.SearchResultDTO;
 import com.developer.search.query.service.SearchService;
+import com.developer.user.security.SecurityUtil;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -34,6 +35,17 @@ public class ProjPostQueryController {
     @Operation(summary = "프로젝트 자랑 게시글 상세 내용 조회", description = "등록되어 있는 프로젝트 게시글의 상세 내용을 조회합니다.")
     public ResponseEntity<ProjPostResponseDTO> readByCode(@PathVariable(value = "projPostCode") Long projPostCode) {
         ProjPostResponseDTO projPostResponseDTO = projPostQueryService.readByCode(projPostCode);
+
+        return ResponseEntity.ok(projPostResponseDTO);
+    }
+
+    @GetMapping("/post/mypage")
+    @Operation(summary = " 내 프로젝트 자랑 게시글 목록 조회", description = "등록되어 있는 내 프로젝트 게시글 목록을 조회합니다.")
+    public ResponseEntity<List<ProjPostResponseDTO>> readByUserCode() {
+
+        Long userCode = SecurityUtil.getCurrentUserCode();
+
+        List<ProjPostResponseDTO> projPostResponseDTO = projPostQueryService.readByUserCode(userCode);
 
         return ResponseEntity.ok(projPostResponseDTO);
     }
