@@ -5,20 +5,18 @@ import axios from "axios";
 import Modal from "@/components/Modal.vue"; // 모달창
 import {useRouter} from "vue-router"; // 페이징
 import { usePagination } from "@/components/Pagination.js";
+import AdminGoodsDetail from "@/views/admin/AdminGoodsDetail.vue";
 
 const router = useRouter();
 
-// 굿즈 등록 모달창
+// 굿즈 모달창
 const showModal = ref(false);
 const openModal = () => showModal.value = true;
 const closeModal = () => showModal.value = false;
+const showDetail = ref(false);
+const selectGoodsCode = ref(null);
 
-// admin 테스트 위한 토큰 하드코딩
-const adminToken = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsInVzZXJDb2RlIjoxLCJhdXRoIjoiUk9MRV9BRE1JTiIsImV4cCI6MTcyOTkxMDA1Nn0.6iXhnbWaWTgYzBiwKPgrzfVYbQim8MRRN2wPKXV4I3qkVzD41zPFd7sS0XP1VYr_B1wBztGSi7i75WhdkaDTTw"
-// 서버에서 가져온 굿즈 데이터
-// const products = ref([]);
-// const currentPage = ref(1); // 현재 페이지
-// const totalPage = ref(1); // 총 페이지 수
+const adminToken = "";
 
 const products = ref([]);
 const itemsPerPage = 10; // 페이지당 아이템 수
@@ -32,10 +30,16 @@ const checkedGoods = ref([]);
 // 로그인 함수
 const loginUser = async () => {
   try {
-    localStorage.setItem('jwtToken', adminToken);
-
+    localStorage.setItem('USER_ROLE', 'USER_ADMIN');
     // Axios 기본 헤더에 토큰 추가
     axios.defaults.headers.common['Authorization'] = adminToken;
+
+    let item1 = localStorage.getItem('USER_ROLE');
+    if(item1 == 'USER_ADMIN'){
+      router.push('/goods');
+    }else {
+      router('/login')
+    }
 
     console.log("admin 로그인 성공");
     await fetchGoods(); // 굿즈 목록 불러오기
@@ -43,6 +47,12 @@ const loginUser = async () => {
     console.error('로그인 실패:', error.response ? error.response.data : error.message);
   }
 };
+
+// 굿즈 상세 보기
+const openGoodsDetail = (goodsCode) => {
+  selectGoodsCode.value = goodsCode;
+  showDetail.value = true;
+}
 
 
 
@@ -79,7 +89,6 @@ const deleteGoods = async () => {
   // 굿즈 목록 조회, 갱신
   const fetchGoods = async (page = 1) => {
     try {
-      // const response = await axios.get(`http://localhost:8080/public/goods?page=${page}`, {
       const response = await axios.get(`http://localhost:8080/public/goods?page=${currentPage.value}`, {
         headers: {
           Authorization: localStorage.getItem('jwtToken'),
@@ -145,13 +154,11 @@ const deleteGoods = async () => {
         <tr v-for="product in paginatedItems" :key="product.goodsCode">
           <td><input type="checkbox" @change="toggleChecked(product.goodsCode)"/></td>
           <td><img :src="product.images[0] || 'default-image-path.png'" alt="product image"/></td>
-          <td>
-            <a @click.prevent="viewProductDetail(product.goodsCode)" class="name-click">{{ product.goodsName }}</a>
-          </td>
+          <td>{{ product.goodsName }}</td>
           <td>{{ product.goodsPrice.toLocaleString() }}원</td>
           <td>{{ product.delStatus }}</td>
           <td>
-            <button class="edit-button">수정</button>
+            <button class="edit-button" @click="openGoodsDetail(product.goodsCode)">보기</button>
           </td>
         </tr>
         </tbody>
@@ -162,6 +169,11 @@ const deleteGoods = async () => {
   <!-- 등록페이지 열기 위한 모달창 -->
   <Modal :show="showModal" @close="closeModal">
     <AdminGoodsRegister @cancel="closeModal"/>
+  </Modal>
+
+<!--  굿즈 상세 보기 모달 -->
+  <Modal :show="showDetail" @close="showDetail=false">
+    <AdminGoodsDetail :goodsCode="selectGoodsCode" @cancel="showDetail=false"/>
   </Modal>
 
   <!-- 페이지네이션 -->

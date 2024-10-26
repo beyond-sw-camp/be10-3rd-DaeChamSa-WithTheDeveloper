@@ -6,6 +6,7 @@ import AdminGoods from "@/views/admin/AdminGoods.vue";
 import AdminTag from "@/views/admin/Admin-Tag.vue";
 import PayFail from "@/views/PayFail.vue";
 import PayComplete from "@/views/PayComplete.vue";
+import AdminGoodsDetail from "@/views/admin/AdminGoodsDetail.vue";
 import PrefixRouter from "@/router/PrefixRouter.js";
 import UserRouter from "@/router/UserRouter.js";
 import GoodsList from "@/views/GoodsList.vue";
@@ -48,6 +49,9 @@ const routes = [
         {
             path: '/goods',
             component: AdminGoods,
+        },
+        {
+            path: '/goods/:goodsCode', component: AdminGoodsDetail, props: true
         },
         {
             path: '/jop-tag',
