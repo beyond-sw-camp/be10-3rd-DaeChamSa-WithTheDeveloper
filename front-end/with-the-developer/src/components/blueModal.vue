@@ -15,6 +15,10 @@ const props = defineProps({
 
 const emit = defineEmits(['update:blueModalValue', 'confirm']);
 
+const handleConfirm = () => {
+  emit('confirm');
+  closeBlueModal(); // 확인버튼 눌러도 모달창 닫혀야하므로
+}
 
 const closeBlueModal = () => {
   emit('update:blueModalValue', false);
