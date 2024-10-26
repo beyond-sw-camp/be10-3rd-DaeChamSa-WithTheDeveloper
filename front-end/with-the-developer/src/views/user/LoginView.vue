@@ -13,7 +13,7 @@ const moveToRegister = () => {
 
 // 메인화면
 const moveToMain = () => {
-  router.push('/');
+  window.location.href ='/';  // 새로고침을 동반한 페이지 이동
 }
 
 // 아이디 찾기 창
@@ -34,8 +34,7 @@ const saveId = ref(false);
 const store = useStore();
 
 const login = () => {
-  console.log(userId.value);
-  console.log(userPw.value);
+
   const userDTO = {
     userId : userId.value,
     userPw : userPw.value
@@ -43,7 +42,6 @@ const login = () => {
   axios.post('/user/login', userDTO)
       .then(res => {
         if (res.status === 200){
-          console.log(res);
           const accessToken = res.headers['authorization']; // 대소문자 구분
           const refreshToken = res.headers['refresh-token']; // 대소문자 구분
           store.dispatch('login', accessToken); // Vuex 스토어에 로그인 처리
@@ -59,13 +57,8 @@ const login = () => {
           localStorage.setItem('userRole', userRole);
           localStorage.setItem('userCode', userCode);
           localStorage.setItem('userId', userId);
-
-
-          console.log('액세스토큰 : ', accessToken);
-          console.log('리프레시토큰 : ', refreshToken);
-          console.log('유저 권한 : ', userRole);
+          
           alert('로그인 성공');
-          console.log(res.data)
           if (!res.data){
             moveToDbtiTest();
           } else{
