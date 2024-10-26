@@ -63,7 +63,8 @@ const fileList = ref([]);
 const router = useRouter();
 
 // 로컬에서 토큰 가져오기
-const adminToken = localStorage.getItem('jwtToken') || "";
+// const adminToken = localStorage.getItem('jwtToken') || "";
+const adminToken = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsInVzZXJDb2RlIjoxLCJhdXRoIjoiUk9MRV9BRE1JTiIsImV4cCI6MTcyOTkzNzM3OH0.9R4X4EhQyymZqeWUXcI47oAbwd9AqAj_CMLfjCLqHoDE8i8rumc0bqT5zlDo4DKxuTihYaIeM3gbiGyPwxjtUA";
 
 // 이미지 업로드
 const handelFileUpload = (event) => {
@@ -110,7 +111,8 @@ const submitGoods = async () => {
     const response = await axios.post('http://localhost:8080/goods', formData,{
       headers:{
         'Content-Type' : 'multipart/form-data',
-        Authorization: `Bearer ${localStorage.getItem('jwtToken')}`, // Authorization 헤더에 토큰 추가
+        // Authorization: localStorage.getItem('jwtToken'),
+        Authorization: `Bearer ${adminToken}`, // Authorization 헤더에 토큰 추가
       },
     });
     // const response = router.push("/goods");

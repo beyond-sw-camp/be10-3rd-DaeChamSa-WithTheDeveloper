@@ -11,6 +11,11 @@ export function usePagination(countItem, itemsPage){
 });
 
     const paginatedItems = computed(() => {
+
+        if (!Array.isArray(countItem.value) || countItem.value.length === 0) {
+            return [];
+        }
+
         const start = (currentPage.value-1) * itemsPage;
         const end = start + itemsPage;
         return countItem.value.slice(start, end);

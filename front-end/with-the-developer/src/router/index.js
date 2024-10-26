@@ -15,6 +15,7 @@ import MainRouter from "@/router/MainRouter.js";
 import CommunityRouter from "@/router/CommunityRouter.js";
 import ProjectRouter from "@/router/ProjectRouter.js";
 import MyPageRouter from "@/router/MyPageRouter.js";
+import AdminOrder from "@/views/admin/AdminOrder.vue";
 
 const routes = [
         {
