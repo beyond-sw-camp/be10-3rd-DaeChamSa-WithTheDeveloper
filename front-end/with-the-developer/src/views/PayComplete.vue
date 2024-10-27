@@ -1,21 +1,8 @@
 <script setup>
-import NavigationBar from "@/components/NavigationBar.vue";
-import {onMounted, ref} from 'vue';
+import {useRoute} from "vue-router";
 
-const orderNum = ref('');
-//  주문번호 API 호출 함수
-const fetchOrderNum = async() => {
-  try {
-    const response = await axios.get(`https://localhost:8080/order`);
-    orderNum.value = orderCreateDate.replace(/\D/g, '');
-  } catch (error) {
-    console.error('주문 번호를 불러오는 중 에러가 발생했습니다.', error);
-  }
-};
-
-onMounted(() => {
-  fetchOrderNum();
-})
+const route = useRoute();
+const orderUid = route.params.orderUid;
 </script>
 
 <template>
@@ -24,8 +11,8 @@ onMounted(() => {
       <div id="pay_complete_msg">결제가 완료되었습니다.</div>
       <hr>
       <div id="order_num_box">
-        <span id="order_num_title">주문번호</span>
-        <span id="order_num">{{ orderNum }}</span>
+        <div id="order_num_title">주문번호</div>
+        <div id="order_num">{{ orderUid }}</div>
       </div>
     </div>
     <button>결제 상세 내역</button>
@@ -49,16 +36,19 @@ onMounted(() => {
 }
 
 #order_num_box {
-  padding: 16px 48px 52px 48px;
-  font-size: 16px;
+  padding: 16px 0 52px 0;
+  width: 340px;
 }
 
 #order_num_title {
-  float: left;
+  text-align: center;
+  font-size: 18px;
 }
 
 #order_num {
-  float: right;
+  text-align: center;
+  font-size: 17px;
+  margin-top: 7px;
 }
 
 hr {
