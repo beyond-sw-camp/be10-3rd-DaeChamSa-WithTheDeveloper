@@ -57,7 +57,7 @@ function toggleModal() {
       <img src="../assets/images/logo.png" alt="로고 이미지" id="logo-image" @click="moveTo('/')">
       <ul class="nav-ul">
         <li class="nav-menu" @click="moveTo('/main')">게시판</li>
-        <li class="nav-menu" @click="moveTo('/')">채용공고</li>
+        <li class="nav-menu" @click="moveTo('/recruit')">채용공고</li>
         <li class="nav-menu" @click="moveTo('/goods')">굿즈</li>
         <li class="nav-menu" @click="moveTo('/mypage/info')">마이페이지</li>
       </ul>

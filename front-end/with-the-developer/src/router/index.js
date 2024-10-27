@@ -19,6 +19,7 @@ import MyPageRouter from "@/router/MyPageRouter.js";
 import CommunityRouter from "@/router/CommunityRouter.js";
 import ProjectRouter from "@/router/ProjectRouter.js";
 import TeamRouter from "@/router/TeamRouter.js";
+import RecruitRouter from "@/router/RecruitRouter.js";
 
 const routes = [
         {
@@ -30,11 +31,11 @@ const routes = [
             component: Cart  // 장바구니
         },
         {
-            path: '/order',
+            path: '/mypage/orders',
             component: OrderList
         },
         {
-            path: '/order/detail/:orderCode',
+            path: '/mypage/orders/:orderCode',
             component: OrderDetail,
             props: true
         },
@@ -100,6 +101,9 @@ const routes = [
 
         // 팀모집 게시판 라우터
         ...TeamRouter,
+
+        // 채용공고 게시판 라우터
+        ...RecruitRouter,
 
         {
             path: "/:pathMatch(.*)*",

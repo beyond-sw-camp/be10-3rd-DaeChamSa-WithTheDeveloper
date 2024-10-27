@@ -249,8 +249,14 @@ const goToList = () => router.push('/project');
 
 // 날짜 포맷팅 함수
 const formatDate = (dateString) => {
-  const options = {year: 'numeric', month: 'short', day: 'numeric'};
-  return new Date(dateString).toLocaleDateString(undefined, options);
+  const options = {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit',
+  };
+  return new Date(dateString).toLocaleString(undefined, options);
 };
 
 const toggleBookmark = async (post) => {
@@ -363,6 +369,7 @@ onMounted(() => {
 <style scoped>
 .post-detail {
   padding: 20px;
+  width: 70%;
 }
 
 .post-header {
