@@ -237,6 +237,36 @@
 ![03_06_커뮤니티 게시글 삭제](https://github.com/user-attachments/assets/a556f8f2-bb53-4a3c-8356-787a38198c01)
 </details>
 
+<details>
+<summary>채용 공고 게시글 등록</summary>
+
+![04_01_채용 공고 게시글 등록](https://github.com/user-attachments/assets/64e4d4e5-b7b4-43b9-8e59-a25f79c91cc4)
+</details>
+
+<details>
+<summary>채용 공고 게시글 조회</summary>
+
+![04_02_채용 공고 게시글 조회](https://github.com/user-attachments/assets/506b5c8a-1b84-4578-90b6-07dcfadff395)
+</details>
+
+<details>
+<summary>채용 공고 북마크</summary>
+
+![04_03_채용 공고 북마크](https://github.com/user-attachments/assets/9ca3804a-5257-41eb-9f0a-ff14695f2684)
+</details>
+
+<details>
+<summary>채용 공고 게시글 삭제</summary>
+
+![04_04_채용 공고 게시글 삭제](https://github.com/user-attachments/assets/7d36c86a-1806-4392-9685-6b8fecf68cdb)
+</details>
+
+<details>
+<summary>검색</summary>
+
+![05_검색](https://github.com/user-attachments/assets/cb11c7db-0ee2-4b09-88ec-c70cce0b81e5)
+</details>
+
 <details><summary> 관리자 목록(카테고리) 조회
 </summary>
 
