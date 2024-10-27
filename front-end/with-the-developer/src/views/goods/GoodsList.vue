@@ -37,7 +37,6 @@ onMounted(() => {
 </script>
 
 <template>
-  <SearchBar/>
   <div id="goods_list_page_box">
     <div>총 {{ products.length }}건</div>
     <div id="goods_list_box">

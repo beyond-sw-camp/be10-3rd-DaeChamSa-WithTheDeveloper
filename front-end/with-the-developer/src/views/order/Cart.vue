@@ -1,16 +1,22 @@
 <script setup>
 import axios from "axios";
 import { ref, reactive, onMounted, watch, computed } from "vue";
+// 모달 관련 import
+import BlueModal from "@/components/blueModal.vue";
+import {BASE_IMAGE_URL} from "@/config/image-base-url.js";
 
 // IamPort 전역객체 사용 준비
 const { IMP } = window;
 
-// 모달 관련 import 및 선언
-import BlueModal from "@/components/blueModal.vue";
+// 모달
 const isBlueModalOpen = ref(false);
 const openBlueModal = () => {
   isBlueModalOpen.value = true;
 }
+
+// 이미지 URL 생성 함수
+const getImageUrl = (fileName) => `${BASE_IMAGE_URL}/${fileName}`;
+
 const handleConfirm = async() => {
   // 주문할 굿즈들
   const orderGoods = cartGoods
@@ -122,7 +128,7 @@ const fetchCartGoods = async () => {
           amount: goods.goodsAmount,
           name: goodsInfo.data.goodsName,
           price: goodsInfo.data.goodsPrice,
-          isSelected: true,
+          isSelected: true
         });
       }
     }
@@ -136,11 +142,7 @@ const removeCartGoods = async(index) => {
   const goodsCode = cartGoods[index].goodsCode;
 
   try {
-    await axios.delete(`http://localhost:8080/cart-goods/${goodsCode}`, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem('jwtToken')}`,
-      }
-    });
+    await axios.delete(`http://localhost:8080/cart-goods/${goodsCode}`);
     cartGoods.splice(index, 1); // 로컬 상태에서 제거
   } catch(error) {
     console.log("장바구니에 담긴 상품 삭제 중 오류 발생");
@@ -313,7 +315,7 @@ onMounted(async() => {
                   v-model="goods.isSelected"
               >
               <label :for="'select-' + goods.goodsCode" class="checkbox_label pointer"></label>
-              <img src="../assets/images/goods.png">
+              <img src="@/assets/images/img.png">
               <div class="goods_info_text_box">
                 <div>{{ goods.name }}</div>
                 <div>{{ formatPrice(goods.price)}}원</div>

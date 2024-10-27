@@ -53,6 +53,7 @@ const closeBlueModal = () => {
   height: 100vh;
   background: rgba(0, 0, 0, 0.3);
   position: fixed;
+  z-index: 1000;
 }
 
 .blue_modal_box {
@@ -60,7 +61,7 @@ const closeBlueModal = () => {
   background-color: white;
   width: 680px;
   height: 220px;
-  margin: auto
+  margin: auto;
 }
 
 .blue_design {

@@ -77,12 +77,7 @@ const addToCart = async (goodsCode, amount) => {
   }));
 
   try {
-    await axios.post("http://localhost:8080/cart-goods", formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data',  // multipart 형식 지정
-        Authorization: `Bearer ${localStorage.getItem('jwtToken')}`,
-      }
-    });
+    await axios.post("http://localhost:8080/cart-goods", formData);
     console.log("장바구니에 상품이 성공적으로 추가되었습니다.");
   } catch (error) {
     console.error("장바구니에 추가하던 중 에러 발생", error);

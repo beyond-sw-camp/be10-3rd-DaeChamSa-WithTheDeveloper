@@ -123,7 +123,7 @@ function orderCancel() {
           <div v-for="goods in orderGoodsList" :key="goods.goodsCode">
             <router-link :to="`/goods/${goods.goodsCode}`">
               <div class="flex goods_info_box">
-                <img>
+                <img src="@/assets/images/img.png">
                 <div class="goods_info_text_box">
                   <div>{{ goods.goodsName }}</div>
                   <div>{{ formatPrice(goods.orderGoodsPrice) }}원</div>
