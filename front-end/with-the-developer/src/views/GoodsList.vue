@@ -5,9 +5,8 @@ import axios from "axios";
 import {usePagination} from "@/components/Pagination.js";
 import {BASE_IMAGE_URL} from "@/config/image-base-url.js";
 
-const products = reactive([]);
+const products = ref([]);
 const itemsPerPage = 12; // 한페이지에 12개
-
 const {currentPage, totalPage, paginatedItems, setPage, setTotalPage} = usePagination(products, itemsPerPage);
 
 // 이미지 URL 생성 함수
@@ -20,25 +19,23 @@ const fetchGoodsList = async (page = 1) => {
     const goodsList = response.data;
 
     goodsList.forEach(goods => {
-      products.push({
+      products.value.push({
         goodsCode: goods.goodsCode,
         goodsTitle: goods.goodsName,
         goodsPrice: goods.goodsPrice,
         images: goods.images || []
       });
     });
-
   } catch (error) {
     console.error("굿즈 목록을 불러오는 중 에러가 발생했습니다.", error);
   }
 };
-
 // 컴포넌트가 마운트될 때 첫 번째 페이지의 굿즈 목록을 가져옵니다.
 onMounted(() => {
   fetchGoodsList();
 });
-
 </script>
+
 <template>
   <SearchBar/>
   <div id="goods_list_page_box">
@@ -53,9 +50,7 @@ onMounted(() => {
           </div>
         </router-link>
       </div>
-
     </div>
-
   </div>
   <!--  페이징 -->
   <div class="pagination">
