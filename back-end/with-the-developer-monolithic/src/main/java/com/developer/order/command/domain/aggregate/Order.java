@@ -90,7 +90,7 @@ public class Order {
         for (OrderGoods orderGood : orderGoods) {
             totalPrice += orderGood.getTotalPrice();
         }
-        return totalPrice;
+        return totalPrice + 3000;
     }
 
     // setOrderGoods
