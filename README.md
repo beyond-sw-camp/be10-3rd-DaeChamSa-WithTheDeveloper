@@ -135,31 +135,37 @@
 
 <details>
 <summary>팀모집 게시글 등록 및 조회</summary>
+    
 ![01_01_팀모집 게시글 등록 및 조회](https://github.com/user-attachments/assets/c4c23d36-fc5e-4da3-84c5-54e982bc4d89)
 </details>
 
 <details>
 <summary>팀모집 댓글 등록 및 삭제</summary>
+    
 ![01_02_팀모집 댓글 등록 및 삭제](https://github.com/user-attachments/assets/11e9948b-0613-497f-a5ec-d38c23d2ca19)
 </details>
 
 <details>
 <summary>팀모집 게시글 수정</summary>
+    
 ![01_03_팀모집 게시글 수정](https://github.com/user-attachments/assets/6c2a34aa-339c-4113-ac75-3a7a76412b2a)
 </details>
 
 <details>
 <summary>팀모집 쪽지 및 신고</summary>
+    
 ![01_04_팀모집 쪽지 및 신고](https://github.com/user-attachments/assets/d6c8dd48-1c11-43de-8b15-21658da0ea48)
 </details>
 
 <details>
 <summary>팀모집 북마크</summary>
+    
 ![01_05_팀모집 북마크](https://github.com/user-attachments/assets/fffc15cd-0f97-4e41-bc89-3d34d7738cf3)
 </details>
 
 <details>
 <summary>팀모집 게시글 삭제</summary>
+    
 ![01_06_팀모집 게시글 삭제](https://github.com/user-attachments/assets/8e65957b-3d2e-43ff-9050-65ef2c5dca5f)
 </details>
 
@@ -194,21 +200,27 @@
 </details>
 
 <details><summary>메인페이지</summary>
+    
 ![메인페이지 기능](https://github.com/user-attachments/assets/166ae7bc-7bcd-4e3e-a34a-32b3c6047ebc)
 </details>
 <details><summary>마이페이지-내 프로필</summary>
+    
 ![마이페이지-내프로필](https://github.com/user-attachments/assets/c788e9c4-c8c0-41ad-bd7e-2106715f8c03)
 </details>
 <details><summary>마이페이지-내 게시글</summary>
+    
 ![마이페이지-내게시글](https://github.com/user-attachments/assets/97e15a83-12fc-422d-85e0-778745bdbc85)
 </details>
 <details><summary>마이페이지-북마크</summary>
+    
 ![마이페이지-북마크](https://github.com/user-attachments/assets/79d79867-2690-4d36-9db6-928a34cc78fd)
 </details>
 <details><summary>마이페이지-쪽지 조회,답장, 유저차단</summary>
+    
 ![마이페이지-쪽지,차단](https://github.com/user-attachments/assets/24b4e47b-146c-4642-a6cb-411cd47dbdd2)
 </details>
 <details><summary>어드민-게시글 조회,삭제</summary>
+    
 ![어드민-게시글 조회,삭제](https://github.com/user-attachments/assets/3e960cc9-35ea-4393-997c-05bf0e9a6b43)
 </details>
 
