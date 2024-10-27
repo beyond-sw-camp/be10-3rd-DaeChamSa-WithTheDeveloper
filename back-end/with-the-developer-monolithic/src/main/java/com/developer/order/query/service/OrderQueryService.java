@@ -2,6 +2,7 @@ package com.developer.order.query.service;
 
 import com.developer.common.exception.CustomException;
 import com.developer.common.exception.ErrorCode;
+import com.developer.goods.query.mapper.GoodsMapper;
 import com.developer.order.query.dto.OrderGoodsListDTO;
 import com.developer.order.query.dto.OrderListDTO;
 import com.developer.order.query.dto.ResponseOrderListDTO;
@@ -22,6 +23,7 @@ public class OrderQueryService {
 
     private final OrderMapper orderMapper;
     private final PaymentMapper paymentMapper;
+    private final GoodsMapper goodsMapper;
 
     // 주문 내역 조회
     public List<ResponseOrderListDTO> orderList(Long userCode){
@@ -31,7 +33,6 @@ public class OrderQueryService {
 
         // 주문 내역이 없으면
         if (orderByUserCode.isEmpty()){
-
             throw new CustomException(ErrorCode.NOT_FOUND_ORDER_LIST);
         }
 
@@ -43,6 +44,10 @@ public class OrderQueryService {
             List<OrderGoodsListDTO> orderGoodsByOrderCode =
                     orderMapper.findOrderGoodsByOrderCode(orderList.getOrderCode());
 
+            for (OrderGoodsListDTO orderGoodsDTO : orderGoodsByOrderCode) {
+                String goodsName = goodsMapper.selectGoodsByCode(orderGoodsDTO.getGoodsCode()).getGoodsName();
+                orderGoodsDTO.setGoodsName(goodsName);
+            }
             // 결제 관련도 가져오기
             ResponsePaymentDTO paymentByOrderCode =
                     paymentMapper.findByPaymentCode(orderList.getPaymentCode());
@@ -61,6 +66,10 @@ public class OrderQueryService {
         }
 
         return responseOrderListDTOS;
+    }
+
+    public String getOrderUid(Long orderCode){
+        return orderMapper.findOrderUidByOrderCode(orderCode);
     }
 
 }

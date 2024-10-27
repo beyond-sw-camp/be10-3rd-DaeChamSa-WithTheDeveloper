@@ -57,6 +57,7 @@ public enum ErrorCode {
      */
     // 토큰 만료
     TOKEN_EXPIRED(HttpStatus.UNAUTHORIZED, "만료된 토큰입니다."),
+    USER_STATUS_BANED(HttpStatus.UNAUTHORIZED, "정지된 회원입니다."),
 
     /**
      * == 403 ==

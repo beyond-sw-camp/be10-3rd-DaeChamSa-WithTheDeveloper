@@ -13,13 +13,20 @@ public class RequestPayDTO {
     private String buyerName;
     private int paymentPrice;
     private String buyerEmail;
+    private String impKey;
+    private String buyerPhone;
 
     @Builder
-    public RequestPayDTO(String orderUid, String itemName, String buyerName, int paymentPrice, String buyerEmail) {
+    public RequestPayDTO(String orderUid, String itemName, String buyerName, int paymentPrice, String buyerEmail, String buyerPhone) {
         this.orderUid = orderUid;
         this.itemName = itemName;
         this.buyerName = buyerName;
         this.paymentPrice = paymentPrice;
         this.buyerEmail = buyerEmail;
+        this.buyerPhone = buyerPhone;
+    }
+
+    public void insertImpKey(String impKey) {
+        this.impKey = impKey;
     }
 }

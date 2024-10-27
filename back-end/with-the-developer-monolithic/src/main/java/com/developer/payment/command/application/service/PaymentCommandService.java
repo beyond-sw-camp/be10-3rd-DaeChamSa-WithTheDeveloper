@@ -8,7 +8,7 @@ import org.springframework.data.repository.query.Param;
 
 public interface PaymentCommandService {
     // 결제 요청 데이터 조회
-    RequestPayDTO findRequestDTO(@Param("orderUid") String orderUid);
+    RequestPayDTO findRequestDTO(@Param("orderUid") String orderUid, @Param("userCode") Long userCode);
     // 결제(콜백)
     IamportResponse<Payment> paymentByCallback(PaymentCallbackRequest request);
     // 결제 취소

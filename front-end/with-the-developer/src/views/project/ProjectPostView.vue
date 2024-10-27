@@ -8,7 +8,7 @@
           <button @click="editPost">수정</button>
           <button @click="confirmDeletePost">삭제</button>
         </template>
-        <template v-else>
+        <template v-else-if="isLogin">
           <button @click="openReportModal">신고</button>
         </template>
       </div>
@@ -56,9 +56,9 @@
         </span>
       </div>
       <div class="post-actions">
-        <template v-if="!isAuthor">
+        <template v-if="!isAuthor && isLogin">
           <button @click="openMessageModal">쪽지</button>
-          <button>북마크</button>
+          <button class="bookmark-button" @click="toggleBookmark(post)">북마크</button>
           <span>{{ post.bookmarkCount }}</span>
         </template>
       </div>
@@ -78,6 +78,7 @@
         <div class="comment-author">{{ comment.userNick }}</div>
         <div class="comment-content">{{ comment.projCmtContent }}</div>
         <div class="comment-date">{{ formatDate(comment.createdDate) }}</div>
+        <button v-if="isCmtAuthor(comment) && isLogin" @click="confirmDeleteComment(comment.projCmtCode)">삭제</button>
       </div>
     </div>
 
@@ -136,6 +137,9 @@ const reportReasonCategory = ref('');
 
 // 게시글 작성자인지 확인
 const isAuthor = computed(() => post.value.userCode === currentUserCode);
+const isCmtAuthor = (comment) => comment.userCode === currentUserCode;
+
+const isLogin = computed(() => localStorage.getItem('accessToken') !== null);
 
 // 이미지 URL 생성 함수
 const getImageUrl = (fileName) => `${BASE_IMAGE_URL}/${fileName}`;
@@ -189,6 +193,31 @@ const submitComment = async () => {
   }
 };
 
+// 댓글 삭제 확인
+const confirmDeleteComment = (commentId) => {
+  const confirmed = confirm('정말로 이 댓글을 삭제하시겠습니까?');
+  if (confirmed) {
+    deleteComment(commentId);
+  }
+};
+
+// 댓글 삭제 메서드
+const deleteComment = async (commentId) => {
+  try {
+    const token = localStorage.getItem('accessToken')?.trim();
+    await axios.delete(`/proj/post/${projPostCode}/cmt/${commentId}`, {
+      headers: {
+        Authorization: `${token}`,
+      },
+    });
+    await fetchComments(); // 댓글 목록 갱신
+    alert('댓글이 삭제되었습니다.');
+  } catch (error) {
+    console.error('댓글 삭제 실패:', error);
+    alert('댓글 삭제에 실패했습니다.');
+  }
+};
+
 // 게시글 삭제 확인
 const confirmDeletePost = () => {
   const confirmed = confirm('정말로 이 게시글을 삭제하시겠습니까?');
@@ -220,8 +249,34 @@ const goToList = () => router.push('/project');
 
 // 날짜 포맷팅 함수
 const formatDate = (dateString) => {
-  const options = {year: 'numeric', month: 'short', day: 'numeric'};
-  return new Date(dateString).toLocaleDateString(undefined, options);
+  const options = {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit',
+  };
+  return new Date(dateString).toLocaleString(undefined, options);
+};
+
+const toggleBookmark = async (post) => {
+  const userCode = localStorage.getItem('userCode'); // 사용자 코드 가져오기
+
+  const bookmarkData = {
+    bmkUrl: `/project/${post.projPostCode}`,
+    bmkTitle: post.projPostTitle,
+    postType: 'projPost',
+    postCode: post.projPostCode,
+    userCode: userCode,
+  };
+
+  try {
+    const response = await axios.post('/bookmark', bookmarkData);
+    post.bookmarked = response.data.bookmarked; // 북마크 상태 업데이트
+    post.bookmarkCount = response.data.bookmarkCount; // 북마크 개수 업데이트
+  } catch (error) {
+    console.error('북마크 처리 중 오류 발생:', error);
+  }
 };
 
 // 모달 열기
@@ -314,6 +369,7 @@ onMounted(() => {
 <style scoped>
 .post-detail {
   padding: 20px;
+  width: 70%;
 }
 
 .post-header {

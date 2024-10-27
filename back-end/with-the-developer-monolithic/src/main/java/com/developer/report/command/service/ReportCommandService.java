@@ -13,7 +13,6 @@ import com.developer.report.command.entity.ReportReasonCategory;
 import com.developer.report.command.entity.ReportType;
 import com.developer.report.command.repository.ReportReasonCategoryRepository;
 import com.developer.report.command.repository.ReportRepository;
-
 import com.developer.team.post.command.repository.TeamPostRepository;
 import com.developer.user.command.domain.aggregate.BannedUser;
 import com.developer.user.command.domain.aggregate.User;

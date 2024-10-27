@@ -1,12 +1,12 @@
 package com.developer.payment.query.controller;
 
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import com.developer.common.exception.CustomException;
 import com.developer.common.exception.ErrorCode;
 import com.developer.payment.query.dto.ResponsePaymentDTO;
 import com.developer.payment.query.service.PaymentQueryService;
 import com.developer.user.security.SecurityUtil;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -27,12 +27,11 @@ public class PaymentQueryController {
     private final PaymentQueryService paymentQueryService;
 
     // 결제 코드로 조회
-    @GetMapping("/{paymentCode}")
+    @GetMapping("/code/{paymentCode}")
     @Operation(summary = "결제 상세 내역 조회", description = "결제 코드를 통해 결제 상세 내역을 조회합니다.")
     public ResponseEntity<ResponsePaymentDTO> findByPaymentCode(@PathVariable("paymentCode") Long paymentCode) {
 
         Long currentUserCode = SecurityUtil.getCurrentUserCode();
-
         ResponsePaymentDTO byPaymentCode = paymentQueryService.findByPaymentCode(currentUserCode, paymentCode);
 
         return ResponseEntity.ok(byPaymentCode);
@@ -51,7 +50,7 @@ public class PaymentQueryController {
     }
 
     // 사용자 결제 상태에 따라 값들 가져오기
-    @GetMapping("/{paymentStatus}")
+    @GetMapping("/status/{paymentStatus}")
     @Operation(summary = "결제 상태에 따른 목록 조회", description = "결제 상태에 따른 사용자의 결제 목록을 조회합니다.")
     public ResponseEntity<List<ResponsePaymentDTO>> findByPaymentStatus(@PathVariable("paymentStatus") String paymentStatus) {
         Long currentUserCode = SecurityUtil.getCurrentUserCode();

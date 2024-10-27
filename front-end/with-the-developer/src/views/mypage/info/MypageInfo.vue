@@ -2,8 +2,38 @@
 import {onMounted, ref} from 'vue';
 import MypageSideBar from "@/components/MypageSideBar.vue";
 import axios from "axios";
+import ModifyUserInfo from "@/views/mypage/info/ModifyUserInfo.vue";
 
 const userInfo = ref({});
+const modifyModalStatus = ref(false);
+
+const openModifyModal = () => {
+  modifyModalStatus.value = true;
+}
+const cancelModifyModal = () => {
+  modifyModalStatus.value = false;
+}
+const confirmChangeResNoti = () => {
+  // 삭제 확인 alert
+  const confirmed = window.confirm('알림 허용 여부를 변경하시겠습니까?');
+
+  if (confirmed) {
+    changeResNoti(); // 확인 시 삭제 메서드 호출
+  }
+};
+const changeResNoti = async () => {
+  try {
+    await axios.put(`user/res-noti`, {},{
+      headers: {
+        Authorization: `${localStorage.getItem('accessToken')}`,
+      }
+    });
+    alert('알림 허용 유무가 변경 되었습니다.');
+  } catch (error) {
+    console.error('알림 허용 유무 변경 중 오류 발생:', error);
+    alert('알림 허용 유무 변경에 실패했습니다.');
+  }
+};
 const fetchUserInfo = async () => {
   try{
     return (await axios.get('user',{
@@ -21,12 +51,14 @@ onMounted(async () => {
 </script>
 
 <template>
+
   <section>
+    <ModifyUserInfo v-if="modifyModalStatus" @cancelModal="cancelModifyModal" :user = "userInfo" />
     <MypageSideBar/>
     <div id="content">
       <h2>내 프로필</h2>
       <article id = "info">
-        <button id="modify">수정하기</button>
+        <button id="modify" @click="openModifyModal">수정하기</button>
         <div id="main_info">
           <img src="https://img.icons8.com/?size=100&id=52232&format=png&color=000000" alt="프로필이미지" id="profile">
           <ul>
@@ -50,7 +82,7 @@ onMounted(async () => {
             <img class="info-icon" src="https://img.icons8.com/?size=100&id=54481&format=png&color=000000" alt="알림허용여부">
             <p>알림허용여부</p>
             <label id="check">
-              <input role="switch" type="checkbox" :checked="userInfo.resNoti" />
+              <input role="switch" type="checkbox" :checked="userInfo.resNoti" @change="confirmChangeResNoti" />
             </label>
           </div>
         </div>

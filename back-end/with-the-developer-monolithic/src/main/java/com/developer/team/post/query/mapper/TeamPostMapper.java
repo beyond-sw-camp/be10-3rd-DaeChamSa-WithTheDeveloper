@@ -16,4 +16,6 @@ public interface TeamPostMapper {
     List<TeamPostListDTO> selectAllTeamPost(int offset);
 
     List<TeamPostListDTO> selectByTags(Map<String, Object> params);
+
+    List<TeamPostDTO> selectByUserCode(Long userCode);
 }

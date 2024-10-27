@@ -14,4 +14,7 @@ public interface ComuPostMapper {
 
     // 커뮤니티 게시글 특정 코드로 조회
     ComuPostResponseDTO selectComuPostByCode(@Param("comuPostCode")Long comuPostCode);
+
+    // 내 커뮤니티 게시글 조회
+    List<ComuPostResponseDTO> selectComuPostByUserCode(Long userCode);
 }

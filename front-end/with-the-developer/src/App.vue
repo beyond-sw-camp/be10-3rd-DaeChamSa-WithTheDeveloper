@@ -3,19 +3,13 @@
 import Footer from "@/components/Footer.vue";
 import NavigationBar from "@/components/NavigationBar.vue";
 import SearchBar from "@/components/SearchBar.vue";
-import AdminSideBar from "@/components/AdminSideBar.vue";
-
-
 </script>
 
 <template>
   <SearchBar/>
   <NavigationBar/>
-<!--  <div class="admin-layout">-->
-<!--    <AdminSideBar/>-->
-<!--  </div>-->
   <main class="main">
-    <RouterView/>
+    <RouterView :key="$route.fullPath"/>
   </main>
   <footer>
     <Footer/>
@@ -29,9 +23,6 @@ import AdminSideBar from "@/components/AdminSideBar.vue";
   }
   footer{
     margin-top: 10vh;
-  }
-  .admin-layout{
-    display: flex;
   }
   .main{
     flex-grow: 1;

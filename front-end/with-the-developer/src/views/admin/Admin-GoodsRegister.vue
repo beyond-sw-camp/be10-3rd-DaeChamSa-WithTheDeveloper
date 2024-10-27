@@ -83,6 +83,7 @@ const handleFileUpload = (event) => {
 // 굿즈 등록하기
 const submitGoods = async () => {
   // 관리자 확인
+
   localStorage.setItem('userRole', 'ROLE_ADMIN'); //** admin 테스트 후 삭제 예정
   const checkUser = localStorage.getItem('userRole');
   if(checkUser !== "ROLE_ADMIN"){

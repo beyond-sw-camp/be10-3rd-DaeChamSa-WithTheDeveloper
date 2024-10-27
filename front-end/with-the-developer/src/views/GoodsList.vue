@@ -5,9 +5,8 @@ import axios from "axios";
 import {usePagination} from "@/components/Pagination.js";
 import {BASE_IMAGE_URL} from "@/config/image-base-url.js";
 
-const products = reactive([]);
+const products = ref([]);
 const itemsPerPage = 12; // 한페이지에 12개
-
 const {currentPage, totalPage, paginatedItems, setPage, setTotalPage} = usePagination(products, itemsPerPage);
 
 // 이미지 URL 생성 함수
@@ -19,35 +18,24 @@ const fetchGoodsList = async (page = 1) => {
     const response = await axios.get(`http://localhost:8080/public/goods?page=${page}`);
     const goodsList = response.data;
 
-    products.length = 0; // 기존 내용을 초기화
     goodsList.forEach(goods => {
-      products.push({
+      products.value.push({
         goodsCode: goods.goodsCode,
         goodsTitle: goods.goodsName,
         goodsPrice: goods.goodsPrice,
         images: goods.images || []
       });
     });
-
-    // 총 페이지 수 업데이트
-    const totalCount = parseInt(response.headers['totalCount'], 10) || 0; // parseInt로 변환
-    setTotalPage(Math.ceil(totalCount / itemsPerPage));
   } catch (error) {
     console.error("굿즈 목록을 불러오는 중 에러가 발생했습니다.", error);
   }
 };
-
 // 컴포넌트가 마운트될 때 첫 번째 페이지의 굿즈 목록을 가져옵니다.
 onMounted(() => {
   fetchGoodsList();
 });
-
-// 페이지 변경 시 굿즈 목록 업데이트
-watch(currentPage, (newPage) => {
-  fetchGoodsList(newPage);
-});
-
 </script>
+
 <template>
   <SearchBar/>
   <div id="goods_list_page_box">
@@ -62,9 +50,7 @@ watch(currentPage, (newPage) => {
           </div>
         </router-link>
       </div>
-
     </div>
-
   </div>
   <!--  페이징 -->
   <div class="pagination">

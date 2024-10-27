@@ -20,15 +20,30 @@ const isLoggedIn = computed(() => store.getters.isLoggedIn);
 // 로그인
 const moveToLogin = () => {
   if (!isLoggedIn.value) {
+    // window.location.href =`/login`;
     router.push('/login');
   } else {
     store.dispatch('logout'); // 로그아웃 처리
-    router.push('/');
+    // window.location.href =`/`;
+    router.push('/logout');
   }
 };
 
 const moveTo = (type) => {
-  router.push(`${type}`);
+
+  if (type === '/mypage/info' && !isLoggedIn.value) {
+    alert('로그인이 필요한 서비스입니다.');
+    // window.location.href =`/login`;
+    router.push('/login');
+    return;
+  }
+  if (type === '/' && isLoggedIn.value){
+    // window.location.href = '/main';
+    router.push('/main');
+    return;
+  }
+  // window.location.href =`${type}`;
+  router.push(`${type}`)
 }
 
 // 모달 상태 관리
@@ -45,7 +60,7 @@ function toggleModal() {
       <img src="../assets/images/logo.png" alt="로고 이미지" id="logo-image" @click="moveTo('/')">
       <ul class="nav-ul">
         <li class="nav-menu" @click="moveTo('/main')">게시판</li>
-        <li class="nav-menu" @click="moveTo('/')">채용공고</li>
+        <li class="nav-menu" @click="moveTo('/recruit')">채용공고</li>
         <li class="nav-menu" @click="moveTo('/goods')">굿즈</li>
         <li class="nav-menu" @click="moveTo('/mypage/info')">마이페이지</li>
       </ul>
@@ -57,7 +72,7 @@ function toggleModal() {
         </li>
         <li class="nav-menu"><a id="login" @click="toggleModal">
           <img src="https://img.icons8.com/?size=100&id=eMfeVHKyTnkc&format=png&color=000000" alt="alarm" class="nav-img"></a></li>
-        <li class="nav-menu"><a id="login"><img src="https://img.icons8.com/?size=100&id=zhda2EVBCvHY&format=png&color=000000" alt="cart" class="nav-img"></a></li>
+        <li class="nav-menu" @click="moveTo('/cart-goods')"><a id="login"><img src="https://img.icons8.com/?size=100&id=zhda2EVBCvHY&format=png&color=000000" alt="cart" class="nav-img"></a></li>
         <li class="nav-menu">
           <a id="login">
             <img src="https://img.icons8.com/?size=100&id=elSdeHsB03U3&format=png&color=000000" alt="search" class="nav-img" @click="switchSearch">

@@ -49,4 +49,27 @@
         WHERE c.comu_code = #{comuPostCode}
         AND c.del_status = false
     </select>
+
+    <select id="selectComuPostByUserCode"
+            parameterType="Long"
+            resultType="ComuPostResponseDTO">
+        SELECT
+        c.comu_code,
+        c.comu_subject,
+        c.comu_content,
+        c.created_date,
+        c.modified_date,
+        u.user_code,
+        u.user_nick,
+        IFNULL(b.bookmark_count, 0) AS bookmark_count
+        FROM comu_post c
+        JOIN user u ON (c.user_code = u.user_code)
+        LEFT JOIN (
+        SELECT comu_code, COUNT(*) AS bookmark_count
+        FROM bookmark
+        GROUP BY comu_code
+        ) b ON c.comu_code = b.comu_code
+        WHERE c.user_code = #{userCode}
+        AND c.del_status = false
+    </select>
 </mapper>

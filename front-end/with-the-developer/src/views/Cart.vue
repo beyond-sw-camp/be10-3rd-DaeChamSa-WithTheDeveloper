@@ -2,11 +2,98 @@
 import axios from "axios";
 import { ref, reactive, onMounted, watch, computed } from "vue";
 
+// IamPort 전역객체 사용 준비
+const { IMP } = window;
+
 // 모달 관련 import 및 선언
 import BlueModal from "@/components/blueModal.vue";
 const isBlueModalOpen = ref(false);
 const openBlueModal = () => {
   isBlueModalOpen.value = true;
+}
+const handleConfirm = async() => {
+  // 주문할 굿즈들
+  const orderGoods = cartGoods
+      .filter(goods => goods.isSelected) // 선택된 굿즈만 포함
+      .map(goods => ({
+        goodsCode: goods.goodsCode,
+        goodsAmount: goods.amount,
+      }));
+
+  try {
+    // 1. 주문 생성
+    const orderResponse = await createOrder(orderGoods);
+    const orderUid = orderResponse.data;
+    console.log("주문 생성 성공", orderUid);
+
+    // 2. 결제 생성 및 요청
+    const paymentResponse = await createPayment(orderUid);
+    console.log("결제 생성 성공");
+  } catch(error) {
+    console.log("주문 및 결제 중 에러 발생함", error);
+  }
+}
+
+const createOrder = async(orderGoods) => {
+  try {
+    const response = await axios.post("http://localhost:8080/order", {
+      orderGoods: orderGoods
+    });
+    console.log("주문이 성공적으로 생성되었습니다. 주문번호: ", response.data);
+    return response;
+  } catch(error) {
+    console.log("주문 생성 중 에러 발생", error);
+  }
+}
+
+const createPayment = async(orderUid) => {
+  try {
+    await axios.get(`/payment/${orderUid}`)
+        .then(res => {
+          if (res.status === 200){
+            console.log(res.data);
+            IMP.init(res.data.imp_key);
+
+            IMP.request_pay({
+              pg : 'html5_inicis.INIpayTest',
+              pay_method : 'card',
+              merchant_uid: res.data.order_uid, // 주문 번호
+              name : res.data.item_name, // 상품 이름
+              amount : res.data.payment_price, // 상품 가격
+              buyer_email : res.data.buyer_email, // 구매자 이메일
+              buyer_name : res.data.buyer_name, // 구매자 이름
+              buyer_tel : res.data.buyer_phone, // 임의의 값
+              buyer_postcode : '123-456', // 임의의 값
+            },
+            function (rsp){
+              if (rsp.success){
+
+                axios.post('/payment/validation', {
+                  payment_uid: rsp.imp_uid,
+                  order_uid: rsp.merchant_uid
+                })
+                    .then(async res => {
+                      console.log(res);
+                      alert('결제 완료!');
+                      await deleteSelectedCartGoods();
+                      window.location.href=`/payment/complete/${rsp.merchant_uid}`;
+                    })
+                    .catch(error => {
+                      console.error("결제 중 오류", error);
+                      alert('결제 실패!');
+                      window.location.href="/payment/fail";
+                    })
+              } else {
+                alert('결제 실패!');
+              }
+            });
+
+          }
+        })
+
+  } catch(error) {
+    console.log("결제 정보 생성 중 에러 발생", error)
+  }
 }
 
 // 장바구니
@@ -15,37 +102,6 @@ const cartGoods = reactive([]);
 // 전체 선택에 대한 상태 관리 (false: 전체 선택 안됨, true: 전체 선택 됨)
 const selectAll = ref(true);
 let totalPrice = 0;
-
-// 로그인
-const loginUser = async () => {
-  try {
-    const token = `eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyMDJAbmF2ZXIuY29tIiwidXNlckNvZGUiOjIsImF1dGgiOiJST0xFX1VTRVIiLCJleHAiOjE3Mjk2NjY4NjJ9.nEH9Y9erl4F7z40oIYxsRIH-5oX7POx4AbtFQnGhBzWIdeh9Bsk_9uMRrIKZUOUYfLgAT-kVg7qeOugs6nrnxw`;
-    localStorage.setItem('jwtToken', token);
-
-    //JWT 토큰에서 userId 추출 후 로컬스토리지에 저장
-    const decodedToken = parseJwt(token);
-    const userId = decodedToken.sub;
-    localStorage.setItem('userId', userId);
-
-    // Axios 기본 헤더에 JWT 토큰 추가
-    axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-    console.log(axios.defaults.headers.common['Authorization']);
-    console.log('로그인 성공:', response.data);
-  } catch (error) {
-    console.error('로그인 실패:', error.response ? error.response.data : error.message);
-  }
-};
-
-// JWT 토큰 디코딩 함수
-const parseJwt = (token) => {
-  const base64Url = token.split('.')[1];
-  const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-  const jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
-    return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-  }).join(''));
-
-  return JSON.parse(jsonPayload);
-};
 
 // 상품 개수에 따라 ul height 조절
 const ulBoxHeight = computed(() => {
@@ -56,11 +112,7 @@ const ulBoxHeight = computed(() => {
 const fetchCartGoods = async () => {
   try {
     // 장바구니 데이터 가져오기
-    const response = await axios.get('http://localhost:8080/cart-goods', {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem('jwtToken')}`,
-      }
-    });
+    const response = await axios.get('http://localhost:8080/cart-goods');
     const goodsList = response.data;
     for (const goods of goodsList) {
       const goodsInfo = await axios.get(`http://localhost:8080/public/goods/${goods.goodsCode}`);
@@ -99,13 +151,10 @@ const deleteSelectedCartGoods = async() => {
   const selectedCartGoodsList = cartGoods
       .filter(goods => goods.isSelected)
       .map(goods => goods.goodsCode);
+
   try {
     for (const goodsCode of selectedCartGoodsList) {
-      await axios.delete(`http://localhost:8080/cart-goods/${goodsCode}`, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('jwtToken')}`,
-        }
-      });
+      await axios.delete(`http://localhost:8080/cart-goods/${goodsCode}`);
 
       // 굿즈코드로 해당 인덱스 찾기
       const index = cartGoods.findIndex(goods => goods.goodsCode === goodsCode);
@@ -195,9 +244,6 @@ const updateQuantity = async(index, amount) => {
   try {
     // DB 굿즈 개수 업데이트
     await axios.put(`http://localhost:8080/cart-goods/${goodsCode}`, null,{
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem('jwtToken')}`,
-      },
       params: {
         amount: updatedAmount
       }
@@ -209,6 +255,7 @@ const updateQuantity = async(index, amount) => {
     console.log("상품 개수 업데이트 중 오류 발생")
   }
 }
+
 
 onMounted(async() => {
   if (!localStorage.getItem('userId')) {
@@ -224,7 +271,11 @@ onMounted(async() => {
 </script>
 
 <template>
-  <BlueModal :blueModalValue="isBlueModalOpen" @update:blueModalValue="isBlueModalOpen = $event" title="결제하기" content="결제를 진행하시겠습니까?"/>
+  <BlueModal
+      :blueModalValue="isBlueModalOpen"
+      @update:blueModalValue="isBlueModalOpen = $event"
+      @confirm="handleConfirm" title="결제하기"
+      content="결제를 진행하시겠습니까?"/>
   <div>
     <div id="cart_title">장바구니</div>
     <div id="cart_content_box" class="flex">
