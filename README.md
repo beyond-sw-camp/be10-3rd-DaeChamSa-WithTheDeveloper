@@ -92,35 +92,7 @@
 
 ### 3. Vue.js 기반 테스트결과 보고서
 https://docs.google.com/spreadsheets/d/1HiKD_EHKQ7Caej9FatP4kvBB-ySIct4scbj3CLsEkGg/edit?gid=0#gid=0
-#### 팀모집 게시글
 
-- 팀모집 게시글 등록 및 조회
-- ![01_01_팀모집 게시글 등록 및 조회](https://github.com/user-attachments/assets/116ead56-2140-4428-915f-11de2a76100a)
-- 팀모집 댓글 등록 및 삭제
-- ![01_02_팀모집 댓글 등록 및 삭제](https://github.com/user-attachments/assets/d7270a03-430e-4bfc-bc0e-0ae29b6328bf)
-- 팀모집 게시글 수정
-- ![01_03_팀모집 게시글 수정](https://github.com/user-attachments/assets/f0981ebe-20cf-4f24-b2ad-2668e3919039)
-- 팀모집 쪽지 및 신고
-- ![01_04_팀모집 쪽지 및 신고](https://github.com/user-attachments/assets/f7ccb029-5218-4855-bc6e-68771c32a323)
-- 팀모집 북마크
-- ![01_05_팀모집 북마크](https://github.com/user-attachments/assets/06b082c7-95a0-40b6-985d-3b7d98c3b75a)
-- 팀모집 게시글 삭제
-- ![01_06_팀모집 게시글 삭제](https://github.com/user-attachments/assets/8145c90e-d016-4450-8771-35c8a8ab2de9)
-
-#### 프로젝트 게시글
-
-- 프로젝트 게시글 등록 및 조회
-- ![02_01_프로젝트 게시글 등록 및 조회](https://github.com/user-attachments/assets/b2889295-7969-4a3c-9590-1cfe9b809f48)
-- 프로젝트 게시글 URL 및 댓글 등록, 삭제
-- ![02_02_프로젝트 게시글 URL 및 댓글 등록, 삭제](https://github.com/user-attachments/assets/10fdf0d0-244e-46cc-bb11-46017a29e2e8)
-
-
-### 5. 테스트 결과 보고서
-<div>
-    <a href = "https://docs.google.com/spreadsheets/d/1r9SMJyk8U9XHin9P2dinvrHmcQPhsisRECo6rCOO0T8/edit?gid=374931865#gid=374931865">
-          테스트 결과 보고서 바로가기
-    </a>
-</div>
 <br>
 
 
