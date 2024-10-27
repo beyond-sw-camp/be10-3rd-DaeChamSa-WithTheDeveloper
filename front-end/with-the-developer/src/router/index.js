@@ -19,7 +19,6 @@ import MyPageRouter from "@/router/MyPageRouter.js";
 import CommunityRouter from "@/router/CommunityRouter.js";
 import ProjectRouter from "@/router/ProjectRouter.js";
 import TeamRouter from "@/router/TeamRouter.js";
-import NotFound from "@/views/error/NotFound.vue";
 import RecruitRouter from "@/router/RecruitRouter.js";
 
 const routes = [
