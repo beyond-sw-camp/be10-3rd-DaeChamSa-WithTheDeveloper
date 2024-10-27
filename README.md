@@ -82,19 +82,15 @@
 화면설계서</a>
 </div>
 
-### 2. 요구사항 명세서
+### 2. 프론트 기능 명세서
 <div>
     <a href = "https://docs.google.com/spreadsheets/d/1r9SMJyk8U9XHin9P2dinvrHmcQPhsisRECo6rCOO0T8/edit?gid=0#gid=0">
-         요구사항 명세서 바로가기
+         프론트 기능 명세서 바로가기
     </a>
 </div>
 <br>
 
 ### 3. Vue.js 기반 테스트결과 보고서
-<div>
-    <a href="https://docs.google.com/spreadsheets/d/1HiKD_EHKQ7Caej9FatP4kvBB-ySIct4scbj3CLsEkGg/edit?gid=0#gid=0">테스트결과 보고서</a>
-    
-</div>
 
 <details><summary>약관동의 및 회원가입 유효성 검사
 </summary>
