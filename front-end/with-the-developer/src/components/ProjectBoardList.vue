@@ -69,8 +69,14 @@ const toggleBookmark = async (post) => {
 const truncatedContent = (content) => (content.length > 100 ? content.slice(0, 100) + '...' : content);
 
 const formatDate = (dateString) => {
-  const options = { year: 'numeric', month: 'short', day: 'numeric' };
-  return new Date(dateString).toLocaleDateString(undefined, options);
+  const options = {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit',
+  };
+  return new Date(dateString).toLocaleString(undefined, options);
 };
 </script>
 
