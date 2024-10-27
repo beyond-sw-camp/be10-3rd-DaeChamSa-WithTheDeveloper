@@ -371,6 +371,7 @@ onMounted(() => {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  color: #617CC2;
 }
 
 .post-content {
@@ -414,6 +415,10 @@ onMounted(() => {
   color: #969696;
 }
 
+.image-slider {
+  z-index: 1;
+}
+
 /* 모달 스타일 */
 .modal {
   position: fixed;
@@ -425,27 +430,51 @@ onMounted(() => {
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 1000; /* 모달의 z-index 설정 (기본값보다 높게) */
+  z-index: 1000;
 }
 
 .modal-content {
-  background: white;
+  background: #ffffff;
   padding: 20px;
-  border-radius: 5px;
+  border-radius: 10px;
   width: 400px;
   text-align: center;
-  z-index: 1001; /* 모달 내용의 z-index 설정 (모달보다 높게) */
+  z-index: 1001;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
 }
 
-/* 사진의 z-index를 조정 (기본값보다 낮게) */
-.image-slider {
-  z-index: 1; /* 사진이 모달 뒤에 있도록 설정 */
+h2 {
+  color: #617CC2;
 }
 
+textarea {
+  width: 100%;
+  height: 100px;
+  margin: 10px 0;
+  border: 1px solid #617CC2;
+  border-radius: 5px;
+  padding: 10px;
+  resize: none;
+}
+
+button {
+  background-color: #617CC2;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 15px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+button:hover {
+  background-color: #506a9b;
+}
 
 .close {
   cursor: pointer;
   float: right;
   font-size: 24px;
+  color: #617CC2;
 }
 </style>

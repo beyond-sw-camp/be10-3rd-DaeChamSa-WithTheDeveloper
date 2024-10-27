@@ -183,6 +183,7 @@ onMounted(() => {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  color: #617CC2;
 }
 
 .post-content {
@@ -235,7 +236,17 @@ onMounted(() => {
   color: #333;
 }
 
-.image-slider {
-  z-index: 1;
+button {
+  background-color: #617CC2;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 15px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+button:hover {
+  background-color: #506a9b;
 }
 </style>
