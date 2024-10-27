@@ -75,7 +75,6 @@ const getOrderUid = async (orderCode) => {
     if (response.data) {
       orderUid.value = response.data; // 주문 UID 설정
     }
-    console.log('Order UID Response:', response.data);
   } catch (error) {
     console.log('Order UID 요청 도중 오류 발생:', error);
   }
@@ -97,7 +96,12 @@ function orderCancel(){
          }
       })
       .catch(error => {
-        console.error('결제 취소중 오류 발생', error);
+        if (error.status === 409){
+          alert('결제 취소가 완료 된 주문입니다.');
+        }
+        else {
+          console.error('결제 취소중 오류 발생', error);
+        }
       })
 }
 </script>

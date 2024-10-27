@@ -8,7 +8,6 @@ import com.developer.common.success.SuccessCode;
 import com.developer.user.command.application.dto.*;
 import com.developer.user.command.application.service.EmailCommandService;
 import com.developer.user.command.application.service.UserCommandService;
-import com.developer.user.command.domain.aggregate.UserStatus;
 import com.developer.user.security.SecurityUtil;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
