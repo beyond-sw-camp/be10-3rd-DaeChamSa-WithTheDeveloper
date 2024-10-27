@@ -108,13 +108,8 @@ const confirmDeletePost = () => {
 // 게시글 삭제
 const deletePost = async () => {
   try {
-    const token = localStorage.getItem('accessToken')?.trim();
-    await axios.delete(`/recruit/delete/${recruitCode}`, {
-      headers: {
-        Authorization: `${token}`,
-      },
-    });
-    await router.push('/team'); // 삭제 후 목록 페이지로 이동
+    await axios.delete(`/recruit/delete/${recruitCode}`);
+    await router.push('/recruit'); // 삭제 후 목록 페이지로 이동
   } catch (error) {
     console.error('게시글 삭제 실패:', error);
   }
