@@ -21,27 +21,30 @@ const isLoggedIn = computed(() => store.getters.isLoggedIn);
 // 로그인
 const moveToLogin = () => {
   if (!isLoggedIn.value) {
-    window.location.href =`/login`;
+    // window.location.href =`/login`;
+    router.push('/login');
   } else {
     store.dispatch('logout'); // 로그아웃 처리
-    window.location.href =`/`;
+    // window.location.href =`/`;
+    router.push('/logout');
   }
 };
 
 const moveTo = (type) => {
 
-    if (type === '/mypage/info' && !isLoggedIn.value) {
-      alert('로그인이 필요한 서비스입니다.');
-      window.location.href =`/login`;
-      return;
-    }
-    if (type === '/' && isLoggedIn.value){
-      window.location.href = '/main';
-      return;
-    }
-    console.log(type);
-    window.location.href =`${type}`;
-
+  if (type === '/mypage/info' && !isLoggedIn.value) {
+    alert('로그인이 필요한 서비스입니다.');
+    // window.location.href =`/login`;
+    router.push('/login');
+    return;
+  }
+  if (type === '/' && isLoggedIn.value){
+    // window.location.href = '/main';
+    router.push('/main');
+    return;
+  }
+  // window.location.href =`${type}`;
+  router.push(`${type}`)
 }
 
 // 모달 상태 관리
@@ -58,7 +61,7 @@ function toggleModal() {
       <img src="../assets/images/logo.png" alt="로고 이미지" id="logo-image" @click="moveTo('/')">
       <ul class="nav-ul">
         <li class="nav-menu" @click="moveTo('/main')">게시판</li>
-        <li class="nav-menu" @click="moveTo('/')">채용공고</li>
+        <li class="nav-menu" @click="moveTo('/recruit')">채용공고</li>
         <li class="nav-menu" @click="moveTo('/goods')">굿즈</li>
         <li class="nav-menu" @click="moveTo('/mypage/info')" v-if="isNotAdmin">마이페이지</li>
       </ul>

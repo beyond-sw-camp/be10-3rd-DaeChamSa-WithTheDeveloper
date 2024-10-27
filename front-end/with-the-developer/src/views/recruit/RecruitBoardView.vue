@@ -1,38 +1,39 @@
 <template>
   <div class="board-page">
-    <h1 id="board-title">커뮤니티</h1>
+    <h1 id="board-title">채용 공고</h1>
     <div class="upper-menu">
       <search-bar />
       <button class="post-button" @click="goToCreatePage">
         <img
             src="https://img.icons8.com/?size=100&id=11737&format=png&color=ffffff"
-            alt="글쓰기"
+            alt="채용 공고 등록"
             class="post-icon"
         />
-        <span class="post-text">글쓰기</span>
+        <span class="post-text">채용 공고 등록</span>
       </button>
     </div>
-    <CommunityBoardList :posts="posts" />
+    <RecruitBoardList :posts="posts" />
   </div>
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
-import { useRouter } from 'vue-router';
+import {ref, onMounted} from 'vue';
+import {useRouter} from 'vue-router';
 import axios from 'axios';
-import CommunityBoardList from '@/components/CommunityBoardList.vue';
 import SearchBar from '@/components/SearchBar.vue';
+import RecruitBoardList from "@/components/RecruitBoardList.vue";
 
 const posts = ref([]);
 const router = useRouter();
 
 const goToCreatePage = () => {
-  router.push('/community/create');
+  router.push('/recruit/create');
 };
 
 const fetchPosts = async () => {
   try {
-    const response = await axios.get('/public/comu/post');
+    const response = await axios.get('/public/recruit');
+    console.log(response.data);
     posts.value = response.data.content || response.data;
   } catch (error) {
     console.error('게시글을 불러오는 중 오류 발생:', error);

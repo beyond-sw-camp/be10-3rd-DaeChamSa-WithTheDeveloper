@@ -23,6 +23,7 @@ import AdminTeamPost from "@/views/admin/post/AdminTeamPost.vue";
 import AdminComuPost from "@/views/admin/post/AdminComuPost.vue";
 import AdminProjectPost from "@/views/admin/post/AdminProjectPost.vue";
 import AdminRecruitPost from "@/views/admin/post/AdminRecruitPost.vue";
+import RecruitRouter from "@/router/RecruitRouter.js";
 
 const routes = [
         {
@@ -34,11 +35,11 @@ const routes = [
             component: Cart  // 장바구니
         },
         {
-            path: '/order',
+            path: '/mypage/orders',
             component: OrderList
         },
         {
-            path: '/order/detail/:orderCode',
+            path: '/mypage/orders/:orderCode',
             component: OrderDetail,
             props: true
         },
@@ -64,8 +65,8 @@ const routes = [
             component: AdminUser
         },
         {
-            path: '/adminGoods',
-            component: AdminGoods
+            path: '/admin/goods',
+            component: AdminGoods,
         },
         {
             path: '/admin/goods/:goodsCode',
@@ -120,6 +121,9 @@ const routes = [
 
         // 팀모집 게시판 라우터
         ...TeamRouter,
+
+        // 채용공고 게시판 라우터
+        ...RecruitRouter,
 
         {
             path: "/:pathMatch(.*)*",

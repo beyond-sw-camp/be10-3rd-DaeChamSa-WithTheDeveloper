@@ -2,22 +2,21 @@
   <div class="board-list">
     <div v-if="posts.length === 0" class="no-posts-message">게시글이 없습니다.</div>
     <div v-else class="post-list">
-      <div v-for="post in posts" :key="post.comuCode" class="post-item">
+      <div v-for="post in posts" :key="post.recruitCode" class="post-item">
         <div class="post-header">
-          <router-link :to="{ name: 'CommunityPostDetail', params: { id: post.comuCode } }" class="title-link">
-            <h3 class="post-title">{{ post.comuSubject }}</h3>
+          <router-link :to="{ name: 'recruitPostDetail', params: { id: post.recruitCode } }" class="title-link">
+            <h3 class="post-title">{{ post.recruitTitle }}</h3>
           </router-link>
-          <div class="post-user-info">
-            <span class="nickname">{{ post.userNick }}</span>
-          </div>
         </div>
 
         <div class="post-content">
-          <p class="content-text">{{ truncatedContent(post.comuContent) }}</p>
+          <span class="deadline-text">[모집기간] {{ formatDate(post.recruitStart) }} ~ {{ formatDate(post.recruitEnd) }}</span>
         </div>
 
         <div class="post-footer">
-          <span class="post-time">{{ formatDate(post.createdDate) }}</span>
+          <div class="post-tags">
+            <span v-for="(tag, index) in post.jobTagNames" :key="index" class="tag">#{{ tag }}</span>
+          </div>
           <div class="bookmark-container">
             <button class="bookmark-button" @click="toggleBookmark(post)">
               <img :src="bookmarkedIcon" alt="북마크" class="bookmark-image" />
@@ -32,7 +31,7 @@
 
 <script setup>
 import { defineProps } from 'vue';
-import axios from 'axios';
+import axios from "axios";
 
 const props = defineProps({
   posts: {
@@ -47,10 +46,10 @@ const toggleBookmark = async (post) => {
   const userCode = localStorage.getItem('userCode'); // 사용자 코드 가져오기
 
   const bookmarkData = {
-    bmkUrl: `/community/${post.comuCode}`,
-    bmkTitle: post.comuSubject,
-    postType: 'comuPost',
-    postCode: post.comuCode,
+    bmkUrl: `/recruit/${post.recruitCode}`,
+    bmkTitle: post.recruitTitle,
+    postType: 'recruit',
+    postCode: post.recruitCode,
     userCode: userCode,
   };
 
@@ -62,8 +61,6 @@ const toggleBookmark = async (post) => {
     console.error('북마크 처리 중 오류 발생:', error);
   }
 };
-
-const truncatedContent = (content) => (content.length > 100 ? content.slice(0, 100) + '...' : content);
 
 const formatDate = (dateString) => {
   const options = {
@@ -118,30 +115,14 @@ const formatDate = (dateString) => {
   margin: 0;
 }
 
-.post-user-info {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.nickname {
-  font-weight: bold;
-  color: #617CC2;
-}
-
 .post-content {
   margin-top: 10px;
-  margin-left: 0;
-  margin-right: 0;
 }
 
-.content-text {
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  color: #444;
+.deadline-text {
+  display: block;
+  margin-top: 5px;
+  color: #666;
 }
 
 .post-footer {
@@ -151,9 +132,18 @@ const formatDate = (dateString) => {
   margin-top: 10px;
 }
 
-.post-time {
-  color: #969696;
-  font-size: 0.9rem;
+.post-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.tag {
+  background-color: #f1f1f1;
+  padding: 5px 10px;
+  border-radius: 15px;
+  font-size: 14px;
+  color: #333;
 }
 
 .bookmark-container {
