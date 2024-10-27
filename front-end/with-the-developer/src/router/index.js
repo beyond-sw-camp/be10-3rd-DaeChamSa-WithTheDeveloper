@@ -32,11 +32,11 @@ const routes = [
             component: Cart  // 장바구니
         },
         {
-            path: '/order',
+            path: '/mypage/orders',
             component: OrderList
         },
         {
-            path: '/order/detail/:orderCode',
+            path: '/mypage/orders/:orderCode',
             component: OrderDetail,
             props: true
         },

@@ -38,9 +38,6 @@ public class AdminCommandService {
     private final JobTagRepository jobTagRepository;
     private final ReportReasonCategoryRepository reportReasonCategoryRepository;
     private final ReportRepository reportRepository;
-    private final TeamPostRepository teamPostRepository;
-    private final ProjPostRepository projPostRepository;
-    private final ComuPostRepository comuPostRepository;
     private final NotiCommandService notiCommandService;
     private final ReportCommandService reportCommandService;
 
