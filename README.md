@@ -169,6 +169,42 @@
 ![01_06_팀모집 게시글 삭제](https://github.com/user-attachments/assets/8e65957b-3d2e-43ff-9050-65ef2c5dca5f)
 </details>
 
+<details>
+<summary>프로젝트 게시글 등록 및 조회</summary>
+    
+![02_01_프로젝트 게시글 등록 및 조회](https://github.com/user-attachments/assets/1c39f3ad-cdcd-4e0a-b1a9-c427c0554d27)
+</details>
+
+<details>
+<summary>프로젝트 게시글 URL 및 댓글 등록, 삭제</summary>
+    
+![02_02_프로젝트 게시글 URL 및 댓글 등록, 삭제](https://github.com/user-attachments/assets/34e3136e-3f08-4755-8385-ac9d6e1256bb)
+</details>
+
+<details>
+<summary>프로젝트 게시글 수정</summary>
+    
+![02_03_프로젝트 게시글 수정](https://github.com/user-attachments/assets/b51d4e05-dbe4-4f08-a480-157b881d54e1)
+</details>
+
+<details>
+<summary>프로젝트 쪽지 및 신고</summary>
+    
+![02_04_프로젝트 쪽지 및 신고](https://github.com/user-attachments/assets/e756c4f0-aef4-421b-ae49-44fa5eb5d418)
+</details>
+
+<details>
+<summary>프로젝트 북마크</summary>
+    
+![02_05_프로젝트 북마크](https://github.com/user-attachments/assets/81558639-a9e6-42b6-9711-56fc4b82e580)
+</details>
+
+<details>
+<summary>프로젝트 게시글 삭제</summary>
+    
+![02_06_프로젝트 게시글 삭제](https://github.com/user-attachments/assets/88ffb2e3-0962-4d73-a740-493e42ef07c9)
+</details>
+
 <details><summary> 관리자 목록(카테고리) 조회
 </summary>
 
