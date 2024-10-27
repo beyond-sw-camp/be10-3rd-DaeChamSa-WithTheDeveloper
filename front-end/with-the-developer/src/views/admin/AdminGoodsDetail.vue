@@ -41,20 +41,20 @@ const props = defineProps({
 const product = ref({});
 const emit = defineEmits(['cancel']);
 
-//테스트 위한 adminToken 하드코딩
-const adminToken = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsInVzZXJDb2RlIjoxLCJhdXRoIjoiUk9MRV9BRE1JTiIsImV4cCI6MTcyOTk1MDA5M30.4fBCzHvR-hLrGAsfbs8sBWLlc0B0aI1ZV_xJQK6yFOhNKDSvbMd3UP_bitgfn4AK-WupqHVlmJyjcWIHq6XXrg";
-
+const adminTokenHard = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsInVzZXJDb2RlIjoxLCJhdXRoIjoiUk9MRV9BRE1JTiIsImV4cCI6MTczMDAyNTc2M30.g8RAfUf1YXgB3AuGTIjDs-pqTovrY2cUrF4OtmP4WfV47zAYl2zzorHZgbjsD1vw0cQPcqj5sBC8w1vsJMCIqA";
 // 상품 상세 조회
-const fetchProductDetail = async () => {;
+const fetchProductDetail = async () => {
+
   if(props.goodsCode){
     try {
+      localStorage.setItem('userRole', 'ROLE_ADMIN'); //** admin 테스트 후 삭제 예정
       const response = await axios.get(`http://localhost:8080/public/goods/${props.goodsCode}`,{
         headers: {
-          Authorization: `Bearer ${adminToken}`,
-          // Authorization: `Bear ${localStorage.getItem('jwtToken')}`
+          Authorization: `Bearer ${adminTokenHard}`,
         }
       });
       product.value = response.data;
+      console.log(`${props.goodsCode}`);
     } catch (error) {
       console.log("상품 정보 불러오기 실패", error);
     }
@@ -63,16 +63,38 @@ const fetchProductDetail = async () => {;
 
 // 상품 업데이트
 const updateProduct = async () => {
-  if(localStorage.getItem('USER_ROLE') !== 'USER_ADMIN'){
+  localStorage.setItem('userRole', 'ROLE_ADMIN'); //** admin 테스트 후 삭제 예정
+  if(localStorage.getItem('userRole') !== 'ROLE_ADMIN') {
     alert("관리자 권한이 없습니다.")
     return;
   }
+
+    const formData = new FormData();
+
+
+    const goodsUpdateDTO = {
+      goodsCode: product.value.goodsCode,
+      goodsName: product.value.goodsName,
+      goodsContent: product.value.goodsContent,
+      goodsStock: product.value.goodsStock,
+      goodsStatus: product.value.goodsStatus,
+      goodsPrice: product.value.goodsPrice,
+    };
+
+    formData.append('goodsUpdateDTO', new Blob([JSON.stringify(goodsUpdateDTO)], { type: "application/json" }));
+
+    // 이미지 파일이 있을 경우 추가
+    if (product.value.images && product.value.images.length > 0) {
+      product.value.images.forEach((image) => {
+        formData.append('images', image);
+      });
+    }
+
   try{
-    await axios.put(`http://localhost:8080/goods/${props.goodsCode}`,product.value,{
+    await axios.put(`http://localhost:8080/goods/${props.goodsCode}`,formData,{
       headers: {
-        // Authorization: `Bearer ${adminToken}`,
-        Authorization: `Bearer ${localStorage.getItem('adminToken')}`,
-        'Content-Type': 'application/json',
+        'Content-Type' : 'multipart/form-data',
+        Authorization: `Bearer ${adminTokenHard}`,
       }
     });
     alert("상품 정보 수정 완료");
