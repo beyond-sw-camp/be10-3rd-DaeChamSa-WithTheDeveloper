@@ -21,10 +21,12 @@
             <span v-for="(tag, index) in post.projTagContents" :key="index" class="tag">#{{ tag }}</span>
           </div>
           <span class="post-time">{{ formatDate(post.createdDate) }}</span>
-          <button class="bookmark-button" @click="toggleBookmark(post)">
-            <img :src="bookmarkedIcon" alt="북마크" class="bookmark-image"/>
-          </button>
-          <span class="bookmark-count">{{ post.bookmarkCount }}</span>
+          <div class="bookmark-container">
+            <button class="bookmark-button" @click="toggleBookmark(post)">
+              <img :src="bookmarkedIcon" alt="북마크" class="bookmark-image" />
+            </button>
+            <span class="bookmark-count">{{ post.bookmarkCount }}</span>
+          </div>
         </div>
       </div>
     </div>
@@ -163,6 +165,12 @@ const formatDate = (dateString) => {
   font-size: 0.9rem;
 }
 
+.bookmark-container {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
 .bookmark-button {
   background: none;
   border: none;
@@ -181,6 +189,6 @@ const formatDate = (dateString) => {
 
 .bookmark-count {
   color: #617CC2;
-  margin-left: 10px;
+  font-size: 1rem;
 }
 </style>

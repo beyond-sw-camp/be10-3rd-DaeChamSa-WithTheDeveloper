@@ -22,10 +22,12 @@
             <span v-for="(tag, index) in post.jobTagNames" :key="index" class="tag">#{{ tag }}</span>
           </div>
           <span class="post-time">{{ formatDate(post.createdDate) }}</span>
-          <button class="bookmark-button" @click="toggleBookmark(post)">
-            <img :src="bookmarkedIcon" alt="북마크" class="bookmark-image" />
-          </button>
-          <span class="bookmark-count">{{ post.bookmarkCount }}</span>
+          <div class="bookmark-container">
+            <button class="bookmark-button" @click="toggleBookmark(post)">
+              <img :src="bookmarkedIcon" alt="북마크" class="bookmark-image" />
+            </button>
+            <span class="bookmark-count">{{ post.bookmarkCount }}</span>
+          </div>
         </div>
       </div>
     </div>
@@ -33,7 +35,7 @@
 </template>
 
 <script setup>
-import {defineProps} from 'vue';
+import { defineProps } from 'vue';
 import axios from 'axios';
 
 const props = defineProps({
@@ -46,7 +48,7 @@ const props = defineProps({
 const bookmarkedIcon = 'https://img.icons8.com/?size=100&id=82461&format=png&color=617CC2';
 
 const toggleBookmark = async (post) => {
-  const userCode = localStorage.getItem('userCode'); // 사용자 코드 가져오기
+  const userCode = localStorage.getItem('userCode');
 
   const bookmarkData = {
     bmkUrl: `/team/${post.teamPostCode}`,
@@ -58,8 +60,8 @@ const toggleBookmark = async (post) => {
 
   try {
     const response = await axios.post('/bookmark', bookmarkData);
-    post.bookmarked = response.data.bookmarked; // 북마크 상태 업데이트
-    post.bookmarkCount = response.data.bookmarkCount; // 북마크 개수 업데이트
+    post.bookmarked = response.data.bookmarked;
+    post.bookmarkCount = response.data.bookmarkCount;
   } catch (error) {
     console.error('북마크 처리 중 오류 발생:', error);
   }
@@ -170,6 +172,12 @@ const formatDate = (dateString) => {
   font-size: 0.9rem;
 }
 
+.bookmark-container {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
 .bookmark-button {
   background: none;
   border: none;
@@ -188,6 +196,6 @@ const formatDate = (dateString) => {
 
 .bookmark-count {
   color: #617CC2;
-  margin-left: 10px;
+  font-size: 1rem;
 }
 </style>

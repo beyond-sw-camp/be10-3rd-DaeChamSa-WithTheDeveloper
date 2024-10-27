@@ -346,6 +346,7 @@ onMounted(() => {
 <style scoped>
 .post-detail {
   padding: 20px;
+  width: 70%;
 }
 
 .post-header {
