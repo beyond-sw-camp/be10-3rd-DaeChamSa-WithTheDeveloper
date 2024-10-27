@@ -123,10 +123,24 @@
 ![에러페이지](https://github.com/user-attachments/assets/9a57ae13-0b4e-474a-9ddc-7cfba122f26d)
 </details>
 
-<details><summary>장바구니-주문-결제-주문내역
+<details><summary> 굿즈 담기, 장바구니 기능, 주문하기
 </summary>
 
-![image](https://github.com/user-attachments/assets/e3691e12-f3c6-449f-9240-875858db0b57)
+![형미-1](https://github.com/user-attachments/assets/37fbba2f-18e0-4f33-a360-04c27f820dea)
+</details>
+
+
+<details><summary> 결제하기
+</summary>
+
+![형미-2](https://github.com/user-attachments/assets/9a62a115-d4a9-4203-a565-f7520e21a9de)
+</details>
+
+
+<details><summary> 주문내역 확인, 결제 취소
+</summary>
+
+![형미-3](https://github.com/user-attachments/assets/dbbdc077-b0ac-45f6-9ec5-2c35a2b18bf3)
 </details>
 
 <details>
