@@ -116,7 +116,7 @@ const deletePost = async () => {
 };
 
 // 목록 페이지로 이동
-const goToList = () => router.push('/team');
+const goToList = () => router.push('/recruit');
 
 // 날짜 포맷팅 함수
 const formatDate = (dateString) => {
