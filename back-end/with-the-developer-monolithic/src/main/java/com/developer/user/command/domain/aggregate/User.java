@@ -68,6 +68,21 @@ public class User {
         this.resNoti = true;
     }
 
+    // 카카오 로그인
+    public User(String email, String password, String name, String email1, String birthyear, String birthday, String phoneNumber) {
+        this.userId = email;
+        this.userPw = password;
+        this.userName = name;
+        this.userNick = email1;
+        this.userBirth = LocalDate.parse(birthyear + '-' +
+                birthday.charAt(0) + birthday.charAt(1) + '-'
+                + birthday.charAt(2) + birthday.charAt(3));
+        this.userPhone = phoneNumber.replace("+82 ", "0");
+        this.role = Role.USER;
+        this.resNoti = true;
+        this.userStatus = UserStatus.ACTIVE;
+    }
+
     // 사용자 정보 수정 메서드
     public void updateUser(UpdateUserDTO updateUserDTO) {
         if (updateUserDTO.getUserPw() != null) {
