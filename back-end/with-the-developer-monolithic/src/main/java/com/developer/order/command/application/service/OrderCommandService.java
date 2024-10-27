@@ -78,7 +78,7 @@ public class OrderCommandService {
         Payments payments = paymentsRepository.findById(order.getPaymentCode())
                 .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_PAYMENT));
 
-        // 결제가 완료된 상황이면 주문 취소 불가능
+        // 결제가 완료된 상황이면 주문 취소 불가능 (결제 취소 해야함)
         if (payments.getPaymentStatus().equals(PaymentStatus.OK)){
 
             throw new CustomException(ErrorCode.PAYMENT_ALREADY_PAID);
@@ -89,6 +89,7 @@ public class OrderCommandService {
             throw new CustomException(ErrorCode.PAYMENT_ALREADY_CANCEL);
         }
 
-        order.changeOrderByFailure(OrderStatus.CANCEL);
+        // 주문 취소 (상태 변경 및 현재 시각 저장)
+        order.changeOrderByFailure();
     }
 }

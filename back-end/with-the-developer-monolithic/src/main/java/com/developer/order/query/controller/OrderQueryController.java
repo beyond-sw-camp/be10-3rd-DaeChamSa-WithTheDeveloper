@@ -1,13 +1,11 @@
 package com.developer.order.query.controller;
 
-import com.developer.order.query.dto.OrderListDTO;
 import com.developer.order.query.dto.ResponseOrderListDTO;
 import com.developer.order.query.service.OrderQueryService;
 import com.developer.user.security.SecurityUtil;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-import okhttp3.Response;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;

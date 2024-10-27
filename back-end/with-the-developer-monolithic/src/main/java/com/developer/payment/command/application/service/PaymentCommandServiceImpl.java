@@ -3,7 +3,6 @@ package com.developer.payment.command.application.service;
 import com.developer.common.exception.CustomException;
 import com.developer.common.exception.ErrorCode;
 import com.developer.order.command.domain.aggregate.Order;
-import com.developer.order.command.domain.aggregate.OrderStatus;
 import com.developer.order.command.domain.repository.OrderRepository;
 import com.developer.payment.command.application.dto.PaymentCallbackRequest;
 import com.developer.payment.command.application.dto.RequestPayDTO;
@@ -105,6 +104,7 @@ public class PaymentCommandServiceImpl implements PaymentCommandService {
             // 결제 상태 변경
             log.info("결제 상태 변경 uid {}", iamportResponse.getResponse().getImpUid());
             byId.get().changePaymentBySuccess(PaymentStatus.OK, iamportResponse.getResponse().getImpUid());
+            order.paymentComplete();
 
             return iamportResponse;
 
@@ -129,11 +129,17 @@ public class PaymentCommandServiceImpl implements PaymentCommandService {
             CancelData cancelData = new CancelData(paymentUid, true, new BigDecimal(paymentByUserCodeAndPaymentUid.getPaymentPrice()));
             iamportClient.cancelPaymentByImpUid(cancelData);
 
+            // 이미 결제가 취소된 상태
+            if (paymentByUserCodeAndPaymentUid.getPaymentStatus().equals(PaymentStatus.CANCEL)){
+
+                throw new CustomException(ErrorCode.PAYMENT_ALREADY_CANCEL);
+            }
             paymentByUserCodeAndPaymentUid.changePaymentByFailure(PaymentStatus.CANCEL);
             Order order = orderRepository.findByPaymentCode(paymentByUserCodeAndPaymentUid.getPaymentCode())
                     .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_ORDER));
 
-            order.changeOrderByFailure(OrderStatus.CANCEL);
+            // 주문 취소 (상태 변경 및 취소 시점 저장)
+            order.changeOrderByFailure();
 
         } catch (IamportResponseException | IOException e) {
             throw new RuntimeException(e);
