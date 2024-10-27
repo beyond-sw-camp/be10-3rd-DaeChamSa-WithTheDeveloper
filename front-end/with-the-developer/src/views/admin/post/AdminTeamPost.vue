@@ -4,11 +4,13 @@ import {onMounted, ref} from "vue";
 import router from "@/router/index.js";
 import MypagePostMenu from "@/components/MypagePostMenu.vue";
 import axios from "axios";
+import AdminSideBar from "@/components/AdminSideBar.vue";
+import AdminPostMenu from "@/components/AdminPostMenu.vue";
 
 const postList = ref([]);
 const fetchPostList = async () => {
   try{
-    return (await axios.get('/public/comu/post/mypage',{
+    return (await axios.get('/public/team/post',{
       headers: {
         Authorization: `${localStorage.getItem('accessToken')}`
       }
@@ -19,31 +21,32 @@ const fetchPostList = async () => {
 }
 
 onMounted(async () => {
-  postList.value = await fetchPostList();
+  const filtering = await fetchPostList();
+  postList.value = filtering.filter(post => post.reportCount >= 3);
 });
 
 const moveTo = (url) => {
-  router.push(`/community/${url}`);
+  router.push(`/team/${url}`);
 }
 </script>
 
 <template>
   <section>
-    <MypageSideBar/>
+    <AdminSideBar/>
     <div id="content">
-      <MypagePostMenu/>
+      <AdminPostMenu/>
       <article id = "info">
-        <div class = "post" v-for="post in postList"  @click="moveTo(post.comuCode)">
+        <div class = "post" v-for="post in postList"  @click="moveTo(post.teamPostCode)">
           <div class="post_left">
-            <p class="post_title">{{post.comuSubject}}</p>
-            <p class="post_content">{{post.comuContent}}</p>
+            <p class="post_title">{{post.teamPostTitle}}</p>
+            <p class="post_content">{{post.teamContent}}</p>
           </div>
           <div class="post_right">
             <p class="user_nick">{{post.userNick}}</p>
             <p class="create_date">{{post.createdDate}}</p>
           </div>
-          <img class="bmk_icon" src="https://img.icons8.com/?size=100&id=82461&format=png&color=000000" alt="북마크이미지">
-          <p>{{post.bookmarkCount}}</p>
+          <img class="bmk_icon" src="https://img.icons8.com/?size=100&id=TUqJsJ4ey9V0&format=png&color=000000" alt="북마크이미지">
+          <p>{{post.reportCount}}</p>
         </div>
       </article>
     </div>

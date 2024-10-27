@@ -4,7 +4,8 @@ const store = createStore({
     state: {
         accessToken: localStorage.getItem('accessToken') || null,
         isLoggedIn: !!localStorage.getItem('accessToken'),
-        bookmarkList : []
+        bookmarkList : [],
+        userRole: localStorage.getItem('userRole') || null
     },
     mutations: {
         setAccessToken(state, token) {
@@ -26,6 +27,9 @@ const store = createStore({
         },
         setMyBookmark(state, data) {
             state.bookmarkList.value = data;
+        },
+        setUserRole(state, role){
+            state.userRole = role;
         }
     },
     actions: {
@@ -46,12 +50,16 @@ const store = createStore({
             } catch (error) {
                 console.error('Error fetching items:', error);
             }
+        },
+        setRole({ commit }, role) {
+            commit('setUserRole', role);
         }
     },
     getters: {
         isLoggedIn: (state) => state.isLoggedIn,
         accessToken: (state) => state.accessToken,
-        bookmarkList: (state) => state.bookmarkList
+        bookmarkList: (state) => state.bookmarkList,
+        userRole: (state) => state.userRole
     }
 });
 

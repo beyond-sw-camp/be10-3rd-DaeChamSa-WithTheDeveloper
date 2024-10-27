@@ -19,6 +19,10 @@ import MyPageRouter from "@/router/MyPageRouter.js";
 import CommunityRouter from "@/router/CommunityRouter.js";
 import ProjectRouter from "@/router/ProjectRouter.js";
 import TeamRouter from "@/router/TeamRouter.js";
+import AdminTeamPost from "@/views/admin/post/AdminTeamPost.vue";
+import AdminComuPost from "@/views/admin/post/AdminComuPost.vue";
+import AdminProjectPost from "@/views/admin/post/AdminProjectPost.vue";
+import AdminRecruitPost from "@/views/admin/post/AdminRecruitPost.vue";
 
 const routes = [
         {
@@ -57,20 +61,36 @@ const routes = [
         // *** 관리자 페이지
         {
             path: '/admin/user/status',
-            component: AdminUser,
+            component: AdminUser
         },
         {
-            path: '/admin/goods',
-            component: AdminGoods,
+            path: '/adminGoods',
+            component: AdminGoods
         },
         {
-            path: '/goods/:goodsCode',
+            path: '/admin/goods/:goodsCode',
             component: AdminGoodsDetail,
             props: true
         },
         {
-            path: '/jop-tag',
-            component: AdminTag,
+            path: '/admin/jop-tag',
+            component: AdminTag
+        },
+        {
+            path: '/admin/team',
+            component: AdminTeamPost
+        },
+        {
+            path: '/admin/community',
+            component: AdminComuPost
+        },
+        {
+            path: '/admin/project',
+            component: AdminProjectPost
+        },
+        {
+            path: '/admin/recruit',
+            component: AdminRecruitPost
         },
         // *** 관리자
         // 에러 페이지
