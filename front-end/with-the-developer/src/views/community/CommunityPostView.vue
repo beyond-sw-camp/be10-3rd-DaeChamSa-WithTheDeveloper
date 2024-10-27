@@ -159,15 +159,9 @@ const submitComment = async () => {
   if (!newComment.value.trim()) return;
 
   try {
-    const token = localStorage.getItem('accessToken')?.trim();
     await axios.post(
         `/comu/post/${comuCode}/cmt`,
-        {comuCmtContent: newComment.value}, // DTO에 맞춰 수정
-        {
-          headers: {
-            Authorization: `${token}`,
-          },
-        }
+        {comuCmtContent: newComment.value}
     );
     newComment.value = ''; // 입력란 초기화
     await fetchComments(); // 댓글 목록 갱신
@@ -187,12 +181,7 @@ const confirmDeleteComment = (commentId) => {
 // 댓글 삭제 메서드
 const deleteComment = async (commentId) => {
   try {
-    const token = localStorage.getItem('accessToken')?.trim();
-    await axios.delete(`/comu/post/cmt/${commentId}`, {
-      headers: {
-        Authorization: `${token}`,
-      },
-    });
+    await axios.delete(`/comu/post/cmt/${commentId}`);
     await fetchComments(); // 댓글 목록 갱신
     alert('댓글이 삭제되었습니다.');
   } catch (error) {
@@ -212,12 +201,7 @@ const confirmDeletePost = () => {
 // 게시글 삭제
 const deletePost = async () => {
   try {
-    const token = localStorage.getItem('accessToken')?.trim();
-    await axios.delete(`/comu/post/${comuCode}`, {
-      headers: {
-        Authorization: `${token}`,
-      },
-    });
+    await axios.delete(`/comu/post/${comuCode}`);
     await router.push('/community'); // 삭제 후 목록 페이지로 이동
   } catch (error) {
     console.error('게시글 삭제 실패:', error);
@@ -279,15 +263,9 @@ const sendMessage = async () => {
   if (!msgContent.value.trim()) return; // 내용이 비어있으면 반환
 
   try {
-    const token = localStorage.getItem('accessToken')?.trim();
     await axios.post(
         '/msg',
-        {recipientUserCode, msgContent: msgContent.value}, // DTO에 맞춰 수정
-        {
-          headers: {
-            Authorization: `${token}`,
-          },
-        }
+        {recipientUserCode, msgContent: msgContent.value}
     );
     closeMessageModal(); // 메시지 전송 후 모달 닫기
   } catch (error) {
@@ -318,7 +296,6 @@ const submitReport = async () => {
   const reportTypePara = 'COMU'; // 'COMU'로 설정
 
   try {
-    const token = localStorage.getItem('accessToken')?.trim();
     await axios.post(
         '/report/create',
         {
@@ -329,10 +306,7 @@ const submitReport = async () => {
           params: {
             postCode,
             reportTypePara,
-          },
-          headers: {
-            Authorization: `${token}`,
-          },
+          }
         }
     );
     closeReportModal(); // 모달 닫기
@@ -371,6 +345,7 @@ onMounted(() => {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  color: #617CC2;
 }
 
 .post-content {
@@ -414,6 +389,10 @@ onMounted(() => {
   color: #969696;
 }
 
+.image-slider {
+  z-index: 1;
+}
+
 /* 모달 스타일 */
 .modal {
   position: fixed;
@@ -425,27 +404,51 @@ onMounted(() => {
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 1000; /* 모달의 z-index 설정 (기본값보다 높게) */
+  z-index: 1000;
 }
 
 .modal-content {
-  background: white;
+  background: #ffffff;
   padding: 20px;
-  border-radius: 5px;
+  border-radius: 10px;
   width: 400px;
   text-align: center;
-  z-index: 1001; /* 모달 내용의 z-index 설정 (모달보다 높게) */
+  z-index: 1001;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
 }
 
-/* 사진의 z-index를 조정 (기본값보다 낮게) */
-.image-slider {
-  z-index: 1; /* 사진이 모달 뒤에 있도록 설정 */
+h2 {
+  color: #617CC2;
 }
 
+textarea {
+  width: 100%;
+  height: 100px;
+  margin: 10px 0;
+  border: 1px solid #617CC2;
+  border-radius: 5px;
+  padding: 10px;
+  resize: none;
+}
+
+button {
+  background-color: #617CC2;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 15px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+button:hover {
+  background-color: #506a9b;
+}
 
 .close {
   cursor: pointer;
   float: right;
   font-size: 24px;
+  color: #617CC2;
 }
 </style>
