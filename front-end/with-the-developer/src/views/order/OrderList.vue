@@ -75,7 +75,7 @@ onMounted((async () => {
           <router-link :to="`/mypage/orders/${order.orderCode}`">
             <div class="order_status">{{ getOrderStatus(order.orderStatus)}}</div>
             <div class="flex order_info_box">
-              <img src="../assets/images/img.png">
+              <img src="../../assets/images/img.png">
               <div class="order_text_info">
                 <div>{{ order.orderDate.replace('T', ' ') }} 결제</div>
                 <div>{{ order.goodsName }} 외 {{ order.goodsCount }}건</div>

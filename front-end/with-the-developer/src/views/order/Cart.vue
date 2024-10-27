@@ -412,14 +412,14 @@ input[type="checkbox"] + label {
   width: 18px;
   height: 18px;
   background-repeat: no-repeat;
-  background-image: url('../assets/images/checkbox_off.png');
+  background-image: url('../../assets/images/checkbox_off.png');
   background-size: 18px 18px;
 }
 
 /* on */
 input[type="checkbox"]:checked + label {
   background-repeat: no-repeat;
-  background-image: url('../assets/images/checkbox_on.png');
+  background-image: url('../../assets/images/checkbox_on.png');
 }
 
 .checkbox_label {
