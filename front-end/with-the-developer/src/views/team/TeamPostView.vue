@@ -165,17 +165,11 @@ const submitComment = async () => {
   if (!newComment.value.trim()) return;
 
   try {
-    const token = localStorage.getItem('accessToken')?.trim();
     await axios.post(
         `/team/cmt`,
         {teamCmt: newComment.value,
               teamPostCode: teamPostCode,
-              userCode: localStorage.getItem('userCode')}, // DTO에 맞춰 수정
-        {
-          headers: {
-            Authorization: `${token}`,
-          },
-        }
+              userCode: localStorage.getItem('userCode')}
     );
     newComment.value = ''; // 입력란 초기화
     await fetchComments(); // 댓글 목록 갱신
@@ -195,12 +189,7 @@ const confirmDeleteComment = (commentId) => {
 // 댓글 삭제 메서드
 const deleteComment = async (commentId) => {
   try {
-    const token = localStorage.getItem('accessToken')?.trim();
-    await axios.delete(`/team/cmt/${commentId}`, {
-      headers: {
-        Authorization: `${token}`,
-      },
-    });
+    await axios.delete(`/team/cmt/${commentId}`);
     await fetchComments(); // 댓글 목록 갱신
     alert('댓글이 삭제되었습니다.');
   } catch (error) {
@@ -220,12 +209,7 @@ const confirmDeletePost = () => {
 // 게시글 삭제
 const deletePost = async () => {
   try {
-    const token = localStorage.getItem('accessToken')?.trim();
-    await axios.delete(`/team/post/${teamPostCode}`, {
-      headers: {
-        Authorization: `${token}`,
-      },
-    });
+    await axios.delete(`/team/post/${teamPostCode}`);
     await router.push('/team'); // 삭제 후 목록 페이지로 이동
   } catch (error) {
     console.error('게시글 삭제 실패:', error);
@@ -286,15 +270,9 @@ const sendMessage = async () => {
   if (!msgContent.value.trim()) return; // 내용이 비어있으면 반환
 
   try {
-    const token = localStorage.getItem('accessToken')?.trim();
     await axios.post(
         '/msg',
-        {recipientUserCode, msgContent: msgContent.value}, // DTO에 맞춰 수정
-        {
-          headers: {
-            Authorization: `${token}`,
-          },
-        }
+        {recipientUserCode, msgContent: msgContent.value}
     );
     closeMessageModal(); // 메시지 전송 후 모달 닫기
   } catch (error) {
@@ -325,7 +303,6 @@ const submitReport = async () => {
   const reportTypePara = 'TEAMPOST';
 
   try {
-    const token = localStorage.getItem('accessToken')?.trim();
     await axios.post(
         '/report/create',
         {
@@ -336,10 +313,7 @@ const submitReport = async () => {
           params: {
             postCode,
             reportTypePara,
-          },
-          headers: {
-            Authorization: `${token}`,
-          },
+          }
         }
     );
     closeReportModal(); // 모달 닫기
