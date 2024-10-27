@@ -8,6 +8,9 @@
           <button @click="editPost">수정</button>
           <button @click="confirmDeletePost">삭제</button>
         </template>
+        <template v-else-if="isAdmin">
+          <button @click="confirmDeletePost">삭제</button>
+        </template>
         <template v-else-if="isLogin">
           <button @click="openReportModal">신고</button>
         </template>
@@ -136,6 +139,7 @@ const reportReasonCategory = ref('');
 
 
 // 게시글 작성자인지 확인
+const isAdmin = computed(() => localStorage.getItem('userRole') === 'ROLE_ADMIN');
 const isAuthor = computed(() => post.value.userCode === currentUserCode);
 const isCmtAuthor = (comment) => comment.userCode === currentUserCode;
 
