@@ -155,7 +155,7 @@ import axios from "axios";
       });
 
       alert("수정 성공!");
-
+      cancelModifyModal();
     } catch (error){
       alert("수정실패")
     }
