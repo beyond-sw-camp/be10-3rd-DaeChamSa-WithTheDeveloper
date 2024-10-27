@@ -95,24 +95,56 @@
 #### 팀모집 게시글
 
 - 팀모집 게시글 등록 및 조회
-- ![01_01_팀모집 게시글 등록 및 조회](https://github.com/user-attachments/assets/116ead56-2140-4428-915f-11de2a76100a)
+![01_01_팀모집 게시글 등록 및 조회](https://github.com/user-attachments/assets/116ead56-2140-4428-915f-11de2a76100a)
 - 팀모집 댓글 등록 및 삭제
-- ![01_02_팀모집 댓글 등록 및 삭제](https://github.com/user-attachments/assets/d7270a03-430e-4bfc-bc0e-0ae29b6328bf)
+![01_02_팀모집 댓글 등록 및 삭제](https://github.com/user-attachments/assets/d7270a03-430e-4bfc-bc0e-0ae29b6328bf)
 - 팀모집 게시글 수정
-- ![01_03_팀모집 게시글 수정](https://github.com/user-attachments/assets/f0981ebe-20cf-4f24-b2ad-2668e3919039)
+![01_03_팀모집 게시글 수정](https://github.com/user-attachments/assets/f0981ebe-20cf-4f24-b2ad-2668e3919039)
 - 팀모집 쪽지 및 신고
-- ![01_04_팀모집 쪽지 및 신고](https://github.com/user-attachments/assets/f7ccb029-5218-4855-bc6e-68771c32a323)
+![01_04_팀모집 쪽지 및 신고](https://github.com/user-attachments/assets/f7ccb029-5218-4855-bc6e-68771c32a323)
 - 팀모집 북마크
-- ![01_05_팀모집 북마크](https://github.com/user-attachments/assets/06b082c7-95a0-40b6-985d-3b7d98c3b75a)
+![01_05_팀모집 북마크](https://github.com/user-attachments/assets/06b082c7-95a0-40b6-985d-3b7d98c3b75a)
 - 팀모집 게시글 삭제
-- ![01_06_팀모집 게시글 삭제](https://github.com/user-attachments/assets/8145c90e-d016-4450-8771-35c8a8ab2de9)
+![01_06_팀모집 게시글 삭제](https://github.com/user-attachments/assets/8145c90e-d016-4450-8771-35c8a8ab2de9)
 
 #### 프로젝트 게시글
 
 - 프로젝트 게시글 등록 및 조회
-- ![02_01_프로젝트 게시글 등록 및 조회](https://github.com/user-attachments/assets/b2889295-7969-4a3c-9590-1cfe9b809f48)
+![02_01_프로젝트 게시글 등록 및 조회](https://github.com/user-attachments/assets/b2889295-7969-4a3c-9590-1cfe9b809f48)
 - 프로젝트 게시글 URL 및 댓글 등록, 삭제
-- ![02_02_프로젝트 게시글 URL 및 댓글 등록, 삭제](https://github.com/user-attachments/assets/10fdf0d0-244e-46cc-bb11-46017a29e2e8)
+![02_02_프로젝트 게시글 URL 및 댓글 등록, 삭제](https://github.com/user-attachments/assets/10fdf0d0-244e-46cc-bb11-46017a29e2e8)
+- 프로젝트 게시글 수정
+![02_03_프로젝트 게시글 수정](https://github.com/user-attachments/assets/38fbbd5c-3493-4edf-bd66-5f5af95385f4)
+- 프로젝트 쪽지 및 신고
+![02_04_프로젝트 쪽지 및 신고](https://github.com/user-attachments/assets/327d147d-f7d4-4754-b572-4a14f4f726f4)
+- 프로젝트 북마크
+![02_05_프로젝트 북마크](https://github.com/user-attachments/assets/22ea7c8d-a02c-4e93-ae16-b1d7b1056794)
+- 프로젝트 게시글 삭제
+![02_06_프로젝트 게시글 삭제](https://github.com/user-attachments/assets/0e145527-6d99-4409-a707-d56d67d31c97)
+
+#### 커뮤니티 게시글
+
+- 커뮤니티 게시글 등록 및 조회
+![03_01_커뮤니티 게시글 등록 및 조회](https://github.com/user-attachments/assets/2cd1bd06-d1ba-44c6-ac92-a99f3155dfac)
+- 커뮤니티 게시글 댓글 등록 및 삭제
+![03_02_커뮤니티 댓글 등록 및 삭제](https://github.com/user-attachments/assets/593ad0db-8881-4d11-86b5-8ad81dc6e72e)
+- 커뮤니티 게시글 수정
+![03_03_커뮤니티 게시글 수정](https://github.com/user-attachments/assets/a7e18282-21d7-4fcf-83d0-2d7747e52690)
+- 커뮤니티 쪽지 및 신고
+![03_04_커뮤니티 쪽지 및 신고](https://github.com/user-attachments/assets/a3cd572b-872e-4c7f-90ff-fe177382b7b1)
+- 커뮤니티 북마크
+![03_05_커뮤니티 북마크](https://github.com/user-attachments/assets/40acb932-2ae2-4eaa-8266-18591d8d9612)
+- 커뮤니티 게시글 삭제
+![03_06_커뮤니티 게시글 삭제](https://github.com/user-attachments/assets/68f0bbf9-0e0a-4f51-85d7-73be10434e86)
+
+#### 채용공고
+
+- 채용공고 게시글 등록
+  ![04_01_채용 공고 게시글 등록](https://github.com/user-attachments/assets/09f3ae7c-91aa-455a-8ec7-c2d71ceaa751)
+- 채용공고 게시글 조회
+  ![04_02_채용 공고 게시글 조회](https://github.com/user-attachments/assets/35897468-05df-401d-899b-94b5b72a02e7)
+- 채용공고 북마크
+  ![04_03_채용 공고 북마크](https://github.com/user-attachments/assets/132bfaa8-f138-44a8-bb2a-a5c915a39fdc)
 
 
 ### 5. 테스트 결과 보고서
