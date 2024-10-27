@@ -148,11 +148,7 @@ import axios from "axios";
         userBirth: birthDay.value,
         userPhone: phone.value
       }
-      await axios.put('user', userDTO, {
-        headers: {
-          Authorization: `${localStorage.getItem('accessToken')}`
-        }
-      });
+      await axios.put('user', userDTO);
 
       alert("수정 성공!");
       cancelModifyModal();
