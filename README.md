@@ -93,7 +93,45 @@
 ### 3. Vue.js 기반 테스트결과 보고서
 <div>
     <a href="https://docs.google.com/spreadsheets/d/1HiKD_EHKQ7Caej9FatP4kvBB-ySIct4scbj3CLsEkGg/edit?gid=0#gid=0">테스트결과 보고서</a>
+    
 </div>
+
+<details><summary>약관동의 및 회원가입 유효성 검사
+</summary>
+
+![약관동의 및 회원가입 유효성 검사](https://github.com/user-attachments/assets/47831a76-5340-4e4f-ae6c-f5f42806daff)
+</details>
+
+
+<details><summary>중복 확인 등, 메일 인증, 회원가입
+</summary>
+
+![중복 확인 등, 메일 인증, 회원가입](https://github.com/user-attachments/assets/26aabc36-1cbd-4861-a56c-8fef35f19c40)
+</details>
+
+<details><summary>카카오로그인, 성향테스트, 알림
+</summary>
+
+![카카오로그인, 성향테스트, 알림](https://github.com/user-attachments/assets/48d6017f-3a14-4bcb-8b06-c457240b10bd)
+</details>
+
+<details><summary>카카오로그인
+</summary>
+
+![카카오로그인](https://github.com/user-attachments/assets/99180666-3033-440f-993f-961a7cea1292)
+</details>
+
+<details><summary>에러페이지
+</summary>
+
+![에러페이지](https://github.com/user-attachments/assets/9a57ae13-0b4e-474a-9ddc-7cfba122f26d)
+</details>
+
+<details><summary>장바구니-주문-결제-주문내역
+</summary>
+
+![image](https://github.com/user-attachments/assets/e3691e12-f3c6-449f-9240-875858db0b57)
+</details>
 
 <br>
 
