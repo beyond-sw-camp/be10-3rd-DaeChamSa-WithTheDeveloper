@@ -13,7 +13,6 @@ const moveToRegister = () => {
 // 메인화면
 const moveToMain = () => {
   router.push('/main')
-  // window.location.href ='/main';  // 새로고침을 동반한 페이지 이동
 }
 
 // 아이디 찾기 창
@@ -94,7 +93,7 @@ const parseJwt = (token) => {
 // 카카오 로그인
 const moveToKakao = () => {
   window.location.href =
-      'https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=34910f6e018bcd7dc06e7b7e09db20f5&redirect_uri=http://localhost:5173/main';
+      'https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=34910f6e018bcd7dc06e7b7e09db20f5&redirect_uri=http://localhost:8080/oauth/kakao';
 }
 </script>
 

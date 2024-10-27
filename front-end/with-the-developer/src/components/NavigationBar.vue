@@ -24,8 +24,7 @@ const moveToLogin = () => {
     router.push('/login');
   } else {
     store.dispatch('logout'); // 로그아웃 처리
-    // window.location.href =`/`;
-    router.push('/logout');
+    router.push('/');
   }
 };
 
@@ -33,16 +32,14 @@ const moveTo = (type) => {
 
   if (type === '/mypage/info' && !isLoggedIn.value) {
     alert('로그인이 필요한 서비스입니다.');
-    // window.location.href =`/login`;
     router.push('/login');
     return;
   }
   if (type === '/' && isLoggedIn.value){
-    // window.location.href = '/main';
     router.push('/main');
     return;
   }
-  // window.location.href =`${type}`;
+
   router.push(`${type}`)
 }
 
