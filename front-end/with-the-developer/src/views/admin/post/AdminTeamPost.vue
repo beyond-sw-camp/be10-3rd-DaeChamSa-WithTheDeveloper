@@ -19,7 +19,29 @@ const fetchPostList = async () => {
     alert('회원정보 조회 중 에러 발생!' + error);
   }
 }
+const confirmDelete = (teamPostCode) => {
+  // 읽음 확인 alert
+  const confirmed = window.confirm('게시글을 삭제 하시겠습니까?');
 
+  if (confirmed) {
+    deletePost(teamPostCode); // 확인 시 삭제 메서드 호출
+  }
+}
+// 게시글 삭제
+const deletePost = async (teamPostCode) => {
+  try {
+    await axios.delete(`team/post/${teamPostCode}`);
+
+    const filtering = await fetchPostList();
+    postList.value = filtering.filter(post => post.reportCount >= 3);
+
+    alert('삭제되었습니다.');
+
+  } catch (error) {
+    console.error('삭제 도중 오류 발생:', error);
+    alert('삭제에 실패했습니다.');
+  }
+};
 onMounted(async () => {
   const filtering = await fetchPostList();
   postList.value = filtering.filter(post => post.reportCount >= 3);
@@ -36,8 +58,8 @@ const moveTo = (url) => {
     <div id="content">
       <AdminPostMenu/>
       <article id = "info">
-        <div class = "post" v-for="post in postList"  @click="moveTo(post.teamPostCode)">
-          <div class="post_left">
+        <div class = "post" v-for="post in postList"  >
+          <div class="post_left" @click="moveTo(post.teamPostCode)">
             <p class="post_title">{{post.teamPostTitle}}</p>
             <p class="post_content">{{post.teamContent}}</p>
           </div>
@@ -47,6 +69,7 @@ const moveTo = (url) => {
           </div>
           <img class="bmk_icon" src="https://img.icons8.com/?size=100&id=TUqJsJ4ey9V0&format=png&color=000000" alt="북마크이미지">
           <p>{{post.reportCount}}</p>
+          <button @click="confirmDelete(post.teamPostCode)">삭제</button>
         </div>
       </article>
     </div>
