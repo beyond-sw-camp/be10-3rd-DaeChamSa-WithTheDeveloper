@@ -201,6 +201,42 @@
 ![02_06_프로젝트 게시글 삭제](https://github.com/user-attachments/assets/88ffb2e3-0962-4d73-a740-493e42ef07c9)
 </details>
 
+<details>
+<summary>커뮤니티 게시글 등록 및 조회</summary>
+
+![03_01_커뮤니티 게시글 등록 및 조회](https://github.com/user-attachments/assets/bf535e1d-8199-49a4-867e-62541b86bed3)
+</details>
+
+<details>
+<summary>커뮤니티 댓글 등록 및 삭제</summary>
+
+![03_02_커뮤니티 댓글 등록 및 삭제](https://github.com/user-attachments/assets/b8e7cd98-d579-4e35-8fbe-ec53d4dc7a03)
+</details>
+
+<details>
+<summary>커뮤니티 게시글 수정</summary>
+
+![03_03_커뮤니티 게시글 수정](https://github.com/user-attachments/assets/d10633aa-3fe3-4c06-8355-61e5eedc4830)
+</details>
+
+<details>
+<summary>커뮤니티 쪽지 및 신고</summary>
+
+![03_04_커뮤니티 쪽지 및 신고](https://github.com/user-attachments/assets/65ef4b9c-8ae0-468f-b253-f5409735c033)
+</details>
+
+<details>
+<summary>커뮤니티 북마크</summary>
+
+![03_05_커뮤니티 북마크](https://github.com/user-attachments/assets/344d749c-a271-4c9d-a2f6-8a49f966cb20)
+</details>
+
+<details>
+<summary>커뮤니티 게시글 삭제</summary>
+
+![03_06_커뮤니티 게시글 삭제](https://github.com/user-attachments/assets/a556f8f2-bb53-4a3c-8356-787a38198c01)
+</details>
+
 <details><summary> 관리자 목록(카테고리) 조회
 </summary>
 
