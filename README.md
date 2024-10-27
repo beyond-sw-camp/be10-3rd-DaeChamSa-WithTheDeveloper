@@ -91,7 +91,9 @@
 <br>
 
 ### 3. Vue.js 기반 테스트결과 보고서
-https://docs.google.com/spreadsheets/d/1HiKD_EHKQ7Caej9FatP4kvBB-ySIct4scbj3CLsEkGg/edit?gid=0#gid=0
+<div>
+    <a href="https://docs.google.com/spreadsheets/d/1HiKD_EHKQ7Caej9FatP4kvBB-ySIct4scbj3CLsEkGg/edit?gid=0#gid=0">테스트결과 보고서</a>
+</div>
 
 <br>
 
