@@ -22,17 +22,12 @@ const products = ref([]);
 const itemsPerPage = 10; // 페이지당 아이템 수
 const { currentPage, totalPage, paginatedItems, setPage } = usePagination(products, itemsPerPage); // usePagination 사용
 
-const adminTokenHard = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsInVzZXJDb2RlIjoxLCJhdXRoIjoiUk9MRV9BRE1JTiIsImV4cCI6MTczMDAyMjUwNH0.ohiVRIf0b86G7hp4iYZBpu3E7wkAADfam4I-hzi4YRgTyXUikDAPZ8bOLZUJBbvkhH4TQgYvhmpMVp6Qu1jEYQ";
-
 // 체크된 굿즈 코드 배열
 const checkedGoods = ref([]);
 
 // 로그인 함수
 const loginUser = async () => {
   try {
-    localStorage.setItem('userRole', 'ROLE_ADMIN'); //** admin 테스트 후 삭제 예정
-    // Axios 기본 헤더에 토큰 추가
-    // axios.defaults.headers.common['Authorization'] = adminToken;
     const adminRole = localStorage.getItem('userRole');
     if(adminRole == 'ROLE_ADMIN'){
       router.push('/goods');
@@ -61,13 +56,10 @@ const deleteGoods = async () => {
   const deleteCheck = confirm("선택한 상품을 삭제하시겠습니까?");
   if (deleteCheck) {
     try {
-      localStorage.setItem('userRole', 'ROLE_ADMIN'); //** admin 테스트 후 삭제 예정
-
       await Promise.all(checkedGoods.value.map(goodsCode => {
         return axios.delete(`http://localhost:8080/goods/${parseInt(goodsCode)}`, {
           headers: {
             'Content-Type': 'multipart/form-data',
-            Authorization: `Bearer ${adminTokenHard}`, // Authorization 헤더에 토큰 추가
           },
         });
       }));
@@ -87,8 +79,6 @@ const deleteGoods = async () => {
     try {
       const response = await axios.get(`http://localhost:8080/public/goods?page=${currentPage.value}`, {
         headers: {
-          Authorization: localStorage.getItem('userRole'),
-          // Authorization: `Bearer ${adminToken}`,
         },
       });
       console.log("FetchData: ", response.data);

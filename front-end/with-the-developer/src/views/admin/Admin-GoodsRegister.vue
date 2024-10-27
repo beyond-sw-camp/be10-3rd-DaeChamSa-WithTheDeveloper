@@ -62,8 +62,6 @@ const fileList = ref([]);
 
 const router = useRouter();
 
-const adminTokenHard = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsInVzZXJDb2RlIjoxLCJhdXRoIjoiUk9MRV9BRE1JTiIsImV4cCI6MTczMDAyNTc2M30.g8RAfUf1YXgB3AuGTIjDs-pqTovrY2cUrF4OtmP4WfV47zAYl2zzorHZgbjsD1vw0cQPcqj5sBC8w1vsJMCIqA";
-
 // 이미지 업로드
 const handleFileUpload = (event) => {
   const files = event.target.files;
@@ -84,7 +82,6 @@ const handleFileUpload = (event) => {
 const submitGoods = async () => {
   // 관리자 확인
 
-  localStorage.setItem('userRole', 'ROLE_ADMIN'); //** admin 테스트 후 삭제 예정
   const checkUser = localStorage.getItem('userRole');
   if(checkUser !== "ROLE_ADMIN"){
     alert("관리자 권한이 아닙니다.");
@@ -110,8 +107,6 @@ const submitGoods = async () => {
     const response = await axios.post('http://localhost:8080/goods', formData,{
       headers:{
         'Content-Type' : 'multipart/form-data',
-        // Authorization: localStorage.getItem('userRole'),
-        Authorization: `Bearer ${adminTokenHard}`, // Authorization 헤더에 토큰 추가
       },
     });
 

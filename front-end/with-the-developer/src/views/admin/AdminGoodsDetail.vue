@@ -41,17 +41,11 @@ const props = defineProps({
 const product = ref({});
 const emit = defineEmits(['cancel']);
 
-const adminTokenHard = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsInVzZXJDb2RlIjoxLCJhdXRoIjoiUk9MRV9BRE1JTiIsImV4cCI6MTczMDAyNTc2M30.g8RAfUf1YXgB3AuGTIjDs-pqTovrY2cUrF4OtmP4WfV47zAYl2zzorHZgbjsD1vw0cQPcqj5sBC8w1vsJMCIqA";
-// 상품 상세 조회
 const fetchProductDetail = async () => {
 
   if(props.goodsCode){
     try {
-      localStorage.setItem('userRole', 'ROLE_ADMIN'); //** admin 테스트 후 삭제 예정
       const response = await axios.get(`http://localhost:8080/public/goods/${props.goodsCode}`,{
-        headers: {
-          Authorization: `Bearer ${adminTokenHard}`,
-        }
       });
       product.value = response.data;
       console.log(`${props.goodsCode}`);
@@ -68,9 +62,7 @@ const updateProduct = async () => {
     alert("관리자 권한이 없습니다.")
     return;
   }
-
     const formData = new FormData();
-
 
     const goodsUpdateDTO = {
       goodsCode: product.value.goodsCode,
@@ -94,7 +86,6 @@ const updateProduct = async () => {
     await axios.put(`http://localhost:8080/goods/${props.goodsCode}`,formData,{
       headers: {
         'Content-Type' : 'multipart/form-data',
-        Authorization: `Bearer ${adminTokenHard}`,
       }
     });
     alert("상품 정보 수정 완료");
