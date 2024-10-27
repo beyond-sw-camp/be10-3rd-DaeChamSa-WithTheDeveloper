@@ -4,7 +4,9 @@ const store = createStore({
     state: {
         accessToken: localStorage.getItem('accessToken') || null,
         isLoggedIn: !!localStorage.getItem('accessToken'),
-        bookmarkList : []
+        bookmarkList : [],
+        userRole: localStorage.getItem('userRole') || null,
+        logoutTimer: null,  // 로그아웃 타이머 30분
     },
     mutations: {
         setAccessToken(state, token) {
@@ -22,10 +24,22 @@ const store = createStore({
             localStorage.removeItem('userRole');
             localStorage.removeItem('userCode');
             localStorage.removeItem('userId');
-            alert('로그아웃 성공');
+            alert('로그아웃 되었습니다.');
+        },
+        setLogoutTimer(state, timer) {
+            state.logoutTimer = timer;
+        },
+        clearLogoutTimer(state) {
+            if (state.logoutTimer) {
+                clearTimeout(state.logoutTimer); // 기존 타이머가 있을 경우 제거
+                state.logoutTimer = null;
+            }
         },
         setMyBookmark(state, data) {
             state.bookmarkList.value = data;
+        },
+        setUserRole(state, role){
+            state.userRole = role;
         }
     },
     actions: {
@@ -34,6 +48,15 @@ const store = createStore({
         },
         logout({ commit }) {
             commit('logout');
+        },
+        startLogoutTimer({ commit, dispatch }) {
+            // 30분 후 로그아웃 실행
+            const timer = setTimeout(() => {
+                alert('세션이 만료되었습니다.');
+                dispatch('logout');
+            }, 1000 * 60 * 30);
+
+            commit('setLogoutTimer', timer); // 타이머 저장
         },
         async fetchItems({ commit }) {
             try {
@@ -46,12 +69,16 @@ const store = createStore({
             } catch (error) {
                 console.error('Error fetching items:', error);
             }
+        },
+        setRole({ commit }, role) {
+            commit('setUserRole', role);
         }
     },
     getters: {
         isLoggedIn: (state) => state.isLoggedIn,
         accessToken: (state) => state.accessToken,
-        bookmarkList: (state) => state.bookmarkList
+        bookmarkList: (state) => state.bookmarkList,
+        userRole: (state) => state.userRole
     }
 });
 

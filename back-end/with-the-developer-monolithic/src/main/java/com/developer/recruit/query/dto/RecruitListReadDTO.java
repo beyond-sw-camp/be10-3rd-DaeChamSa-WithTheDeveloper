@@ -13,6 +13,8 @@ import java.util.List;
 @ToString
 public class RecruitListReadDTO {
 
+    private Long recruitCode;
+
     private String recruitTitle;
 
     private LocalDateTime recruitStart;
@@ -23,5 +25,9 @@ public class RecruitListReadDTO {
 
     private String userId;
 
+    private Long bookmarkCount;
+
     private List<String> jobTagNames;
+
+    private Long reportCount;
 }

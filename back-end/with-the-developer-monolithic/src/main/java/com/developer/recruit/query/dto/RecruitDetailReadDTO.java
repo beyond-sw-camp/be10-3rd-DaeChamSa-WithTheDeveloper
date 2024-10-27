@@ -14,6 +14,8 @@ import java.util.List;
 @ToString
 public class RecruitDetailReadDTO {
 
+    private Long recruitCode;
+
     private String recruitTitle;
 
     private String recruitContent;
@@ -29,6 +31,8 @@ public class RecruitDetailReadDTO {
     private RecruitStatus recruitStatus;
 
     private String userId;
+
+    private Long bookmarkCount;
 
     private List<String> jobTagNames;
 

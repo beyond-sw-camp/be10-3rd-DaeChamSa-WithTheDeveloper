@@ -1,8 +1,42 @@
 <script setup>
 import router from '@/router'
+import {useStore} from "vuex";
+import {onMounted} from "vue";
 const moveTo = (type) => {
   router.push(`${type}`);
 }
+
+onMounted(() => {
+  // 페이지가 로드될 때 토큰을 처리
+  const urlParams = new URLSearchParams(window.location.search);
+  const accessToken = urlParams.get('accessToken');
+  const refreshToken = urlParams.get('refreshToken');
+
+  const store = useStore();
+
+  if (accessToken && refreshToken) {
+    store.dispatch('login', accessToken); // Vuex 스토어에 로그인 처리
+    store.dispatch('startLogoutTimer');  // 30분 타이머 (토큰 유효시간)
+    // 북마크 목록 vuex에 초기화
+    store.dispatch('fetchItems');
+    // 로컬스토리지에 토큰값 저장
+    localStorage.setItem('refreshToken', refreshToken);
+
+    // 로컬스토리지에 유저 권한 저장
+    const userRole = parseJwt(accessToken).auth; // accessToken에서 auth 추출
+    const userCode = parseJwt(accessToken).userCode;
+    const userId = parseJwt(accessToken).sub;
+    localStorage.setItem('userRole', userRole);
+    localStorage.setItem('userCode', userCode);
+    localStorage.setItem('userId', userId);
+    alert('카카오 로그인 성공');
+    // 메인 페이지로 이동
+    router.push('/main');
+  } else {
+    console.error('로그인 오류: 토큰을 찾을 수 없습니다.');
+  }
+})
+
 </script>
 
 <template>

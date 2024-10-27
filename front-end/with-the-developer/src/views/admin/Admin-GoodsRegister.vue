@@ -26,7 +26,7 @@
           <!-- 이미지 목록을 렌더링 -->
           <img v-for="(image, index) in imageList" :src="image" :key="index" class="thumbnail" />
         </div>
-        <input type="file" @change="handelFileUpload" multiple/>
+        <input type="file" @change="handleFileUpload" multiple/>
         <button @click="submitGoods">이미지 업로드</button>
       </div>
       <div class="input-group">
@@ -62,12 +62,10 @@ const fileList = ref([]);
 
 const router = useRouter();
 
-// 로컬에서 토큰 가져오기
-// const adminToken = localStorage.getItem('jwtToken') || "";
-const adminToken = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsInVzZXJDb2RlIjoxLCJhdXRoIjoiUk9MRV9BRE1JTiIsImV4cCI6MTcyOTkzNzM3OH0.9R4X4EhQyymZqeWUXcI47oAbwd9AqAj_CMLfjCLqHoDE8i8rumc0bqT5zlDo4DKxuTihYaIeM3gbiGyPwxjtUA";
+const adminTokenHard = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsInVzZXJDb2RlIjoxLCJhdXRoIjoiUk9MRV9BRE1JTiIsImV4cCI6MTczMDAyNTc2M30.g8RAfUf1YXgB3AuGTIjDs-pqTovrY2cUrF4OtmP4WfV47zAYl2zzorHZgbjsD1vw0cQPcqj5sBC8w1vsJMCIqA";
 
 // 이미지 업로드
-const handelFileUpload = (event) => {
+const handleFileUpload = (event) => {
   const files = event.target.files;
   for(let i=0; i<files.length; i++){
     const file = files[i];
@@ -85,8 +83,10 @@ const handelFileUpload = (event) => {
 // 굿즈 등록하기
 const submitGoods = async () => {
   // 관리자 확인
-  const userRole = localStorage.getItem('userRole');
-  if(userRole !== "ROLE_ADMIN"){
+
+  localStorage.setItem('userRole', 'ROLE_ADMIN'); //** admin 테스트 후 삭제 예정
+  const checkUser = localStorage.getItem('userRole');
+  if(checkUser !== "ROLE_ADMIN"){
     alert("관리자 권한이 아닙니다.");
     return;
   }
@@ -106,19 +106,19 @@ const submitGoods = async () => {
   });
 
   try{
-    axios.defaults.headers.common['Authorization'] = adminToken;
-
+    // axios.defaults.headers.common['Authorization'] = adminTokenHard;
     const response = await axios.post('http://localhost:8080/goods', formData,{
       headers:{
         'Content-Type' : 'multipart/form-data',
-        // Authorization: localStorage.getItem('jwtToken'),
-        Authorization: `Bearer ${adminToken}`, // Authorization 헤더에 토큰 추가
+        // Authorization: localStorage.getItem('userRole'),
+        Authorization: `Bearer ${adminTokenHard}`, // Authorization 헤더에 토큰 추가
       },
     });
-    // const response = router.push("/goods");
+
     console.log("굿즈 등록 성공:");
     emit('goods-registered');
     emit('cancel');
+    router.push("/goods");
   } catch (error){
     console.log("굿즈 등록 실패: ", error)
   }

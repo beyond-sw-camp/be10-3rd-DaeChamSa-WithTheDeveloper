@@ -7,42 +7,55 @@
 
     <!-- 등록된 채용공고 리스트 조회-->
     <!--직무태그를 list로 받기 위해 (1:N 연관관계) resultMap과 collection 이용 -->
-    <resultMap id="recruitList" type = "com.developer.recruit.query.dto.RecruitListReadDTO">
+    <resultMap id="recruitList" type="com.developer.recruit.query.dto.RecruitListReadDTO">
+        <result column="recruit_code" property="recruitCode"/>
         <result column="recruit_title" property="recruitTitle"/>
         <result column="recruit_start" property="recruitStart"/>
         <result column="recruit_end" property="recruitEnd"/>
         <result column="recruit_status" property="recruitStatus"/>
         <result column="user_id" property="userId"/>
+        <result column="bookmark_count" property="bookmarkCount"/>
+        <result column="report_count" property="reportCount"/>
 
         <collection property="jobTagNames" ofType="String">
             <result column="job_tag_name" property="jobTagNames"/>
         </collection>
     </resultMap>
 
-    <select id="readRecruitList"  resultMap="recruitList">
+    <select id="readRecruitList" resultMap="recruitList">
         SELECT
-        r.recruit_title
-        , r.recruit_start
-        , r.recruit_end
-        , r.recruit_status
-        , u.user_id
-        , jt.job_tag_name
+            r.recruit_code,
+            r.recruit_title,
+            r.recruit_start,
+            r.recruit_end,
+            r.recruit_status,
+            u.user_id,
+            IFNULL(b.bookmark_count, 0) AS bookmark_count,
+            jt.job_tag_name,
+            IFNULL(re.report_count, 0) AS report_count
         FROM recruit r
-        JOIN user u
-          ON r.user_code = u.user_code
-        JOIN recruit_tag rt
-          ON r.recruit_code = rt.recruit_code
-        JOIN job_tag jt
-          ON rt.job_tag_code = jt.job_tag_code
-        WHERE r.recruit_appr_status = 'APPROVE'
-            AND r.recruit_status != 'DELETE'
+        JOIN user u ON r.user_code = u.user_code
+        JOIN recruit_tag rt ON r.recruit_code = rt.recruit_code
+        JOIN job_tag jt ON rt.job_tag_code = jt.job_tag_code
+        LEFT JOIN (
+        SELECT recruit_code, COUNT(*) AS bookmark_count
+        FROM bookmark
+        GROUP BY recruit_code
+        ) b ON r.recruit_code = b.recruit_code
+        LEFT JOIN (
+            SELECT recruit_code, COUNT(*) AS report_count
+            FROM report
+            GROUP BY recruit_code
+        ) re ON r.recruit_code = re.recruit_code
+        WHERE r.recruit_status != 'DELETE'
         ORDER BY recruit_post_date DESC
         LIMIT 10 OFFSET #{offset}
     </select>
 
     <!-- 채용공고 등록 신청 상세 내역 조회-->
     <!--직무태그를 list로 받기 위해 (1:N 연관관계) resultMap과 collection 이용 -->
-    <resultMap id="recruitDetail" type = "com.developer.recruit.query.dto.RecruitDetailReadDTO">
+    <resultMap id="recruitDetail" type="com.developer.recruit.query.dto.RecruitDetailReadDTO">
+        <result column="recruit_code" property="recruitCode"/>
         <result column="recruit_title" property="recruitTitle"/>
         <result column="recruit_content" property="recruitContent"/>
         <result column="recruit_url" property="recruitUrl"/>
@@ -51,6 +64,7 @@
         <result column="recruit_post_date" property="recruitPostDate"/>
         <result column="recruit_status" property="recruitStatus"/>
         <result column="user_id" property="userId"/>
+        <result column="bookmark_count" property="bookmarkCount"/>
 
         <collection property="jobTagNames" ofType="String">
             <result column="job_tag_name" property="jobTagNames"/>
@@ -59,22 +73,26 @@
 
     <select id="readRecruitDetailById" resultMap="recruitDetail">
         SELECT
-        r.recruit_title
-        , r.recruit_content
-        , r.recruit_url
-        , r.recruit_start
-        , r.recruit_end
-        , r.recruit_post_date
-        , r.recruit_status
-        , u.user_id
-        , jt.job_tag_name
+            r.recruit_code,
+            r.recruit_title,
+            r.recruit_content,
+            r.recruit_url,
+            r.recruit_start,
+            r.recruit_end,
+            r.recruit_post_date,
+            r.recruit_status,
+            u.user_id,
+            IFNULL(b.bookmark_count, 0) AS bookmark_count,
+            jt.job_tag_name
         FROM recruit r
-        JOIN user u
-          ON r.user_code = u.user_code
-        JOIN recruit_tag rt
-          ON r.recruit_code = rt.recruit_code
-        JOIN job_tag jt
-          ON rt.job_tag_code = jt.job_tag_code
+        JOIN user u ON r.user_code = u.user_code
+        JOIN recruit_tag rt ON r.recruit_code = rt.recruit_code
+        JOIN job_tag jt ON rt.job_tag_code = jt.job_tag_code
+        LEFT JOIN (
+        SELECT recruit_code, COUNT(*) AS bookmark_count
+        FROM bookmark
+        GROUP BY recruit_code
+        ) b ON r.recruit_code = b.recruit_code
         WHERE r.recruit_code = #{recruitCode};
     </select>
 

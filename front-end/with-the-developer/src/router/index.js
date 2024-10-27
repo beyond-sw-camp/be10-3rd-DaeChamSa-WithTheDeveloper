@@ -19,6 +19,11 @@ import MyPageRouter from "@/router/MyPageRouter.js";
 import CommunityRouter from "@/router/CommunityRouter.js";
 import ProjectRouter from "@/router/ProjectRouter.js";
 import TeamRouter from "@/router/TeamRouter.js";
+import AdminTeamPost from "@/views/admin/post/AdminTeamPost.vue";
+import AdminComuPost from "@/views/admin/post/AdminComuPost.vue";
+import AdminProjectPost from "@/views/admin/post/AdminProjectPost.vue";
+import AdminRecruitPost from "@/views/admin/post/AdminRecruitPost.vue";
+import RecruitRouter from "@/router/RecruitRouter.js";
 
 const routes = [
         {
@@ -30,11 +35,11 @@ const routes = [
             component: Cart  // 장바구니
         },
         {
-            path: '/order',
+            path: '/mypage/orders',
             component: OrderList
         },
         {
-            path: '/order/detail/:orderCode',
+            path: '/mypage/orders/:orderCode',
             component: OrderDetail,
             props: true
         },
@@ -57,20 +62,36 @@ const routes = [
         // *** 관리자 페이지
         {
             path: '/admin/user/status',
-            component: AdminUser,
+            component: AdminUser
         },
         {
             path: '/admin/goods',
             component: AdminGoods,
         },
         {
-            path: '/goods/:goodsCode',
+            path: '/admin/goods/:goodsCode',
             component: AdminGoodsDetail,
             props: true
         },
         {
-            path: '/jop-tag',
-            component: AdminTag,
+            path: '/admin/jop-tag',
+            component: AdminTag
+        },
+        {
+            path: '/admin/team',
+            component: AdminTeamPost
+        },
+        {
+            path: '/admin/community',
+            component: AdminComuPost
+        },
+        {
+            path: '/admin/project',
+            component: AdminProjectPost
+        },
+        {
+            path: '/admin/recruit',
+            component: AdminRecruitPost
         },
         // *** 관리자
         // 에러 페이지
@@ -100,6 +121,9 @@ const routes = [
 
         // 팀모집 게시판 라우터
         ...TeamRouter,
+
+        // 채용공고 게시판 라우터
+        ...RecruitRouter,
 
         {
             path: "/:pathMatch(.*)*",

@@ -47,7 +47,7 @@ public class RecruitReportHandler implements ReportHandler {
 
     @Override
     public int getReportedCount(Report report) {
-        return Math.toIntExact(reportRepository.countByComuPost(report.getComuPost()));
+        return Math.toIntExact(reportRepository.countByRecruit(report.getRecruit()));
     }
 
     @Override

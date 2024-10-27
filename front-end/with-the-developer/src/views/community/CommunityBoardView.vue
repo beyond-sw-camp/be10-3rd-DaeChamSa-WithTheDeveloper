@@ -2,14 +2,13 @@
   <div class="board-page">
     <h1 id="board-title">커뮤니티</h1>
     <div class="upper-menu">
-      <search-bar />
       <button class="post-button" @click="goToCreatePage">
         <img
             src="https://img.icons8.com/?size=100&id=11737&format=png&color=ffffff"
             alt="글쓰기"
-            id="post"
+            class="post-icon"
         />
-        글쓰기
+        <span class="post-text">글쓰기</span>
       </button>
     </div>
     <CommunityBoardList :posts="posts" />
@@ -17,11 +16,10 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
-import { useRouter } from 'vue-router';
+import {onMounted, ref} from 'vue';
+import {useRouter} from 'vue-router';
 import axios from 'axios';
 import CommunityBoardList from '@/components/CommunityBoardList.vue';
-import SearchBar from '@/components/SearchBar.vue';
 
 const posts = ref([]);
 const router = useRouter();
@@ -30,18 +28,15 @@ const goToCreatePage = () => {
   router.push('/community/create');
 };
 
-// 게시글 데이터 가져오기
 const fetchPosts = async () => {
   try {
     const response = await axios.get('/public/comu/post');
-    console.log(response.data); // 응답 확인
-    posts.value = response.data.content || response.data; // 서버 데이터 설정
+    posts.value = response.data.content || response.data;
   } catch (error) {
     console.error('게시글을 불러오는 중 오류 발생:', error);
   }
 };
 
-// 컴포넌트 마운트 시 전체 데이터 가져오기
 onMounted(fetchPosts);
 </script>
 
@@ -49,28 +44,54 @@ onMounted(fetchPosts);
 .board-page {
   padding: 20px;
   font-size: 1.2rem;
+  width: 70%;
 }
 
 .upper-menu {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   padding-bottom: 15px;
   border-bottom: 1px solid #A7A7A7;
 }
 
 #board-title {
   text-align: center;
+  font-weight: bold;
+  font-size: 2rem;
 }
 
 .post-button {
-  margin-right: 15%;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
   background-color: #617CC2;
   border: none;
+  border-radius: 8px;
   color: #ffffff;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
 }
 
-#post {
-  width: 30px;
-  height: 30px;
+.post-button:hover {
+  background-color: #4E5EA3;
+  transform: scale(1.05);
+}
+
+.post-button:active {
+  transform: scale(0.98);
+}
+
+.post-icon {
+  width: 24px;
+  height: 24px;
+}
+
+.post-text {
+  display: inline-block;
+  vertical-align: middle;
 }
 </style>

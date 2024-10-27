@@ -12,7 +12,7 @@ const moveToRegister = () => {
 
 // 메인화면
 const moveToMain = () => {
-  window.location.href ='/main';  // 새로고침을 동반한 페이지 이동
+  router.push('/main')
 }
 
 // 아이디 찾기 창
@@ -44,6 +44,7 @@ const login = () => {
           const accessToken = res.headers['authorization']; // 대소문자 구분
           const refreshToken = res.headers['refresh-token']; // 대소문자 구분
           store.dispatch('login', accessToken); // Vuex 스토어에 로그인 처리
+          store.dispatch('startLogoutTimer');  // 30분 타이머 (토큰 유효시간)
           // 북마크 목록 vuex에 초기화
           store.dispatch('fetchItems');
           // 로컬스토리지에 토큰값 저장
@@ -57,9 +58,12 @@ const login = () => {
           localStorage.setItem('userRole', userRole);
           localStorage.setItem('userCode', userCode);
           localStorage.setItem('userId', userId);
-          
+          store.dispatch('setRole', userRole);
+
           alert('로그인 성공');
-          if (!res.data){
+          if(userRole==='ROLE_ADMIN'){
+            moveTo('/admin/user/status');
+          }else if (!res.data){
             moveToDbtiTest();
           } else{
             moveToMain();
@@ -87,6 +91,12 @@ const parseJwt = (token) => {
     console.error('JWT 파싱 오류:', error);
     return null;
   }
+}
+
+// 카카오 로그인
+const moveToKakao = () => {
+  window.location.href =
+      'https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=34910f6e018bcd7dc06e7b7e09db20f5&redirect_uri=http://localhost:8080/oauth/kakao';
 }
 </script>
 
@@ -120,7 +130,7 @@ const parseJwt = (token) => {
         <p>이런 로그인 방법도 있어요!</p>
         <h3>간편 로그인</h3>
         <div class="social-login_div">
-          <button type="button" class="kakao-login">
+          <button type="button" class="kakao-login" @click="moveToKakao">
             <img src="https://developers.kakao.com/assets/img/about/logos/kakaolink/kakaolink_btn_small.png" alt="카카오 로그인" />
             카카오 로그인
           </button>
