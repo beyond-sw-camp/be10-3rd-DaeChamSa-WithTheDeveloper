@@ -26,14 +26,13 @@ const handleConfirm = async() => {
     const orderUid = orderResponse.data;
     console.log("주문 생성 성공", orderUid);
 
-    // 2. 결제 요청
+    // 2. 결제 생성 및 요청
     const paymentResponse = await createPayment(orderUid);
     console.log("결제 생성 성공");
   } catch(error) {
     console.log("주문 및 결제 중 에러 발생함", error);
   }
 }
-
 
 const createOrder = async(orderGoods) => {
   try {
@@ -73,13 +72,16 @@ const createPayment = async(orderUid) => {
                   payment_uid: rsp.imp_uid,
                   order_uid: rsp.merchant_uid
                 })
-                    .then(res => {
+                    .then(async res => {
                       console.log(res);
                       alert('결제 완료!');
+                      await deleteSelectedCartGoods();
+                      window.location.href=`/payment/complete/${rsp.merchant_uid}`;
                     })
                     .catch(error => {
                       console.error("결제 중 오류", error);
                       alert('결제 실패!');
+                      window.location.href="/payment/fail";
                     })
               } else {
                 alert('결제 실패!');
@@ -149,6 +151,7 @@ const deleteSelectedCartGoods = async() => {
   const selectedCartGoodsList = cartGoods
       .filter(goods => goods.isSelected)
       .map(goods => goods.goodsCode);
+
   try {
     for (const goodsCode of selectedCartGoodsList) {
       await axios.delete(`http://localhost:8080/cart-goods/${goodsCode}`);
