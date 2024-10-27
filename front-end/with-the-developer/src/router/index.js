@@ -18,6 +18,7 @@ import MyPageRouter from "@/router/MyPageRouter.js";
 import AdminOrder from "@/views/admin/AdminOrder.vue";
 import TeamRouter from "@/router/TeamRouter.js";
 import NotFound from "@/views/error/NotFound.vue";
+import RecruitRouter from "@/router/RecruitRouter.js";
 
 const routes = [
         {
@@ -88,7 +89,10 @@ const routes = [
 
         // 팀모집 게시판 라우터
         ...TeamRouter,
-  
+
+        // 채용공고 게시판 라우터
+        ...RecruitRouter,
+
         {
             path: "/:pathMatch(.*)*",
             redirect: "/notFound"
