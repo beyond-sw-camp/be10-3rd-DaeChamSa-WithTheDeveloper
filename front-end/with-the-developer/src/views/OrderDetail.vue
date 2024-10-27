@@ -12,18 +12,13 @@ const orderUid = ref('');
 const getOrderCodeFromURL = () => {
   const path = window.location.pathname; // 현재 경로 추출
   const segments = path.split('/'); // '/'로 분할하여 배열로 만듦
-  console.log(segments[segments.length - 1]);
   return segments[segments.length - 1]; // 마지막 요소가 orderCode
 };
 
 const fetchOrderDetail = async () => {
   try {
     let orderCode = getOrderCodeFromURL(); // URL에서 주문 번호 가져오기
-    const response = await axios.get('http://localhost:8080/order', {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem('jwtToken')}`,
-      }
-    });
+    const response = await axios.get('http://localhost:8080/order');
     console.log(response)
     const orderList = response.data;
     const specificOrder = orderList.find(order => order.orderCode == orderCode);
@@ -37,24 +32,20 @@ const fetchOrderDetail = async () => {
 
       // paymentCode를 사용하여 GET 요청 보내기
       const paymentCode = specificOrder.responsePaymentDTO.paymentCode;
-      const paymentResponse = await axios.get(`http://localhost:8080/payment/code/${paymentCode}`, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('jwtToken')}`,
-        }
-      });
+      const paymentResponse = await axios.get(`http://localhost:8080/payment/code/${paymentCode}`);
       totalPrice = paymentResponse.data.paymentPrice;
       paymentUid.value = paymentResponse.data.paymentUid;
 
       //console.log("Payment Details:", paymentResponse.data.paymentPrice); // 결제 정보 출력
       specificOrder.orderGoods.forEach(goods => {
-            orderGoodsList.push({
-              orderGoodsCode: goods.orderGoodsCode,
-              goodsCode: goods.goodsCode,
-              orderGoodsPrice: goods.orderGoodsPrice,
-              orderGoodsAmount: goods.orderGoodsAmount,
-              goodsName: goods.goodsName,
-              paymentCode: goods.paymentCode
-            })
+        orderGoodsList.push({
+          orderGoodsCode: goods.orderGoodsCode,
+          goodsCode: goods.goodsCode,
+          orderGoodsPrice: goods.orderGoodsPrice,
+          orderGoodsAmount: goods.orderGoodsAmount,
+          goodsName: goods.goodsName,
+          paymentCode: goods.paymentCode
+        })
       });
 
       await getOrderUid(orderCode);
@@ -66,12 +57,8 @@ const fetchOrderDetail = async () => {
 
 const getOrderUid = async (orderCode) => {
   try {
-    const response = await axios.get(`http://localhost:8080/order/${orderCode}`, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem('jwtToken')}`,
-      },
-    });
-    console.log(response)
+    const response = await axios.get(`http://localhost:8080/order/${orderCode}`);
+
     if (response.data) {
       orderUid.value = response.data; // 주문 UID 설정
     }
@@ -80,26 +67,35 @@ const getOrderUid = async (orderCode) => {
   }
 };
 
+// 가격 10000 -> 10,000으로 formatting
+const formatPrice = (price) => {
+  if (price === undefined || price === null) {
+    return '가격 정보가 없습니다';
+  }
+  return price.toLocaleString();
+}
 
-onMounted((async() => {
+// 이미지 URL 생성 함수
+const getImageUrl = (fileName) => `${BASE_IMAGE_URL}/${fileName}`;
+
+onMounted((async () => {
   await fetchOrderDetail();
   //await getOrderUid(orderCode);
 }))
 
-function orderCancel(){
+function orderCancel() {
   axios.put(`/payment/${paymentUid.value}`)
       .then(res => {
-         if (res.status === 200){
-           alert('결제 취소 성공');
-         } else {
-           alert('결제 취소 실패');
-         }
+        if (res.status === 200) {
+          alert('결제 취소 성공');
+        } else {
+          alert('결제 취소 실패');
+        }
       })
       .catch(error => {
-        if (error.status === 409){
+        if (error.status === 409) {
           alert('결제 취소가 완료 된 주문입니다.');
-        }
-        else {
+        } else {
           console.error('결제 취소중 오류 발생', error);
         }
       })

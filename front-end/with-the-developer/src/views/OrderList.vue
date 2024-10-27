@@ -13,6 +13,7 @@ const fetchOrderList = async () => {
       }
     });
     const orderList = response.data;
+
     orderList.forEach(goods => {
       orderGoodsList.push({
         orderCode: goods.orderCode,
@@ -24,10 +25,10 @@ const fetchOrderList = async () => {
       orderGoodsDetail.push({
         orderCode: goods.orderCode,
         orderDate: goods.orderDate,
-        /*orderStatus: goods.orderStatus,*/
+        orderStatus: goods.orderStatus,
         orderPrice: goods.responsePaymentDTO.paymentPrice,
-        /* goodsName: goods.orderGoods[0].goodsName*/
-        goodsCount: goods.orderGoods.length
+        goodsName: goods.orderGoods[0].goodsName,
+        goodsCount: goods.orderGoods.length - 1
       })
     })
     console.log(orderList);
@@ -35,6 +36,26 @@ const fetchOrderList = async () => {
     console.log(orderGoodsDetail);
   } catch (error) {
     console.log("주문 목록을 불러오던 도중 오류 발생:", error);
+  }
+}
+
+// 가격 10000 -> 10,000으로 formatting
+const formatPrice = (price) => {
+  if (price === undefined || price === null) {
+    return '가격 정보가 없습니다';
+  }
+  return price.toLocaleString();
+}
+
+// 주문 상태에 따른 한글값 변환
+const getOrderStatus = (status) => {
+  switch(status) {
+    case 'READY':
+      return '결제실패';
+    case 'OK':
+      return '결제완료';
+    case 'CANCEL':
+      return '결제취소';
   }
 }
 
