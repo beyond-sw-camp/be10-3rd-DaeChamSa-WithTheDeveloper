@@ -10,11 +10,7 @@ import AdminPostMenu from "@/components/AdminPostMenu.vue";
 const postList = ref([]);
 const fetchPostList = async () => {
   try{
-    return (await axios.get('/public/team/post',{
-      headers: {
-        Authorization: `${localStorage.getItem('accessToken')}`
-      }
-    })).data;
+    return (await axios.get('/public/team/post')).data;
   }catch (error){
     alert('회원정보 조회 중 에러 발생!' + error);
   }

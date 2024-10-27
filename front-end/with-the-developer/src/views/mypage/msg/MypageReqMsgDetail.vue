@@ -7,7 +7,7 @@ import {useRoute} from "vue-router";
 const msg = ref({});
 const userRoute = useRoute();
 const fetchMsgDetail = async (msgCode) => {
-  return (await axios.get(`msg/req/${msgCode}`).data;
+  return (await axios.get(`msg/req/${msgCode}`)).data;
 }
 
 const confirmBlockUser = (blockUserCode) => {
