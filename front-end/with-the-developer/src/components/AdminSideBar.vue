@@ -14,7 +14,7 @@
         <button @click="navigateTo('/admin/community')">커뮤니티</button>
       </li>
       <li>
-        <button @click="navigateTo('/adminGoods')">굿즈</button>
+        <button @click="navigateTo('/goods')">굿즈</button>
       </li>
       <li>
         <button @click="navigateTo('/admin/order')">주문목록</button>
@@ -23,7 +23,7 @@
         <button @click="navigateTo('/admin/user/status')">회원관리</button>
       </li>
       <li>
-        <button @click="navigateTo('/admin/jopTag')">직무태그</button>
+        <button @click="navigateTo('/admin/jobTag')">직무태그</button>
       </li>
     </ul>
   </div>
