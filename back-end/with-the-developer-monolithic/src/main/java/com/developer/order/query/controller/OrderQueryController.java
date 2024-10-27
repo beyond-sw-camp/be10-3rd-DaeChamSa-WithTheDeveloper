@@ -1,6 +1,5 @@
 package com.developer.order.query.controller;
 
-import com.developer.order.query.dto.OrderListDTO;
 import com.developer.order.query.dto.ResponseOrderListDTO;
 import com.developer.order.query.service.OrderQueryService;
 import com.developer.user.security.SecurityUtil;
@@ -9,6 +8,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -29,5 +29,11 @@ public class OrderQueryController {
         Long currentUserCode = SecurityUtil.getCurrentUserCode();
 
         return ResponseEntity.ok(orderQueryService.orderList(currentUserCode));
+    }
+
+    // 주문 코드 가져오기
+    @GetMapping("/{orderCode}")
+    public ResponseEntity<String> getOrderUid(@PathVariable(name="orderCode") Long orderCode) {
+        return ResponseEntity.ok(orderQueryService.getOrderUid(orderCode));
     }
 }

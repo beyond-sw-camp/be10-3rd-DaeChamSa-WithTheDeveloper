@@ -10,12 +10,14 @@ import AdminGoodsDetail from "@/views/admin/AdminGoodsDetail.vue";
 import PrefixRouter from "@/router/PrefixRouter.js";
 import UserRouter from "@/router/UserRouter.js";
 import GoodsList from "@/views/GoodsList.vue";
+import OrderList from "@/views/OrderList.vue";
+import OrderDetail from "@/views/OrderDetail.vue";
 import GoodsDetail from "@/views/GoodsDetail.vue";
+import NotFound from "@/views/error/NotFound.vue";
 import MainRouter from "@/router/MainRouter.js";
+import MyPageRouter from "@/router/MyPageRouter.js";
 import CommunityRouter from "@/router/CommunityRouter.js";
 import ProjectRouter from "@/router/ProjectRouter.js";
-import MyPageRouter from "@/router/MyPageRouter.js";
-import AdminOrder from "@/views/admin/AdminOrder.vue";
 import TeamRouter from "@/router/TeamRouter.js";
 import NotFound from "@/views/error/NotFound.vue";
 import RecruitRouter from "@/router/RecruitRouter.js";
@@ -30,11 +32,20 @@ const routes = [
             component: Cart  // 장바구니
         },
         {
-            path: '/fail-payment',
+            path: '/order',
+            component: OrderList
+        },
+        {
+            path: '/order/detail/:orderCode',
+            component: OrderDetail,
+            props: true
+        },
+        {
+            path: '/payment/fail',
             component: PayFail
         },
         {
-            path: '/payment/complete',
+            path: '/payment/complete/:orderUid',
             component: PayComplete
         },
         {
@@ -55,7 +66,9 @@ const routes = [
             component: AdminGoods,
         },
         {
-            path: '/goods/:goodsCode', component: AdminGoodsDetail, props: true
+            path: '/goods/:goodsCode',
+            component: AdminGoodsDetail,
+            props: true
         },
         {
             path: '/jop-tag',

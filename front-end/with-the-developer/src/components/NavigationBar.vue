@@ -20,10 +20,12 @@ const isLoggedIn = computed(() => store.getters.isLoggedIn);
 // 로그인
 const moveToLogin = () => {
   if (!isLoggedIn.value) {
-    window.location.href =`/login`;
+    // window.location.href =`/login`;
+    router.push('/login');
   } else {
     store.dispatch('logout'); // 로그아웃 처리
-    window.location.href =`/`;
+    // window.location.href =`/`;
+    router.push('/logout');
   }
 };
 
@@ -31,11 +33,17 @@ const moveTo = (type) => {
 
   if (type === '/mypage/info' && !isLoggedIn.value) {
     alert('로그인이 필요한 서비스입니다.');
-    window.location.href =`/login`;
+    // window.location.href =`/login`;
+    router.push('/login');
     return;
   }
-  console.log(type);
-  window.location.href =`${type}`;
+  if (type === '/' && isLoggedIn.value){
+    // window.location.href = '/main';
+    router.push('/main');
+    return;
+  }
+  // window.location.href =`${type}`;
+  router.push(`${type}`)
 }
 
 // 모달 상태 관리
@@ -64,7 +72,7 @@ function toggleModal() {
         </li>
         <li class="nav-menu"><a id="login" @click="toggleModal">
           <img src="https://img.icons8.com/?size=100&id=eMfeVHKyTnkc&format=png&color=000000" alt="alarm" class="nav-img"></a></li>
-        <li class="nav-menu"><a id="login"><img src="https://img.icons8.com/?size=100&id=zhda2EVBCvHY&format=png&color=000000" alt="cart" class="nav-img"></a></li>
+        <li class="nav-menu" @click="moveTo('/cart-goods')"><a id="login"><img src="https://img.icons8.com/?size=100&id=zhda2EVBCvHY&format=png&color=000000" alt="cart" class="nav-img"></a></li>
         <li class="nav-menu">
           <a id="login">
             <img src="https://img.icons8.com/?size=100&id=elSdeHsB03U3&format=png&color=000000" alt="search" class="nav-img" @click="switchSearch">

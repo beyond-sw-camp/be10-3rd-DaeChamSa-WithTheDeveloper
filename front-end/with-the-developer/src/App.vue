@@ -9,7 +9,7 @@ import SearchBar from "@/components/SearchBar.vue";
   <SearchBar/>
   <NavigationBar/>
   <main class="main">
-    <RouterView/>
+    <RouterView :key="$route.fullPath"/>
   </main>
   <footer>
     <Footer/>

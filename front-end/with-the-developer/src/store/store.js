@@ -4,7 +4,8 @@ const store = createStore({
     state: {
         accessToken: localStorage.getItem('accessToken') || null,
         isLoggedIn: !!localStorage.getItem('accessToken'),
-        bookmarkList : []
+        bookmarkList : [],
+        logoutTimer: null,  // 로그아웃 타이머 30분
     },
     mutations: {
         setAccessToken(state, token) {
@@ -22,7 +23,16 @@ const store = createStore({
             localStorage.removeItem('userRole');
             localStorage.removeItem('userCode');
             localStorage.removeItem('userId');
-            alert('로그아웃 성공');
+            alert('로그아웃 되었습니다.');
+        },
+        setLogoutTimer(state, timer) {
+            state.logoutTimer = timer;
+        },
+        clearLogoutTimer(state) {
+            if (state.logoutTimer) {
+                clearTimeout(state.logoutTimer); // 기존 타이머가 있을 경우 제거
+                state.logoutTimer = null;
+            }
         },
         setMyBookmark(state, data) {
             state.bookmarkList.value = data;
@@ -34,6 +44,15 @@ const store = createStore({
         },
         logout({ commit }) {
             commit('logout');
+        },
+        startLogoutTimer({ commit, dispatch }) {
+            // 30분 후 로그아웃 실행
+            const timer = setTimeout(() => {
+                alert('세션이 만료되었습니다.');
+                dispatch('logout');
+            }, 1000 * 60 * 30);
+
+            commit('setLogoutTimer', timer); // 타이머 저장
         },
         async fetchItems({ commit }) {
             try {
