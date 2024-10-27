@@ -26,7 +26,7 @@
           <!-- 이미지 목록을 렌더링 -->
           <img v-for="(image, index) in imageList" :src="image" :key="index" class="thumbnail" />
         </div>
-        <input type="file" @change="handelFileUpload" multiple/>
+        <input type="file" @change="handleFileUpload" multiple/>
         <button @click="submitGoods">이미지 업로드</button>
       </div>
       <div class="input-group">
@@ -62,10 +62,10 @@ const fileList = ref([]);
 
 const router = useRouter();
 
-const adminTokenHard = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsInVzZXJDb2RlIjoxLCJhdXRoIjoiUk9MRV9BRE1JTiIsImV4cCI6MTczMDAyMjUwNH0.ohiVRIf0b86G7hp4iYZBpu3E7wkAADfam4I-hzi4YRgTyXUikDAPZ8bOLZUJBbvkhH4TQgYvhmpMVp6Qu1jEYQ";
+const adminTokenHard = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsInVzZXJDb2RlIjoxLCJhdXRoIjoiUk9MRV9BRE1JTiIsImV4cCI6MTczMDAyNTc2M30.g8RAfUf1YXgB3AuGTIjDs-pqTovrY2cUrF4OtmP4WfV47zAYl2zzorHZgbjsD1vw0cQPcqj5sBC8w1vsJMCIqA";
 
 // 이미지 업로드
-const handelFileUpload = (event) => {
+const handleFileUpload = (event) => {
   const files = event.target.files;
   for(let i=0; i<files.length; i++){
     const file = files[i];
