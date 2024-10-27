@@ -30,20 +30,20 @@ const routes = [
             component: Cart  // 장바구니
         },
         {
-            path: '/order/list',
+            path: '/order',
             component: OrderList
         },
         {
-            path: '/order-detail/:orderCode',
+            path: '/order/detail/:orderCode',
             component: OrderDetail,
             props: true
         },
         {
-            path: '/fail-payment',
+            path: '/payment/fail',
             component: PayFail
         },
         {
-            path: '/payment/complete',
+            path: '/payment/complete/:orderUid',
             component: PayComplete
         },
         {

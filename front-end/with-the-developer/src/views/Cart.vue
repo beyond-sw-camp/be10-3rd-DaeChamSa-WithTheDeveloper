@@ -26,14 +26,13 @@ const handleConfirm = async() => {
     const orderUid = orderResponse.data;
     console.log("주문 생성 성공", orderUid);
 
-    // 2. 결제 요청
+    // 2. 결제 생성 및 요청
     const paymentResponse = await createPayment(orderUid);
     console.log("결제 생성 성공");
   } catch(error) {
     console.log("주문 및 결제 중 에러 발생함", error);
   }
 }
-
 
 const createOrder = async(orderGoods) => {
   try {
@@ -73,13 +72,16 @@ const createPayment = async(orderUid) => {
                   payment_uid: rsp.imp_uid,
                   order_uid: rsp.merchant_uid
                 })
-                    .then(res => {
+                    .then(async res => {
                       console.log(res);
                       alert('결제 완료!');
+                      await deleteSelectedCartGoods();
+                      window.location.href=`/payment/complete/${rsp.merchant_uid}`;
                     })
                     .catch(error => {
                       console.error("결제 중 오류", error);
                       alert('결제 실패!');
+                      window.location.href="/payment/fail";
                     })
               } else {
                 alert('결제 실패!');
@@ -101,37 +103,6 @@ const cartGoods = reactive([]);
 const selectAll = ref(true);
 let totalPrice = 0;
 
-// 로그인
-const loginUser = async () => {
-  try {
-    const token = `eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyMDJAbmF2ZXIuY29tIiwidXNlckNvZGUiOjIsImF1dGgiOiJST0xFX1VTRVIiLCJleHAiOjE3Mjk2NjY4NjJ9.nEH9Y9erl4F7z40oIYxsRIH-5oX7POx4AbtFQnGhBzWIdeh9Bsk_9uMRrIKZUOUYfLgAT-kVg7qeOugs6nrnxw`;
-    localStorage.setItem('jwtToken', token);
-
-    //JWT 토큰에서 userId 추출 후 로컬스토리지에 저장
-    const decodedToken = parseJwt(token);
-    const userId = decodedToken.sub;
-    localStorage.setItem('userId', userId);
-
-    // Axios 기본 헤더에 JWT 토큰 추가
-    axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-    console.log(axios.defaults.headers.common['Authorization']);
-    console.log('로그인 성공:', response.data);
-  } catch (error) {
-    console.error('로그인 실패:', error.response ? error.response.data : error.message);
-  }
-};
-
-// JWT 토큰 디코딩 함수
-const parseJwt = (token) => {
-  const base64Url = token.split('.')[1];
-  const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-  const jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
-    return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-  }).join(''));
-
-  return JSON.parse(jsonPayload);
-};
-
 // 상품 개수에 따라 ul height 조절
 const ulBoxHeight = computed(() => {
   return cartGoods.length === 0 ? '336px' : `${cartGoods.length * 130 + 71}px`
@@ -141,11 +112,7 @@ const ulBoxHeight = computed(() => {
 const fetchCartGoods = async () => {
   try {
     // 장바구니 데이터 가져오기
-    const response = await axios.get('http://localhost:8080/cart-goods', {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem('jwtToken')}`,
-      }
-    });
+    const response = await axios.get('http://localhost:8080/cart-goods');
     const goodsList = response.data;
     for (const goods of goodsList) {
       const goodsInfo = await axios.get(`http://localhost:8080/public/goods/${goods.goodsCode}`);
@@ -184,13 +151,10 @@ const deleteSelectedCartGoods = async() => {
   const selectedCartGoodsList = cartGoods
       .filter(goods => goods.isSelected)
       .map(goods => goods.goodsCode);
+
   try {
     for (const goodsCode of selectedCartGoodsList) {
-      await axios.delete(`http://localhost:8080/cart-goods/${goodsCode}`, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('jwtToken')}`,
-        }
-      });
+      await axios.delete(`http://localhost:8080/cart-goods/${goodsCode}`);
 
       // 굿즈코드로 해당 인덱스 찾기
       const index = cartGoods.findIndex(goods => goods.goodsCode === goodsCode);
@@ -280,9 +244,6 @@ const updateQuantity = async(index, amount) => {
   try {
     // DB 굿즈 개수 업데이트
     await axios.put(`http://localhost:8080/cart-goods/${goodsCode}`, null,{
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem('jwtToken')}`,
-      },
       params: {
         amount: updatedAmount
       }

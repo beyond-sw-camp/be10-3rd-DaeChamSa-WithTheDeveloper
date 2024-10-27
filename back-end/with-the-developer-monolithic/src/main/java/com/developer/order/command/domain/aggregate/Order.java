@@ -90,7 +90,7 @@ public class Order {
         for (OrderGoods orderGood : orderGoods) {
             totalPrice += orderGood.getTotalPrice();
         }
-        return totalPrice;
+        return totalPrice + 3000;
     }
 
     // setOrderGoods
@@ -99,8 +99,13 @@ public class Order {
     }
 
     // 주문 상태 취소로 변경
-    public void changeOrderByFailure(OrderStatus orderStatus) {
-        this.orderStatus = orderStatus;
+    public void changeOrderByFailure() {
+        this.orderStatus = OrderStatus.CANCEL;
+        this.orderCancelDate = LocalDateTime.now();
     }
 
+    // 결제 완료시 orderStatus OK로 변경
+    public void paymentComplete() {
+        this.orderStatus = OrderStatus.OK;
+    }
 }

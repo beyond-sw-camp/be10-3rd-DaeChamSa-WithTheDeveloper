@@ -5,7 +5,6 @@ import com.developer.common.exception.ErrorCode;
 import com.developer.common.jwt.ReissueTokenDTO;
 import com.developer.common.jwt.TokenDTO;
 import com.developer.common.jwt.TokenProvider;
-import com.developer.dbti.command.domain.repository.DbtiRepository;
 import com.developer.prefix.command.domain.repository.PrefixRepository;
 import com.developer.user.command.application.dto.LoginUserDTO;
 import com.developer.user.command.application.dto.PwResettingDTO;
